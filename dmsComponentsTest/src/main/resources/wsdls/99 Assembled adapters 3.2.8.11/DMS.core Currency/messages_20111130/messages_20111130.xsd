@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://revenue.core.ecf/messages/2011/11/30/" version="3.2" xmlns:tns="http://serviceobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_1="http://partyobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_2="http://declarationobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_3="http://valueobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_4="http://codelistelements.cmm.core.ecf/2011/11/30/" xmlns:xsd_1="http://revenue.core.ecf/messages/2011/11/30/">
+  <xsd:import namespace="http://codelistelements.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmCodeListTypes/cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://valueobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmValueTypes/cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://declarationobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmDeclarationTypes/cmmDeclarationTypes.xsd"/>
+  <xsd:import namespace="http://partyobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmPartyTypes/cmmPartyTypes.xsd"/>
+  <xsd:import namespace="http://serviceobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmServiceTypes/cmmServiceTypes.xsd"/>
+  <xsd:complexType name="AccountsReceivableNotification">
+    <xsd:annotation>
+      <xsd:documentation>Request for informing Accounts Receivable</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:DeclarationPublicationRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="customsOfficeId" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The identification of the customs office that assessed the customs debt</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="customsDebt" type="tns_2:CustomsDebt">
+            <xsd:annotation>
+              <xsd:documentation>The total payable or potential customs debt due for the declaration.
+
+WCO ID:      -
+WCO NAME:    -
+WCO DESC:   -</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="primaryFinancialResponsibleParty" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The primary party responsible for the financial handling of the declaration and the goods reported in the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="secondaryFinancialResponsibleParty" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The optional secondary party responsible for the financial handling of the declaration and the goods reported in the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>Reference number, e.g. of the involved declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="accountingEntries" type="tns_1:AccountingEntry">
+            <xsd:annotation>
+              <xsd:documentation>Information about the amounts and the accounts to be booked in accounts receivable.
+
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CashDepositPayupSubscriptionRequest">
+    <xsd:annotation>
+      <xsd:documentation>Request for subscription to a cash deposit payup</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>Reference number, e.g. of the involved declaration.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="primaryFinanciallyResponsibleParty" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The primary party that is responsible for the financial handling of the declaration and the goods reported in the declaration, i.e. importer</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="secondaryFinanciallyResponsibleParty" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The secondary party that is responsible for the financial handling of the declaration and the goods reported in the declaration, i.e. agent</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="customsOfficeId" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The identification of the customs office requesting the cash deposit payup.
+
+Mandatory if FRP('s) cannot be provided</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="coverageAmountType" type="tns_4:CoverageAmountType">
+            <xsd:annotation>
+              <xsd:documentation>&lt;p&gt;The identification of the part of a customs debt which an obligation guarantee is meant to cover&lt;/p&gt;</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CashDepositPayupSubscriptionResponse">
+    <xsd:annotation>
+      <xsd:documentation>Response message with the cash deposit reference number</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="paymentReference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>A number by which an object can uniquely be referred to.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ReservationRequest">
+    <xsd:annotation>
+      <xsd:documentation>Request to create / release a reservation on a guarantee</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="partyIdentification" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>Identification of the party for which the reservation holds</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="grn" type="tns_3:GRN">
+            <xsd:annotation>
+              <xsd:documentation>The guarantee reference number on which to reserve/release the specified amount </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="amount" type="tns_3:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The monetary amount to reserve or to release</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GuaranteeBalanceRaiseSubscriptionRequest">
+    <xsd:annotation>
+      <xsd:documentation>Request to subscribe to a payup on the specified payment reference or guarantee reference</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="partyIdentification" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>Identification of the party for which the payup subscription is requested. 
+
+Must be an EORI number </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="guaranteeReference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>A number by which a guarantee can be referred to.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="amount" type="tns_3:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The amount needed to be available on the specified guarantee</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ConvertMonetaryAmountRequest">
+    <xsd:annotation>
+      <xsd:documentation>Request for currency conversion of a given monetary amount</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="amount" type="tns_3:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The monetary amount to convert into another currency</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="targetCurrency" type="tns_4:CurrencyType">
+            <xsd:annotation>
+              <xsd:documentation>The target currency for the conversion</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="referenceDate" type="tns_3:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>The reference date to use for currency conversion </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ConvertMonetaryAmountResponse">
+    <xsd:annotation>
+      <xsd:documentation>Response for currency conversion of a given monetary amount</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="amount" type="tns_3:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The monetary amount converted in the target currency</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyGuaranteesRequest">
+    <xsd:annotation>
+      <xsd:documentation>Message to request details of one or more guarantees for some party</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="partyIdentification" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>Identification of the party for which the guarantee details are requested 
+
+Must be an EORI number </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="grn" type="tns_3:GRN">
+            <xsd:annotation>
+              <xsd:documentation>The guarantee reference number for which details are requested.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="referenceDate" type="tns_3:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>The reference date to use for the request</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="requestedProcedure" type="tns_4:GovernmentProcedureType">
+            <xsd:annotation>
+              <xsd:documentation>The requested customs procedure as specified in the first part of the first sub field of SAD box 37</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="previousProcedure" type="tns_4:GovernmentProcedureType">
+            <xsd:annotation>
+              <xsd:documentation>The previous customs procedure as specified in the second part of the first sub field of SAD box 37</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="specialProcedure" type="tns_4:SpecialProcedureType">
+            <xsd:annotation>
+              <xsd:documentation>The special procedure (if applicable) requested as specified in the second sub field of SAD box 37</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GuaranteeResponse">
+    <xsd:annotation>
+      <xsd:documentation>Response for requesting party guarantees</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="obligationGuarantees" type="xsd_1:ObligationGuarantee"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SubscriptionCancellationRequest">
+    <xsd:annotation>
+      <xsd:documentation>Request to cancel an existing subscription</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="requestId" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AccountingEntryResponse">
+    <xsd:annotation>
+      <xsd:documentation>Inbound request of the cash deposit payup or guarantee balance raise</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="accountingEntry" type="tns_1:AccountingEntry">
+            <xsd:annotation>
+              <xsd:documentation>The resulting accounting entry containing the amount, type and reference number. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ObligationGuarantee">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:ObligationGuarantee">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="surety" type="xsd_1:Party">
+            <xsd:annotation>
+              <xsd:documentation>The party, usually a bank, that stands surety for the guarantee.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="authorization" type="tns_1:Authorization">
+            <xsd:annotation>
+              <xsd:documentation>The authorization on which the obligation guarantee / coverage means is based (if the type of guarantee is a permanent authorization)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="provider" type="xsd_1:EconomicOperator">
+            <xsd:annotation>
+              <xsd:documentation>The economic operator that has provided the coverage means</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyNotFoundFault">
+    <xsd:annotation>
+      <xsd:documentation>In the case that a party cannot be found.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="InvalidCurrencyFault">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GuaranteeNotFoundFault">
+    <xsd:annotation>
+      <xsd:documentation>In the case that a guarantee cannot be found.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Party">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Party">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="identifications" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>IDs by which the party are identified in the DMS or external Party management system</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contactMechanisms" type="tns_1:ContactMechanism">
+            <xsd:annotation>
+              <xsd:documentation>The mechanisms through which the party may be contacted 
+
+Will be one of its sub types: PhysicalAddress, TelecomAddress, ElectronicAddress </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="addresses" type="tns_1:PhysicalAddress">
+            <xsd:annotation>
+              <xsd:documentation>The main address of the party.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExchangeRateNotAvailableFault">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EconomicOperator">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:EconomicOperator">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="identifications" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>IDs by which the party are identified in the DMS or external Party management system</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contactMechanisms" type="tns_1:ContactMechanism">
+            <xsd:annotation>
+              <xsd:documentation>The mechanisms through which the party may be contacted 
+
+Will be one of its sub types: PhysicalAddress, TelecomAddress, ElectronicAddress </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="addresses" type="tns_1:PhysicalAddress">
+            <xsd:annotation>
+              <xsd:documentation>The main address of the party.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

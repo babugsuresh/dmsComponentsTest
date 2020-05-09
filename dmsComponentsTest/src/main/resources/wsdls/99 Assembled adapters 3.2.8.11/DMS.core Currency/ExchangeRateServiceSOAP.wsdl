@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ExchangeRateServiceSOAP" 
+                  targetNamespace="http://currency.core/ExchangeRateService/2017/10/26/" 
+                  xmlns:bons0="http://currency.core/ExchangeRateService/2017/10/26/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://currency.core/ExchangeRateService/2017/10/26/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://currency.core/ExchangeRateService/2017/10/26/" xmlns:xsd_1="http://referencedata.core.ecf/messages/2017/10/20/">
+      <xsd:import namespace="http://referencedata.core.ecf/messages/2017/10/20/" schemaLocation="messages_20171020/messages.xsd"/>
+      <xsd:element name="getExchangeRate">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="getExchangeRateRequest" type="xsd_1:ExchangeRateRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getExchangeRateResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="getExchangeRateResponse" type="xsd_1:ExchangeRateResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="unknownCurrency" type="xsd_1:UnknownCurrencyFault"/>
+      <xsd:element name="unknownExchangeRate" type="xsd_1:UnknownExchangeRateFault"/>
+   </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getExchangeRateRequest">
+    <wsdl:part element="tns:getExchangeRate" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getExchangeRateResponse">
+    <wsdl:part element="tns:getExchangeRateResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="unknownExchangeRate">
+    <wsdl:part element="tns:unknownExchangeRate" name="unknownExchangeRate"/>
+  </wsdl:message>
+  <wsdl:message name="unknownCurrency">
+    <wsdl:part element="tns:unknownCurrency" name="unknownCurrency"/>
+  </wsdl:message>
+  <wsdl:portType name="ExchangeRateServiceSOAP">
+    <wsdl:documentation>This service allows to request an exchange rate of a given type for a specified currency on a given date, expressed in a requested base currency.</wsdl:documentation>
+	<wsdl:operation name="getExchangeRate">
+      <wsdl:documentation>Operation to request an exchange rate of a given type for a specified currency on a given date, expressed in a requested base currency. </wsdl:documentation>
+      <wsdl:input message="tns:getExchangeRateRequest"/>
+      <wsdl:output message="tns:getExchangeRateResponse"/>
+      <wsdl:fault message="tns:unknownExchangeRate" name="unknownExchangeRate"/>
+      <wsdl:fault message="tns:unknownCurrency" name="unknownCurrency"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <!-- Binding (SOAP 1.1/HTTP binding) -->
+  <wsdl:binding name="exchangeRateBinding" type="bons0:ExchangeRateServiceSOAP">
+    <!-- document/literal/wrapped -->
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <!-- Operation -->
+    <wsdl:operation name="getExchangeRate">
+      <soap:operation soapAction="http://currency.core/ExchangeRateService/2017/10/26/ExchangeRateServiceSOAP/getExchangeRateRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="unknownCurrency">
+        <soap:fault name="unknownCurrency" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="unknownExchangeRate">
+        <soap:fault name="unknownExchangeRate" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <!-- Service -->
+  <wsdl:service name="ExchangeRateService">
+    <!-- Port -->
+    <wsdl:port binding="tns:exchangeRateBinding" name="exchangeRate">
+      <soap:address location="http://host:port/ExchangeRateService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

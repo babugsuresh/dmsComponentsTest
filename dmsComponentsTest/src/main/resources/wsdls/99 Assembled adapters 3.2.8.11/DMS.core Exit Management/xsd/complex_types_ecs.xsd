@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:complex_ecs="http://ecs.dgtaxud.ec/complex_ecs" xmlns:simple_ecs="http://ecs.dgtaxud.ec/simple_ecs" xmlns:tcl_ecs="http://ecs.dgtaxud.ec/tcl_ecs" xmlns:simple="http://ecs.dgtaxud.ec/simple" xmlns:tcl="http://ecs.dgtaxud.ec/tcl" xmlns:doc="http://ecs.dgtaxud.ec/doc" targetNamespace="http://ecs.dgtaxud.ec/complex_ecs" attributeFormDefault="unqualified" elementFormDefault="unqualified" version="40.20">
+  <!--=========================================-->
+  <!--===== ECS_P2 Common Simple Data Groups  -->
+  <!--===== DDNXA 11.00  -->
+  <!--===== XSD version v40.20  -->
+  <!--===== Aligned with RFC-List version 0.29-->
+  <!--=========================================-->
+  <!--===== Imports =====-->
+  <xs:import namespace="http://ecs.dgtaxud.ec/doc" schemaLocation="doc.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/simple_ecs" schemaLocation="simple_types_ecs.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/tcl_ecs" schemaLocation="tcl_ecs.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/simple" schemaLocation="simple_types.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/tcl" schemaLocation="tcl.xsd" />
+  <!--===== Common Simple Data Groups =====-->
+  <xs:complexType name="COICOSNType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="CUSTOMS OFFICE SPECIFIC NOTES" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="SpecNotCodCN634" type="simple:Alphanumeric_Max6">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Specific notes code" />
+            <doc:rule name="R486" />
+            <doc:codeList name="SpecificNotesCode" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CONRESEXRType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="EXIT CONTROL RESULT" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="ConDatEXR14" type="simple:DateType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Exit date" />
+            <doc:rule name="R865" />
+            <doc:rule name="TR0108" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ConResCodEXR16" type="simple:AlphanumericCapital2Type">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Control result code" />
+            <doc:rule name="TR0051" />
+            <doc:condition name="C530" />
+            <doc:codeList name="ControlResult" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ExtStoDatEXR68" type="simple:DateType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Exit stopped date" />
+            <doc:rule name="R865" />
+            <doc:rule name="TR0108" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StaOfTheSeaOKEXR70" type="tcl:Flag" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="State of seals ok" />
+            <doc:rule name="R325" />
+            <doc:codeList name="Flag" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="COUHOLDATLSD121Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="COUNTRY HOLIDAYS DATA LSD" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="LanCod102" type="simple:LanguageCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Language code" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PubHolNam89" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Public holiday name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PubHolNam89LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Public holiday name LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="COUHOLLSD117Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="COUNTRY/REGION HOLIDAYS LSD" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="LanCod88" type="simple:LanguageCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Language code" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PubHolNam89" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Public holiday name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PubHolNam89LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Public holiday name LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="COULSD115Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="COUNTRY/REGION LSD" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="LanCod80" type="simple:LanguageCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Language code" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouNam81" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country/region name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouNam81LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country/region name LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="COUNAVMATType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="UNAVAILABILITY MATRIX" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="CouUnaMatFrom670" type="simple:DateTimeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Time from" />
+            <doc:rule name="R660" />
+            <doc:rule name="TR0105" />
+            <doc:rule name="TR0107" />
+            <doc:rule name="TR9020" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouUnaMatTo671" type="simple:DateTimeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Time to" />
+            <doc:rule name="R660" />
+            <doc:rule name="TR0105" />
+            <doc:rule name="TR9020" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSDATTRADOCDATMANITEType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="CUSTOMS DATA" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="DocRefNumTDD1" type="simple:MRNType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Document/reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FinOrParShiFlaTDD1" type="tcl:Flag">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Final or Partial shipment flag" />
+            <doc:rule name="R235" />
+            <doc:codeList name="Flag" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NumOfPacTDD1" type="simple:Numeric_Max5" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Number of packages" />
+            <doc:condition name="C555" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NumOfPieTDD1" type="simple:Numeric_Max5" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Number of pieces" />
+            <doc:condition name="C555" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GroMasTDD1" type="simple:Decimal_11_3" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Gross mass" />
+            <doc:condition name="C555" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="IteNumMANITETRADOCDATCUSDAT438" type="simple:Numeric_Max5" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Item number" />
+            <doc:condition name="C555" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFCAEType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(COMPETENT AUTHORITY OF EXPORT) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumCAC1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFDEPEPTType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(DEPARTURE) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumEPT1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFDESDECDDCType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(DESTINATION DECLARED) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumDDC1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFEXIEXTType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(EXIT) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumEXT1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFEXIREQType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(EXIT REQUESTED) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumCXR1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFEXPERTType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(EXPORT) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumERT1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFEXTDECEDCType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(EXIT DECLARED) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumEDC11" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFLONType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(LODGEMENT) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumCOL1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFLSD109Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="CUSTOMS OFFICE LSD" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="LanCod44" type="simple:LanguageCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Language code" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CusOffUsuNam45" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Customs office usual name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CusOffUsuNam45LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Customs office usual name LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StrAndNum47" type="simple:StreetNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Street and number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StrAndNum47LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Street and number LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Cit49" type="simple:CityType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="City" />
+            <doc:rule name="R422" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Cit49LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="City LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PreLev51" type="tcl:PrefixSuffixLevel" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Prefix-suffix level" />
+            <doc:codeList name="PrefixSuffixLevel" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PreFla52" type="tcl:Flag">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Prefix-suffix flag" />
+            <doc:codeList name="Flag" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PreNam53" type="simple:Alphanumeric_Max35" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Prefix-suffix name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PreNam53LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Prefix-suffix name LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Spa55" type="tcl:Flag">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Space to add" />
+            <doc:codeList name="Flag" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFREQType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(REQUESTER) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumEPR1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFROLCOM112Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="CUSTOMS OFFICE ROLE / TRAFFIC COMPETENCE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Rol70" type="simple:Alpha_3">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Role" />
+            <doc:codeList name="Role" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TraTyp71" type="simple:Alphanumeric_Max3">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Traffic type" />
+            <doc:codeList name="TrafficType" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CUSOFFTRADECCOFType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(TRANSIT DECLARED) CUSTOMS OFFICE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumCOF1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DEFPOSPAYType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(PAYMENT) DEFERRED OR POSTPONED" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="AutRefDPP1" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Authorisation Reference" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="INTERRORSType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="INTERCHANGE ERRORS" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="IntConRefINT2" type="simple:Alphanumeric_Max14">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Interchange control reference" />
+            <doc:rule name="TR9250" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="MesSenINT4" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Message sender" />
+            <doc:rule name="TR9250" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="MesRecINT5" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Message recipient" />
+            <doc:rule name="TR9250" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ActRecINT1" type="tcl_ecs:ActionCodes">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Action taken by recipient" />
+            <doc:codeList name="ActionCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ErrTypINT6" type="tcl_ecs:ErrorCodesForEdiNck" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Syntax error" />
+            <doc:rule name="TR0901" />
+            <doc:codeList name="ErrorCodesForEdiNck" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="IntSegTagINT3" type="tcl_ecs:InterchangeServiceSegmentTags" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Interchange service segment" />
+            <doc:rule name="TR0903" />
+            <doc:codeList name="InterchangeServiceSegmentTags" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosElmntINT7" type="simple:Numeric_Max3" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Position of erroneous data element" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosCompINT8" type="simple:Numeric_Max3" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Position of erroneous data component" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ITIType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="ITINERARY" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="CouOfRouCodITI1" type="simple:CountryCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country of routing code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LOCAUTATEXIType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="LOCAL AUTHORITY AT EXIT" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RefNumLAX1" type="simple:CORefNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Reference number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MSGERRSEGDATERRType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="DATA ELEMENT ERRORS" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="ErrTypDER1" type="tcl_ecs:ErrorCodesForEdiNck">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Error" />
+            <doc:rule name="TR0901" />
+            <doc:codeList name="ErrorCodesForEdiNck" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosElmntDER2" type="simple:Numeric_Max3">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Position of erroneous data element" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosCompDER3" type="simple:Numeric_Max3" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Position of erroneous data component" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PASEXIType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="PASSAGE EXIT" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="DatOfExiPSX1" type="simple:DateType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Date of Exit" />
+            <doc:rule name="TR0108" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PERLODSUMDECType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(LODGING SUMMARY DECLARATION) PERSON" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="NamPLD1" type="simple:TradNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StrAndNumPLD1" type="simple:StreetNumType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Street and number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosCodPLD1" type="simple:PostalCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Postal code" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CitPLD1" type="simple:CityType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="City" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouCodPLD1" type="simple:CountryCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PERLODSUMDECLNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="NAD LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TINPLD1" type="simple:TINType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="TIN" />
+            <doc:rule name="R837" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RESOFCONROCType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="RESULTS OF CONTROL" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="DesROC2" type="simple:Alphanumeric_Max140" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Description" />
+            <doc:rule name="TR0009" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DesROC2LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Description LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ConIndROC1" type="simple:AlphanumericCapital2Type">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Control indicator" />
+            <doc:rule name="TR0003" />
+            <doc:codeList name="ControlIndicatorRocGiRoc" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PoiToTheAttROC51" type="simple:Alphanumeric_Max35" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Pointer to the attribute" />
+            <doc:rule name="TR0010" />
+            <doc:rule name="TR0014" />
+            <doc:rule name="TR0018" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RISANAType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="RISK ANALYSIS" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="IteNumInvRKA1" type="simple:Numeric_Max5" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Item Number involved" />
+            <doc:rule name="R824" />
+            <doc:rule name="R875" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RisAnaResCodRKA1" type="simple:Alphanumeric_Max5">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Risk Analysis result code" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RisAnaTexRKA1" type="simple:Alphanumeric_Max350" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Risk Analysis text" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RisAnaTexRKA1LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Risk Analysis LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SEAID529Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="SEALS ID" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="SeaIdSEAID530" type="simple:Alphanumeric_Max20">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Seals identity" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SeaIdSEAID530LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Seals identity LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SEAIDSIDType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="SEALS ID" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="SeaIdeSID1" type="simple:Alphanumeric_Max20">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Seals identity" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SeaIdeSID1LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Seals identity LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SERELE202Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="SERIES ELEMENTS" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="OthCouSERELE100" type="simple:Alpha_2" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Other country" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouSERELE101" type="simple:Numeric_Max9">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Counter" />
+            <doc:rule name="R021" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SERELESTACHA008Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="SERIES ELEMENTS" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="SenCouCodSERELE003" type="simple:Alpha_2" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Sending country code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="OthCouCodSERELESTA001" type="simple:Alpha_2" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Other country code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouSERELESTACHA7800" type="simple:Numeric_Max9">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Counter" />
+            <doc:rule name="R021" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="STATREP385Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(STATUS) REPRESENTATIVE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="RepStatCodSTATREP386" type="simple:Numeric_1">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Representative status code" />
+            <doc:codeList name="RepresentativeStatusCode" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TRADED106Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(DEDICATED) TRADER" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Nam36" type="simple:TradNameType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LanCod37" type="simple:LanguageCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Language code" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TIN38" type="simple:TINType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="TIN" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TRAEXICARType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(EXIT CARRIER) TRADER" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="NamTEC1" type="simple:TradNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StrAndNumTEC2" type="simple:StreetNumType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Street and number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosCodTEC1" type="simple:PostalCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Postal code" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CitTEC1" type="simple:CityType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="City" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouCodTEC1" type="simple:CountryCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TRAEXICARLNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="NAD LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TINTEC2" type="simple:TINType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="TIN" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TRAEXIType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(EXIT) TRADER" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="NamTEX1" type="simple:TradNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StrAndNumTEX1" type="simple:StreetNumType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Street and number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosCodTEX1" type="simple:PostalCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Postal code" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CitTEX1" type="simple:CityType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="City" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouCodTEX1" type="simple:CountryCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TRAEXILNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="NAD LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TINTEX23" type="simple:TINType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="TIN" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TRAREPType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="(REPRESENTATIVE) TRADER" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="NamTRE1" type="simple:TradNameType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StrAndNumTRE1" type="simple:StreetNumType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Street and number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosCodTRE1" type="simple:PostalCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Postal code" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CitTRE1" type="simple:CityType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="City" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouCodTRE1" type="simple:CountryCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TRAREPLNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="NAD LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TINTRE1" type="simple:TINType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="TIN" />
+            <doc:rule name="R837" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UPEUPEType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="UPL ERROR" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="ActIdUPE1" type="simple:Alphanumeric_Max20">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Action identification" />
+            <doc:rule name="TR9009" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AttPatUPE2" type="simple:Alphanumeric_Max140" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Attribute path" />
+            <doc:rule name="TR9010" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CodUPE3" type="simple:Alphanumeric_Max8">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Code" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DescUPE4" type="simple:Alphanumeric_Max210" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Description" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UPRUPRType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="UPL RESPONSE" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="OrMesIdUPR1" type="simple:Alphanumeric_Max14">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Original message identification" />
+            <doc:rule name="TR9006" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StatUPR2" type="simple:Alpha_Max8">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Status" />
+            <doc:rule name="TR9007" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DescUPR3" type="simple:Alphanumeric_Max210" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Description" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="VATEXCCAPOTH1Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="VAT OR EXCISE OR CAP OR OTHER AUTHORITIES OR OTHERS" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="IdVECO1" type="simple:Alphanumeric_Max17" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="ID number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="NamVECO1" type="simple:TradNameType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Name" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StrNumVECO1" type="simple:StreetNumType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Street and number" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CouCodVECO1" type="simple:CountryCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Country code" />
+            <doc:codeList name="CountryCodesFullList" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PosCodVECO1" type="simple:PostalCodeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Postal code" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CitVECO1" type="simple:CityType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="City" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="VATEXCCAPOTH1LNG" type="simple:LanguageCodeType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="NAD LNG" />
+            <doc:rule name="TR0099" />
+            <doc:codeList name="LanguageCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

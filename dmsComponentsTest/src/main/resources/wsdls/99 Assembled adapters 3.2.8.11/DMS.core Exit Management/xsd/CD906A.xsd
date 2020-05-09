@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ie="http://ecs.dgtaxud.ec/CD906A" xmlns:complex_ecs="http://ecs.dgtaxud.ec/complex_ecs" xmlns:simple_ecs="http://ecs.dgtaxud.ec/simple_ecs" xmlns:tcl_ecs="http://ecs.dgtaxud.ec/tcl_ecs" xmlns:simple="http://ecs.dgtaxud.ec/simple" xmlns:tcl="http://ecs.dgtaxud.ec/tcl" xmlns:doc="http://ecs.dgtaxud.ec/doc" targetNamespace="http://ecs.dgtaxud.ec/CD906A" attributeFormDefault="unqualified" elementFormDefault="unqualified" version="40.20">
+  <!--=========================================-->
+  <!--===== IE906:C_FUN_NCK  -->
+  <!--===== FUNCTIONAL NACK  -->
+  <!--===== ECS P2 Phase Definition  -->
+  <!--===== DDNXA 11.00  -->
+  <!--===== XSD version v40.20  -->
+  <!--===== Aligned with RFC-List version 0.29-->
+  <!--=========================================-->
+  <!--===== Imports =====-->
+  <xs:import namespace="http://ecs.dgtaxud.ec/doc" schemaLocation="doc.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/complex_ecs" schemaLocation="complex_types_ecs.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/simple_ecs" schemaLocation="simple_types_ecs.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/tcl_ecs" schemaLocation="tcl_ecs.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/simple" schemaLocation="simple_types.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/tcl" schemaLocation="tcl.xsd" />
+  <!--===== Root Element =====-->
+  <xs:element name="CD906A" type="ie:CD906AType" />
+  <!--===== Root Element Content =====-->
+  <xs:complexType name="CD906AType">
+    <xs:sequence>
+      <xs:group ref="ie:MESSAGE" />
+      <xs:element name="HEAHEA" type="ie:HEAHEAType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="HEADER" />
+            <doc:rule name="TR0104" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="FUNERRER1" type="ie:FUNERRER1Type" maxOccurs="999">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="FUNCTIONAL ERROR" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <!--===== MESSAGE Content =====-->
+  <xs:group name="MESSAGE">
+    <xs:sequence>
+      <xs:element name="SynIdeMES1" type="tcl_ecs:SyntaxIdentifier">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Syntax identifier" />
+            <doc:codeList name="SyntaxIdentifier" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SynVerNumMES2" type="tcl_ecs:SyntaxVersionNumber">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Syntax version number" />
+            <doc:codeList name="SyntaxVersionNumber" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="MesSenMES3" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Message sender" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="SenIdeCodQuaMES4" type="simple:Alphanumeric_Max4" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Sender identification code qualifier" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="MesRecMES6" type="simple:Alphanumeric_Max35">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Message recipient" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RecIdeCodQuaMES7" type="simple:Alphanumeric_Max4" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Recipient identification code qualifier" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DatOfPreMES9" type="simple:DatePrepType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Date of preparation" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TimOfPreMES10" type="simple:TimeType">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Time of preparation" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="IntConRefMES11" type="simple:Alphanumeric_Max14">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Interchange control reference" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RecRefMES12" type="simple:Alphanumeric_Max14" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Recipient's reference/password" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RecRefQuaMES13" type="simple:Alphanumeric_2" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Recipient's reference/password qualifier" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AppRefMES14" type="simple:Alphanumeric_Max14" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Application reference" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PriMES15" type="simple:Alpha_1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Priority" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AckReqMES16" type="tcl:Flag" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Acknowledgement request" />
+            <doc:codeList name="Flag" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ComAgrIdMES17" type="simple:Alphanumeric_Max35" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Communications agreement id" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TesIndMES18" type="tcl:Flag" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Test indicator" />
+            <doc:rule name="TR9085" />
+            <doc:codeList name="Flag" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="MesIdeMES19" type="simple:Alphanumeric_Max14">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Message identification" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="MesTypMES20" type="tcl_ecs:MessageTypes">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Message type" />
+            <doc:codeList name="MessageTypes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ComAccRefMES21" type="simple:Alphanumeric_Max35" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Common access reference" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="OriMesIdeMES22" type="simple:Alphanumeric_Max14">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Original message identification" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <!--===== HEADER =====-->
+  <xs:complexType name="HEAHEAType">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="HEADER" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="DocNumHEA5" type="simple:Alphanumeric_Max21">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Document/reference number" />
+            <doc:rule name="TR9250" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <!--===== FUNCTIONAL ERROR =====-->
+  <xs:complexType name="FUNERRER1Type">
+    <xs:annotation>
+      <xs:documentation>
+        <doc:description value="FUNCTIONAL ERROR" />
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="ErrTypER11" type="tcl:FunctionalErrorCodes">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Error type" />
+            <doc:codeList name="FunctionalErrorCodes" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ErrPoiER12" type="simple:Alphanumeric_Max210">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Error pointer" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ErrReaER13" type="simple:Alphanumeric_Max6" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Error reason" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="OriAttValER14" type="simple:Alphanumeric_Max140" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <doc:description value="Original attribute value" />
+            <doc:rule name="TR9250" />
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

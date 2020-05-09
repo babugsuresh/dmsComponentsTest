@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="SurveillanceReportingServiceSOAP" 
+                  targetNamespace="http://tariff.core.ecf/SurveillanceReportingServiceSOAP/v2/" 
+                  xmlns:tns="http://tariff.core.ecf/SurveillanceReportingServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tariff.core.ecf/SurveillanceReportingServiceSOAP/v2/" xmlns:xsd_1="http://tariff.core.ecf/messages/2017/01/30/">
+      <xsd:import namespace="http://tariff.core.ecf/messages/2017/01/30/" schemaLocation="messages_20170130/messages.xsd"/>
+      <xsd:element name="reportDeclarationData">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateDeclarationData">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteDeclarationData">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="reportDeclarationDataRequest">
+    <wsdl:part element="tns:reportDeclarationData" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="updateDeclarationDataRequest">
+    <wsdl:part element="tns:updateDeclarationData" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="deleteDeclarationDataRequest">
+    <wsdl:part element="tns:deleteDeclarationData" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="SurveillanceReportingServiceSOAPJms">
+    <wsdl:operation name="reportDeclarationData">
+      <wsdl:input message="tns:reportDeclarationDataRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateDeclarationData">
+      <wsdl:input message="tns:updateDeclarationDataRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDeclarationData">
+      <wsdl:input message="tns:deleteDeclarationDataRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="SurveillanceReportingBindingJms" type="tns:SurveillanceReportingServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="reportDeclarationData">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="updateDeclarationData">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="deleteDeclarationData">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="SurveillanceReportingServiceSOAP">
+    <wsdl:port binding="tns:SurveillanceReportingBindingJms" name="SurveillanceReportingPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+    
+</wsdl:definitions>

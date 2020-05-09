@@ -1,0 +1,25 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v2="http://party.core.ecf/AuthorizationManagementServiceSOAP/v2/" xmlns:ns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/party/2017/02/02/" xmlns:ns1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" xmlns:ns2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" xmlns:ns3="http://party.core.ecf/messages/2017/02/02/" xmlns:ns4="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/party/2017/02/02/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v2:requestPartyAuthorizations>
+         <partyAuthorizationsRequest>
+            <!--Optional:-->
+            <ns:status ns1:type="?" ns1:responsibleAgent="?">?</ns:status>
+            <ns:id>?</ns:id>
+            <!--Optional:-->
+            <ns:sequenceNumber>?</ns:sequenceNumber>
+            <!--Optional:-->
+            <ns:timeStamp ns2:formatCode="?">?</ns:timeStamp>
+            <!--Optional:-->
+            <ns:externalId>?</ns:externalId>
+            <ns3:partyIdentification>
+               <ns4:type ns1:type="?" ns1:responsibleAgent="?">?</ns4:type>
+               <ns4:number>?</ns4:number>
+            </ns3:partyIdentification>
+            <ns3:referenceDate ns2:formatCode="?">?</ns3:referenceDate>
+            <!--Optional:-->
+            <ns3:authorizationCategory ns1:type="?" ns1:responsibleAgent="?">?</ns3:authorizationCategory>
+         </partyAuthorizationsRequest>
+      </v2:requestPartyAuthorizations>
+   </soapenv:Body>
+</soapenv:Envelope>

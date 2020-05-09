@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="IrregularitiesNotificationServiceSOAP" 
+                  targetNamespace="http://trade.core.ecf/IrregularitiesNotificationServiceSOAP/v1/" 
+                  xmlns:tns="http://trade.core.ecf/IrregularitiesNotificationServiceSOAP/v1/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://trade.core.ecf/IrregularitiesNotificationServiceSOAP/v1/" xmlns:xsd_1="http://trade.core.ecf/messages/2017/03/31/">
+      <xsd:import namespace="http://trade.core.ecf/messages/2017/03/31/" schemaLocation="messages_20170331/messages.xsd"/>
+      <xsd:element name="notifyIrregularity">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="irregularitiesNotification" type="xsd_1:IrregularitiesNotification"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="notifyIrregularityRequest">
+    <wsdl:part element="tns:notifyIrregularity" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="IrregularitiesNotificationServiceSOAPJms">
+    <wsdl:operation name="notifyIrregularity">
+      <wsdl:input message="tns:notifyIrregularityRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="IrregularitiesNotificationBindingJms" type="tns:IrregularitiesNotificationServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="notifyIrregularity">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="IrregularitiesNotificationServiceSOAP">
+    <wsdl:port binding="tns:IrregularitiesNotificationBindingJms" name="IrregularitiesNotificationPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+  
+</wsdl:definitions>

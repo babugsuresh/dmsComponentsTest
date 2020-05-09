@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/tariff/2017/01/26/" version="2.6" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/tariff/2017/01/26/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/tariff/2017/01/26/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/tariff/2017/01/26/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/tariff/2017/01/26/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/tariff/2017/01/26/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:complexType name="PartyIdentification">
+    <xsd:annotation>
+      <xsd:documentation>Identification of a party</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="type" type="tns_1:PartyIdentificationType">
+        <xsd:annotation>
+          <xsd:documentation>The type of identification number NOTE: 		possible values: 1: Eori Number 2: VAT number 3: DUNS number 4: EAN number</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="number" type="tns_2:ReferenceNumber">
+        <xsd:annotation>
+          <xsd:documentation>The identification proper NOTE: 		The identification may be an instance of class String or one of its sub types such as a reference </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

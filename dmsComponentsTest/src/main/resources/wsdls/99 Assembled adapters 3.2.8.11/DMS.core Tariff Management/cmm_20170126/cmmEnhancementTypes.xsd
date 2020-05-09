@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/tariff/2017/01/26/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/tariff/2017/01/26/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmValueTypes/tariff/2017/01/26/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/tariff/2017/01/26/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/tariff/2017/01/26/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/tariff/2017/01/26/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:complexType name="Auditable">
+    <xsd:annotation>
+      <xsd:documentation>Abstract class of objects of which versions, including auditing data such as the user who created it, are kept.</xsd:documentation>
+      <xsd:documentation>Related objects: successor(Auditable) [0..1] precursor(Auditable) [0..1] creator(User) [1..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="isCurrent" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling whether this version is a current (latest and valid) version of the auditable object</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="versionNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number by which this version of the auditable object is identified NOTE:   first version of an auditable object has version number 1</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="creationDate" type="tns_1:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The date/time on which this version of the object was created.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="isDisplayable" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling whether this version of the auditable object is to be displayed to the DMS user NOTE 1:	We distinguish between versions that may viewed by the user or those that may be accessible for auditing purposes NOTE 2:  	Each time a displayable version of an object is created, this is set. For Declarations, this is the case when: - the declaration is received (when status 'received' is set) - the declaration is corrected, amended (including by what we called an 'SRN amendment) - a new customs position for declaration has been determined - a new customs debt for the declaration has been determined</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Extension">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing information supplementing an extendable object. NOTE: the type of the additional data may be described in free text (using the attribute 'description') or may be codified (using the attribute 'code''. The contents of the additional data is captured in the attribute 'value'.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="value" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The contents of the data element extending the extendable object.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" type="tns_2:ExtensionType">
+        <xsd:annotation>
+          <xsd:documentation>Type of the data captured in the extension.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

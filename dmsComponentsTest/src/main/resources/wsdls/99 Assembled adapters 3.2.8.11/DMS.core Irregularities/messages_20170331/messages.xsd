@@ -1,0 +1,1784 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://trade.core.ecf/messages/2017/03/31/" version="2.1.1" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/trade/2017/02/22/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/trade/2017/02/22/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/trade/2017/02/22/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmValueTypes/trade/2017/02/22/" xmlns:tns_4="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/trade/2017/02/22/" xmlns:tns_5="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/trade/2017/02/22/" xmlns:xsd_1="http://trade.core.ecf/messages/2017/03/31/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/trade/2017/02/22/" schemaLocation="../cmm_20170222/cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/trade/2017/02/22/" schemaLocation="../cmm_20170222/cmmPartyTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/trade/2017/02/22/" schemaLocation="../cmm_20170222/cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/trade/2017/02/22/" schemaLocation="../cmm_20170222/cmmEnhancementTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/trade/2017/02/22/" schemaLocation="../cmm_20170222/cmmDeclarationTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/trade/2017/02/22/" schemaLocation="../cmm_20170222/cmmServiceTypes.xsd"/>
+  <xsd:annotation>
+    <xsd:documentation>This schema contains the messages used for services defined within the "trade" domain.
+
+Note: Messages may be shared amongst services within a domain</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="TraderNotificationDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns:TraderNotification">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalInformation" type="tns_1:AdditionalInformation">
+            <xsd:annotation>
+              <xsd:documentation>Additional information included in the notification</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="status" type="tns_2:NotificationStatus">
+            <xsd:annotation>
+              <xsd:documentation>The status (at most one) the response/notification informs about. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="payments" type="tns:Payment">
+            <xsd:annotation>
+              <xsd:documentation>Payment data (if any) conveyed by means of the Notification (i.e. in case of a Customs Debt Notification or a Coverage Payup Instruction)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="declaration_reference" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration or additional message.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the declaration to which the notification belongs.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GoodsExportStatusDossier">
+    <xsd:annotation>
+      <xsd:documentation>The export status as determined by the office of export</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:GoodsExportStatus">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration or additional message</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ConsignmentShipmentBase">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:ConsignmentShipment">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalInformation" type="tns_1:AdditionalInformation">
+            <xsd:annotation>
+              <xsd:documentation>Additional information pertaining to this consignment shipment</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="containers" type="xsd_1:TransportEquipment">
+            <xsd:annotation>
+              <xsd:documentation>The container(s) / transport equipment in which the consignment is shipped WCO ID:       - WCO NAME:   TransportEquipment WCO DESC:    Details of Transport equipment used for the consignment NOTE 1:      A container is a type of transport equipment NOTE 2:      A trailer of a truck may also qualify as a Container </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="countryRegions" type="tns_1:CountryRegionRole">
+            <xsd:annotation>
+              <xsd:documentation>The countries and -possibly- regions that play a particular role in the context of the consignment shipment:
+
+Country of dispatch/export (UCC Annex B: 5/14 | WCO 95B | SAD: 15) -&gt; eCF countryRegionRoleType.code '2': Country/Region of dispatch/export
+Country / region of ultimate destination (UCC Annex B: 5/8 &amp; 5/9 | WCO 99B | SAD: 17) -&gt; eCF countryRegionRoleType.code '5': Country/Region of final destination
+Country of routing (UCC Annex B: 5/18 | WCO 81A | EXS) -&gt; eCF countryRegionRoleType.code '6': Intermediate Country/Region of routing</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="customsOffices" type="xsd_1:CustomsOfficeRole">
+            <xsd:annotation>
+              <xsd:documentation>The customs office(s) playing role in the context of the consignment shipment:
+
+Office of transit (WCO TransitOffice/ in SAD box 51) -&gt; CustomsOfficeRoleType (UNTDID 3227 Location function qualifier): '50' Transit customs office location
+Office of destination (WCO TransitDestination/in SAD box 53) -&gt; CustomsOfficeRoleType (UNTDID 3227 Location function qualifier) '45' Customs office of destination (transit)
+
+WCO ID:       -
+WCO NAME:   GovernmentAgency
+WCO DESC:   Identifies and provides details of Government Agency</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="customsWareHouse" type="tns_1:CustomsWarehouseReference">
+            <xsd:annotation>
+              <xsd:documentation>The warehouse, if any, where the goods are being stored under customs control, as specified in SAD box 49. WCO ID:       L018 WCO NAME:    Warehouse WCO DESC:    Name and address of a warehouse where a particular goods shipment has been stored.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="freight" type="tns_1:Freight">
+            <xsd:annotation>
+              <xsd:documentation>The freight details pertaining to the consignment/shipment</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="invoice" type="tns_1:Invoice">
+            <xsd:annotation>
+              <xsd:documentation>The invoice(s), if any, related to the consignment and/or shipment</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="locations" type="xsd_1:LocationRole">
+            <xsd:annotation>
+              <xsd:documentation>The locations that play a particular role in the context of the consignment shipment:
+
+-   Loading location (UCC Annex B: 5/21 | WCO: LoadingLocation | SAD: box 27) -&gt; eCF locationRoleType.code '9': Place of loading
+-   Unloading Location (UCC Annex B: 5/22 | WCO: UnloadingLocation) -&gt; eCF LocationRoleType.code '65': Final port or place of discharge
+-   goods location (UCC Annex B: 5/23 | WCO: GoodsLocation | SAD: box 30) -&gt; eCF locationRoleType.code '14': Goods item storage location</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="parties" type="xsd_1:PartyRole">
+            <xsd:annotation>
+              <xsd:documentation>The parties playing a particular role in the context of the consignment goods shipment:
+
+Importer (UCC Annex B: 3/15 &amp; 3/16 | WCO: 74A)               (UNTDID 3035 Party function code 'IM')
+Consignee/addressee (UCC Annex B: 3/9 &amp; 3/10 | WCO: 27A | SAD: 8)   (UNTDID 3035 Party function code 'CN')
+Consignor (UCC Annex B: 3/7 &amp; 3/8 | WCO: 30A)            (UNTDID 3035 Party function code 'CZ')
+VAT declaring party (UCC Annex B: 3/40 | WCO: 55B)   (UNTDID 3035 Party function code 'LC')
+Seller (UCC Annex B: 3/24 &amp; 3/25 | WCO: 09B | DV1: 1)               (UNTDID 3035 Party function code 'SE')
+Buyer (UCC Annex B: 3/26 &amp; 3/27 | WCO: 16A | DV1: 2a)             (UNTDID 3035 Party function code 'BY')
+Payer (UCC Annex B: N/A | WCO: 56B)                        (UNTDID 3035 Party function code 'PR')
+Surety (UCC Annex B: N/A | WCO: 19B)                        (UNTDID 3035 Party function code 'SY')
+Additional Actor (UCC Annex B: 3/37 | WCO: 16C)                      (UNTDID 3035 Party function code 'DFW')
+Carrier (UCC Annex B: 3/31 &amp; 3/32 | WCO: 18A) (UNTDID 3035 Party function code 'CA')
+
+
+WCO ID:      R00
+WCO NAME:    Party
+WCO DESC:   Companies, legal persons and natural persons.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="tradeTerms" type="tns_1:TradeTerms">
+            <xsd:annotation>
+              <xsd:documentation>The trade terms that apply to the goods listed on the declaration as specified in SAD box 20. WCO ID:      - WCO NAME:    TradeTerms WCO DESC:   Details about the trade terms </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="transhipments" type="xsd_1:Transhipment">
+            <xsd:annotation>
+              <xsd:documentation>The transfer of the consignment shipment goods from one means of transport to another</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="transportMeans" type="tns_1:TransportMeans">
+            <xsd:annotation>
+              <xsd:documentation>The means of transport involved in the shipment of the consigment goods
+
+UCC Annex B:
+Means of transport at the border: 7/4 &amp; 7/14 &amp; 7/15 (box 25&amp;21) -&gt; eCF TransportMeansRoleType '2'
+Means of transport at departure: 7/5 &amp; 7/7 &amp; 7/8 (box 26&amp;18) -&gt; eCF TransportMeansRoleType '1'
+Means of transport at arrival: 7/9 (box 18) -&gt; eCF TransportMeansRoleType '5'</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="ucr" type="tns_1:DeclaredUCR">
+            <xsd:annotation>
+              <xsd:documentation>Number(s) assigned by the consignor to identify the consignment
+
+UCC Annex B: 2/4 - Reference number/UCR
+WCO: 35B - UCR
+
+NOTE:          The number may be a real standard 'UCR'; if specified on conisgnment /shipment level, the UCR will apply to all the declaration goods items.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="valuationAdjustments" type="tns_1:ValuationAdjustment">
+            <xsd:annotation>
+              <xsd:documentation>Information about the way the customs value is determined as declared as part of customs valuation data
+
+UCC Annex B: 4/9 - Additions and Deductions
+WCO: 41A/58B - CustomsValuation/ChargeDeduction</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="previousDocuments" type="tns_1:PreviousDocument">
+            <xsd:annotation>
+              <xsd:documentation>Reference to the preceding (summary) declaration(s) or other formal document(s) on which the involved goods items were declared
+
+WCO ID:       -
+WCO NAME:    PreviousDocument (Document)
+WCO DESC:    Information relating to the previous document.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ConsignmentShipmentWithResults">
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:ConsignmentShipmentBase">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="goodsItems" type="xsd_1:GoodsItemWithResults">
+            <xsd:annotation>
+              <xsd:documentation>The goods items belonging to the consignment goods shipment which is being declared</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsValue">
+    <xsd:annotation>
+      <xsd:documentation>The customs value of a declaration goods item as derived by DMS from data in the declaration and passed to the Tariff Management Calculation Service to be the base for determining the goods item's customs debt.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:CustomsValue">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="valuationAdjustments" type="tns_1:ValuationAdjustment">
+            <xsd:annotation>
+              <xsd:documentation>Base for the customs valuation if the source is the declared valuation adjustments from ConsignmentShipment or GoodsItem.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GoodsItemBase">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:GoodsItem">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="packaging" type="tns_1:Packaging">
+            <xsd:annotation>
+              <xsd:documentation>Information about how the declaration goods items are packaged as specified in SAD box 31. WCO ID:       - WCO NAME:    Packaging WCO DESC:    Details related to packaging </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="particulars" type="tns_1:Particulars">
+            <xsd:annotation>
+              <xsd:documentation>Particulars about a declaration goods item required by any specific rules (e.g. VAT, excise duties, goods composition or mixture (oils) or commodity board goods codes using community codes from Annex 38 or national code lists), as specified in SAD box 31. WCO ID:       260 (Commodity characteristic code)? - 259 (Constituent element or component description)? TBD WCO NAME:    - WCO DESC:    - </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="parties" type="xsd_1:PartyRole">
+            <xsd:annotation>
+              <xsd:documentation>The parties associated with this goods item, in particular:
+
+Consignee (UCC Annex B: 3/9 &amp; 3/10 | WCO: 27A)                      (UNTDID 3035 Party function code 'CN')
+Exporter (UCC Annex B: 3/1 &amp; 3/2 | WCO: 30A)                      (UNTDID 3035 Party function code 'EX')
+Consignor (UCC Annex B: 3/7 &amp; 3/8 | WCO: 30A)            (UNTDID 3035 Party function code 'CZ')
+Additional Actor (UCC Annex B: 3/37 | WCO: 16C)                      (UNTDID 3035 Party function code 'DFW')
+VAT declaring party (UCC Annex B: 3/40 | WCO: 55B)   (UNTDID 3035 Party function code 'LC')
+Buyer (UCC Annex B: 3/26 &amp; 3/27 | WCO: 16A | DV1: 2a)             (UNTDID 3035 Party function code 'BY')
+Seller (UCC Annex B: 3/24 &amp; 3/25 | WCO: 09B | DV1: 1)               (UNTDID 3035 Party function code 'SE')
+Manufacturer (agri refunds)                              (UNTDID 3035 Party function code 'MF')
+Refund recipient (agri refunds)                           (UNTDID 3035 Party function code 'DCX')
+
+WCO ID:      R00
+WCO NAME:    Party
+WCO DESC:   Companies, legal persons and natural persons.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalDocuments" type="tns_1:AdditionalDocument">
+            <xsd:annotation>
+              <xsd:documentation>References to documents that pertain to the declaration goods item, as specified in sub field 2 of SAD box 44. WCO ID:       - WCO NAME:    AdditionalDocument (Document) WCO DESC:    Supporting documents with declaration. NOTE:          examples are a certificates of origin, import certificates, export certificates etc.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="countryRegions" type="tns_1:CountryRegionRole">
+            <xsd:annotation>
+              <xsd:documentation>The countries and -possibly- regions that play a particular role in the context of the declaration goods item:
+
+Country of dispatch/export (UCC Annex B: 5/14 | WCO 95B | SAD: 15) -&gt; eCF countryRegionRoleType.code '2': Country/Region of dispatch/export
+Country / region of origin (UCC Annex B: 5/15 &amp; 5/16 | WCO 92A | SAD: 34a) -&gt; eCF countryRegionRoleType.code '3': Country/Region of origin
+Country / region of destination (UCC Annex B: 5/8 &amp; 5/9 | WCO: 99B)  -&gt; eCF countryRegionRoleType.code '5': Country/Region of final destination</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="previousDocuments" type="tns_1:PreviousDocument">
+            <xsd:annotation>
+              <xsd:documentation>Reference to the preceding (summary) declaration(s) or other formal document(s) on which the involved goods items were declared
+
+WCO ID:       -
+WCO NAME:    PreviousDocument (Document)
+WCO DESC:    Information relating to the previous document.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="valuationAdjustments" type="tns_1:ValuationAdjustment">
+            <xsd:annotation>
+              <xsd:documentation>Information about the way the customs value is determined as specified on/in the paper or electronic version of the DV1</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalInformation" type="tns_1:AdditionalInformation">
+            <xsd:annotation>
+              <xsd:documentation>Additional information of a customs nature encoded by a five-digit code pertaining to the declaration goods item as specified in sub field 1 of SAD box 44.
+
+UCC Annex B: 2/2 - Additional information</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="declaredDutyTaxFees" type="tns_1:DeclaredDutyTaxFee">
+            <xsd:annotation>
+              <xsd:documentation>Duty/tax/fee objects applicable to the goods item as specified in SAD box 47. WCO ID:       - WCO NAME:    DutyTaxFee WCO DESC:    Calculation one instance one duty, one tax, one fee Comment: Each instance of this class is to be used for a single occurence of a duty, tax or fee NOTE:          Used to store the data passed by the declarant in the declaration (as opposed to those calculated by DMS)   </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="ucr" type="tns_1:DeclaredUCR">
+            <xsd:annotation>
+              <xsd:documentation>Number(s) assigned by the consignor to identify the consignment
+
+UCC Annex B: 2/4 - Reference number/UCR
+WCO: 35B - UCR
+
+NOTE:          The number may be a real standard 'UCR'; if specified on conisgnment /shipment level, the UCR will apply to all the declaration goods items.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="freight" type="tns_1:Freight">
+            <xsd:annotation>
+              <xsd:documentation>The freight details pertaining to the goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DutyCalculationResponseDossier">
+    <xsd:sequence>
+      <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+        <xsd:annotation>
+          <xsd:documentation>The reference of the related declaration</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>The version of the related declaration</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="dutyTaxFeeMeasures" type="xsd_1:DutyTaxFeeMeasureDossier">
+        <xsd:annotation>
+          <xsd:documentation>Duty tax fee measures involved in this response (including the duty tax fee elements)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PartyRole">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the role played by a party in a particular context.  NOTE 1: in the WCO data model this entity is refered to as Party NOTE 2: some type of electronic declarations </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:PartyRole">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="partyIdentification" type="tns_4:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>ID of the party playing the role in the involved context NOTE:    to capture the party id as received in external messages. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="contactPerson" type="xsd_1:Contact">
+            <xsd:annotation>
+              <xsd:documentation>Contact person belonging to the party performing the involved role in the context of the declaration NOTE: the contact person data is only captured if the person is not identified and known in the Customs party data system</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contactMechanisms" type="tns_4:ContactMechanism">
+            <xsd:annotation>
+              <xsd:documentation>The communication mechanism(s) of the party playing the party role in the involved context</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="physicalAddress" type="tns_4:PhysicalAddress">
+            <xsd:annotation>
+              <xsd:documentation>The physical address, of the party playing the party role in the involved context</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CashDeposit">
+    <xsd:annotation>
+      <xsd:documentation>Details regarding a coverage for a customs debt given in cash or equivalent to ensure that the liability will be fulfilled immediately</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_4:CashDeposit">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="provider" type="tns_4:EconomicOperator">
+            <xsd:annotation>
+              <xsd:documentation>The economic operator that has provided the coverage means</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="entries" type="tns_4:AccountingEntry">
+            <xsd:annotation>
+              <xsd:documentation>The entries made to update the balance of this (transaction based) coverage means</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationBase">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Declaration">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalDocuments" type="tns_1:AdditionalDocument">
+            <xsd:annotation>
+              <xsd:documentation>References to documents that pertain to the declaration as a whole, for example a reference to a deferred payment authorization
+
+UCC Annex B: 2/6 Deferred payment</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalInformation" type="tns_1:AdditionalInformation">
+            <xsd:annotation>
+              <xsd:documentation>Additional information associated with the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="amendments" type="tns_1:Amendment">
+            <xsd:annotation>
+              <xsd:documentation>The amendment(s), if any, associated with the declaration. NOTE: amendments may be the result of corrections made by Customs or the result of accepted requests for correction/amendment by the declarant</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="countryRegions" type="tns_1:CountryRegionRole">
+            <xsd:annotation>
+              <xsd:documentation>The countries and -possibly- regions that play a particular role in the context of the declaration: Note: no country/region roles are currently defined at declaration level </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="currencies" type="tns_4:Currency">
+            <xsd:annotation>
+              <xsd:documentation>Any declared exchange rates for foreign currencies involved in the declaration. This includes the rate required to convert the invoice amount to the currency used by the Customs Agency, as specified in EUCDM DE 4/15, for which the currency code may be omitted.
+
+WCO NAME:   CurrencyExchange</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="customsOffices" type="xsd_1:CustomsOfficeRole">
+            <xsd:annotation>
+              <xsd:documentation>The customs office(s) playing role in the context of the declaration -if so required-:
+
+Office of lodgement (UCC Annex B: N/A | WCO 065 | SAD box A)      (UNTDID 3227 Location function qualifier '96')
+Office of presentation (UCC Annex B: 5/26 | WCO 15C)      (UNTDID 3227 Location function qualifier '???')
+Supervising office (UCC Annex B: 5/27 Supervising customs office | WCO 97B) (UNTDID 3227 Location function qualifier '181')
+Office of exit (UCC Annex B: 5/12 Customs office of exit | WCO 56A) (UNTDID 3227 Location function qualifier '271')
+
+WCO ID:       -
+WCO NAME:   GovernmentAgency
+WCO DESC:   Identifies and provides details of Government Agency</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="guarantees" type="xsd_1:DeclaredGuarantee">
+            <xsd:annotation>
+              <xsd:documentation>Reference(s) to the obligation guarantee(s) given as coverage for the declaration customs debt as specified in SAD box 52 (only in case of transit) or in the declaration GRN field. A declaration customs debt may be covered by multiple securities. WCO ID: - WCO NAME: ObligationGuarantee WCO DESC: Details regarding undertaking given in cash, bond or as a written guarantee to ensure that an obligation will be fulfilled, e.g. under a transit procedure</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="incidents" type="tns_1:Incident">
+            <xsd:annotation>
+              <xsd:documentation>The incident(s), if any, that occured during customs transport of the declaration goods items, as specified in SAD box 56. WCO ID:      - WCO NAME:    - WCO DESC:   - </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="parties" type="xsd_1:PartyRole">
+            <xsd:annotation>
+              <xsd:documentation>The parties possibly playing a particular role in the context of the declaration:
+
+Declarant (UCC Annex B: 3/17 &amp; 3.18 | WCO: 57B)      (UNTDID 3035 Party function code 'DT'')
+Agent (UCC Annex B: 3/20 &amp; 3/21 | WCO: 05A)                (UNTDID 3035 Party function code 'AG')
+Submitter (UCC Annex B: N/A | WCO: 17B)               (UNTDID 3035 Party function code 'TB')
+Exporter (UCC Annex B: 3/1 &amp; 3.2 | WCO: 57A)               (UNTDID 3035 Party function code 'EX')    
+Authorization Holder (UCC Annex B: 3/39| WCO: 17C) (UNTDID 3035 Party function code 'VF')
+
+WCO ID:      R00
+WCO NAME:    Party
+WCO DESC:   Companies, legal persons and natural persons.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="signature" type="tns_1:Signature">
+            <xsd:annotation>
+              <xsd:documentation>Signature or authentication otherwise of the relevant declaration, notification or proof of the customs status of Union goods
+
+WCO: Authentication</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationWithResults">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the data required by Law to be provided in case a declarant wishes to announce the entry of goods in or the exit of goods out of the customs area of the involved customs agency, or to place the goods under a given customs procedure. WCO: Any statement or action, in any form prescribed or accepted by the Governmental Agency, giving information or particulars required by the Governmental Agency. NOTE: In practice, 'customs declaration' data is captured in an document whose contents and structure complies to that of the 'Single Administrative Document' (SAD). In addition, there may be summary declarations with a different structure and contents.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:DeclarationBase">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="customsDebts" type="xsd_1:CustomsDebt">
+            <xsd:annotation>
+              <xsd:documentation>The calculated customs debts due for the declaration (provisional and/or final). Note: For each custom debt round, it contains the latest calculated customs debt. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="customsPosition" type="tns_1:CustomsPosition">
+            <xsd:annotation>
+              <xsd:documentation>The current customs position on the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="processingStatus" type="tns_1:ProcessingStatus">
+            <xsd:annotation>
+              <xsd:documentation>The current processing status for the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="xsd_1:ValidationResult">
+            <xsd:annotation>
+              <xsd:documentation>The validation results for this declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="consignmentShipment" type="xsd_1:ConsignmentShipmentWithResults">
+            <xsd:annotation>
+              <xsd:documentation>The shipment with which the consignment goods that are declared through the declaration, were transported into the customs area.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="goodsExportStatus" type="tns_1:GoodsExportStatus">
+            <xsd:annotation>
+              <xsd:documentation>The exit status of the involved goods items, determined either by DMS or by the office of exit</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="exitResultMessage" type="xsd_1:ExitResultMessage">
+            <xsd:annotation>
+              <xsd:documentation>The exit result message pertaining to the declaration (if any)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlTasks" type="xsd_1:ControlTask"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="IrregularitiesNotification">
+    <xsd:complexContent>
+      <xsd:extension base="tns:Notification">
+        <xsd:sequence>
+          <xsd:element name="dossier" type="xsd_1:DeclarationDossier">
+            <xsd:annotation>
+              <xsd:documentation>The involved declaration dossier</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SuspensionReconciliationRequest">
+    <xsd:annotation>
+      <xsd:documentation>The request for the reconciliation of a declaration</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:DeclarationPublicationRequest">
+        <xsd:sequence>
+          <xsd:element name="declaration" type="xsd_1:Declaration"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ArchiveRetrievalResponse">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="dossier" type="xsd_1:DeclarationDossier">
+            <xsd:annotation>
+              <xsd:documentation>The retrieved declaration dossier</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationManagementNotification">
+    <xsd:complexContent>
+      <xsd:extension base="tns:DeclarationPublicationRequest">
+        <xsd:sequence>
+          <xsd:element name="subscriber" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The subscriber for this notification (coded)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The declaration reference number to which the notification is related</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="dossier" type="xsd_1:DeclarationDossier">
+            <xsd:annotation>
+              <xsd:documentation>The declaration dossier that will contain the information relevant for a particular topic (or state change)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsValueDossier">
+    <xsd:annotation>
+      <xsd:documentation/>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:CustomsValue">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="goodsItem_sequenceNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the related goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AdditionalMessageDossier">
+    <xsd:annotation>
+      <xsd:documentation>Additional message as used in the declaration dossier message</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:AdditionalMessage">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="currencies" type="tns_4:Currency">
+            <xsd:annotation>
+              <xsd:documentation>The Euro exchange rate of the invoice currency, as specified in SAD box 23 if the invoice currency is any other than Euro, indicates how much the invoice currency is worth in Euro. WCO ID: 		118 WCO NAME: 	Rate of exchange WCO DESC: 	The rate at which one specified currency is expressed in another specified currency. NOTE:       An exchange specified the number of units of "term currency" (invoice currency) that can be bought in terms of 1 "base currency"  (Euro). For example, if the invoice currency is USD, the EUR-USD exchange rate is 1.4320 if one can buy 1.4320 USD per EUR.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="parties" type="xsd_1:PartyRole">
+            <xsd:annotation>
+              <xsd:documentation>The parties possibly playing a particular role in the context of the declaration: Financial responsible party (derived/not in WCO/SAD)  (UNTDID 3035 Party function code 'FT') Declarant (derived/ not in WCO/SAD box 14 or 50)    (UNTDID 3035 Party function code 'DT'') Agent (in WCO message/SAD box 14)           (UNTDID 3035 Party function code 'AE') Indirect Representative (derived/not in WCO/SAD)    (UNTDID 3035 Party function code 'DEO') Direct Representative(derived/not in WCO/SAD)     (UNTDID 3035 Party function code 'DEN' Importer (in WCO message/not in SAD)          (UNTDID 3035 Party function code 'IM') Submitter (derived/not in WCO/SAD)            (UNTDID 3035 Party function code 'TB') Payer (expected WCO message)              (UNTDID 3035 Party function code 'PR') party who acts as the one covering the payable part of the customs debt Security Party (expected in WCO message)        (UNTDID 3035 Party function code 'SY') party who acts as the one covering the security part of the customs debt WCO ID:		R00 WCO NAME: 	Party WCO DESC:	Companies, legal persons and natural persons. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="countryRegions" type="tns_1:CountryRegionRole">
+            <xsd:annotation>
+              <xsd:documentation>The countries and -possibly- regions that play a particular role in the context of the declaration: Note: no country/region roles are currently defined at declaration level </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="customsOffices" type="xsd_1:CustomsOfficeRole">
+            <xsd:annotation>
+              <xsd:documentation>The customs office(s) playing role in the context of the declaration as specified -if so required-:  Office of guarantee   (in WCO?/ in SAD box 52)  -&gt;  CustomsOfficeRoleType (UNTDID 3227  Location function qualifier): '119'  Transit guarantee customs office location Office of lodgement  (in WCO Declaration.declarationOffice/in SAD box A)  -&gt;  CustomsOfficeRoleType (UNTDID 3227 Location function qualifier) '96' Place of lodgement WCO ID:       - WCO NAME:   GovernmentAgency WCO DESC:   Identifies and provides details of Government Agency </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="incidents" type="tns_1:Incident">
+            <xsd:annotation>
+              <xsd:documentation>The incident(s), if any, that occured during customs transport of the declaration goods items, as specified in SAD box 56. WCO ID:      - WCO NAME:    - WCO DESC:   - </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="guarantees" type="xsd_1:DeclaredGuarantee">
+            <xsd:annotation>
+              <xsd:documentation>Reference(s) to the obligation guarantee(s) given as coverage for the declaration customs debt as specified in SAD box 52 (only in case of transit) or in the declaration GRN field. A declaration customs debt may be covered by multiple securities. WCO ID: - WCO NAME: ObligationGuarantee WCO DESC: Details regarding undertaking given in cash, bond or as a written guarantee to ensure that an obligation will be fulfilled, e.g. under a transit procedure</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalInformation" type="tns_1:AdditionalInformation">
+            <xsd:annotation>
+              <xsd:documentation>Additional information associated with the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="amendments" type="tns_1:Amendment">
+            <xsd:annotation>
+              <xsd:documentation>The amendment(s), if any, associated with the declaration. NOTE: amendments may be the result of corrections made by Customs or the result of accepted requests for correction/amendment by the declarant</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="consignmentShipments" type="xsd_1:ConsignmentShipment">
+            <xsd:annotation>
+              <xsd:documentation>The shipment(s) with which the consignment goods that are declared through the declaration, were transported into the customs area.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>the declaration version number this additional message was issued for</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationValidationResponseDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns:DeclarationValidationResponse">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration or additional message</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="xsd_1:ValidationResult">
+            <xsd:annotation>
+              <xsd:documentation>validation results for this response</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Commodity">
+    <xsd:annotation>
+      <xsd:documentation>Details about the properties of the goods.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Commodity">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="containers" type="xsd_1:TransportEquipment">
+            <xsd:annotation>
+              <xsd:documentation>The container(s) in which the declaration goods item are shipped as specified in SAD box 31 WCO ID:       - WCO NAME:   TransportEquipment WCO DESC:    Details of Transport equipment used for the consignment NOTE 1:      A container is a type of transport equipment NOTE 2:      A trailer of a truck may also qualify as a Container </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NomenclatureGroupDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:NomenclatureGroup">
+        <xsd:sequence>
+          <xsd:element name="goodsItem_sequenceNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the related goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsDebtDossier">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the amount of money, and its constituent parts, to settle the legal obligation ensuing from bringing goods under a particular customs procedure. NOTE: 	the customs debt consists of the part to be covered (specified) in the associated Coverage objects) and the parts that need not be covered (inclused as attributes) WCO:    not defined in WCO datamodel v3 </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:CustomsDebt">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="coverages" type="xsd_1:Coverage">
+            <xsd:annotation>
+              <xsd:documentation>The parts of the customs debt that needs to be covered (i.e the amounts not transferred, relieved or waived)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Contact">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Contact">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contactMechanisms" type="tns_4:ContactMechanism">
+            <xsd:annotation>
+              <xsd:documentation>Details of communication including number and number type</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="physicalAddress" type="tns_4:PhysicalAddress">
+            <xsd:annotation>
+              <xsd:documentation>The physical address, of the party playing the party role in the involved context</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ArchiveRetrievalRequest">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The declaration reference</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RiskAssessmentResult">
+    <xsd:annotation>
+      <xsd:documentation>A risk related to one particular aspect (goods item) of the object of risk assessement (declaration/request) NOTE: a risk assessment resut will always yield one (and only one) control instruction but may be based on zero or more risk profiles</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:RiskAssessmentResult">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="controlInstructions" type="xsd_1:AutomaticallyRaisedControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>Control instruction raised by the Risk Assessment Service</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="riskAssessmentResponse" type="tns:ServiceResponse">
+            <xsd:annotation>
+              <xsd:documentation>The id of the originating risk assessment response</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="declarationWithResults" type="xsd_1:DeclarationWithResults">
+    <xsd:annotation>
+      <xsd:documentation>Can hold a declaration with related processing results</xsd:documentation>
+      <xsd:documentation>Version: 2.7</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="ControlTaskDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ControlTask">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlResults" type="xsd_1:ControlResult">
+            <xsd:annotation>
+              <xsd:documentation>The control results for this control task</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="riskAssessmentResult" type="xsd_1:RiskAssessmentResult">
+            <xsd:annotation>
+              <xsd:documentation>The associated risk assessment result for which this control task has been created</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="manuallyRaisedControlInstructions" type="xsd_1:ManuallyRaisedControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>The control instructions (if any), associated with the control task, that were manually raised</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Transhipment">
+    <xsd:annotation>
+      <xsd:documentation>The transfer of consignment shipment goods from one transport means to another -if any- occurring during customs transport of the declaration goods items, as specified in SAD box 55. WCO ID:      - WCO NAME:    - WCO DESC:   -</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Transhipment">
+        <xsd:sequence>
+          <xsd:element name="location" type="tns_4:Location">
+            <xsd:annotation>
+              <xsd:documentation>The location at which the goods are being transshipped </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="2" minOccurs="2" name="transportMeans" type="tns_1:TransportMeans">
+            <xsd:annotation>
+              <xsd:documentation>The transport means involved in this transhipment. ie: the transport means from which the transhipped goods are unloaded and the transport means to which the transhipped goods are loaded  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DutyTaxFeeMeasureDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:DutyTaxFeeMeasure">
+        <xsd:sequence>
+          <xsd:element name="goodsItem_sequenceNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the related goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="footnotes" type="tns_1:Footnote">
+            <xsd:annotation>
+              <xsd:documentation>The footnote(s) belonging to this measure.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="securities" type="tns_1:Security">
+            <xsd:annotation>
+              <xsd:documentation>Amounts (if any) that need to be reserved as a security to ensure payment should the duty/tax/fee component related to the measure for this goods item turn out to be higher than what is to be expected on the basis of the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dutyTaxFees" type="tns_1:DutyTaxFee">
+            <xsd:annotation>
+              <xsd:documentation>The duty/tax/fee components that result from applying the measure to the goods items.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationValidationRequest">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="referenceDate" type="tns_3:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>The reference date (sample date) to use for the validation request.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="declaration" type="xsd_1:Declaration">
+            <xsd:annotation>
+              <xsd:documentation>The declaration to validate</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="externalPartyID" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>Element identifying the external party to send the notification to</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="topic" type="tns_5:TopicType">
+            <xsd:annotation>
+              <xsd:documentation>Element representing the topic of this request, i.e. the event that caused this notification</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsOfficeRole">
+    <xsd:annotation>
+      <xsd:documentation>Office where customs formalities are fulfilled.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:CustomsOfficeRole">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="customsOfficeID" type="tns_4:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The Id of the customs office.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="declarationDossier" type="xsd_1:DeclarationDossier">
+    <xsd:annotation>
+      <xsd:documentation>Can hold the complete declaration dossier, consisting of: - multiple declaration versions - service responses, notifications and processing results</xsd:documentation>
+      <xsd:documentation>Version: 2.8</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="ManuallyRaisedControlInstruction">
+    <xsd:annotation>
+      <xsd:documentation>Control instruction raised by a customs official</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ManuallyRaisedControlInstruction">
+        <xsd:sequence>
+          <xsd:element name="source" type="tns_2:User">
+            <xsd:annotation>
+              <xsd:documentation>The user (person of system, e.g. risk assessment service or customs official) that created the control instruction.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="additionalDocument" type="tns_1:AdditionalDocument">
+            <xsd:annotation>
+              <xsd:documentation>The additional document (if any) whose control is manually instructed.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlMeans" type="tns:ControlMeans">
+            <xsd:annotation>
+              <xsd:documentation>The means (one ore more) by which control is to be performed</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="QuotaDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Quota">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="goodsItem_sequenceNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the related goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationValidationResponse">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="validationResults" type="xsd_1:ValidationResult">
+            <xsd:annotation>
+              <xsd:documentation>The validation results included in this validation response.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationManagementInformationRequest">
+    <xsd:annotation>
+      <xsd:documentation>Request for declaration information </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>ID of the declaration assigned by Customs, being a specific customs ID or a Movement Reference Number (MRN). WCO ID:       D014 WCO NAME:    Declaration reference number WCO DESC:    Reference number identifying a specific document NOTE:          The MRN is not specified on the SAD but assigned after the declaration has been accepted.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ValidationResult">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ValidationResult">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="information" type="tns:ValidationInformation">
+            <xsd:annotation>
+              <xsd:documentation>Additional information associated with the validation result</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="rule" type="tns:ValidationRule">
+            <xsd:annotation>
+              <xsd:documentation>The rule applied to arrive at the validation result (if known)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SecurityDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Security">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="goodsItem_sequenceNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the related goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TransportEquipment">
+    <xsd:annotation>
+      <xsd:documentation>The transport equipment unit in/on which the goods belonging to a declaration are transported and delivered. A transport equipment may be a container or a trailer.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:TransportEquipment">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="seals" type="tns_1:Seal">
+            <xsd:annotation>
+              <xsd:documentation>The seal(s) -if any- attached to the equipment.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalPartyNotification">
+    <xsd:complexContent>
+      <xsd:extension base="tns:Notification">
+        <xsd:sequence>
+          <xsd:element name="declaration" type="xsd_1:DeclarationWithResults">
+            <xsd:annotation>
+              <xsd:documentation>The involved declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="topic" type="tns_5:TopicType">
+            <xsd:annotation>
+              <xsd:documentation>Element representing the topic of a notification, i.e. the event that caused this notification</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="externalPartyID" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>Element identifying the external party to send the notification to</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclaredGuarantee">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:DeclaredGuarantee">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="customsOfficeID" type="tns_4:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>Customs office of guarantee
+
+UCC Annex B: 8/3 - Customs office of guarantee
+WCO: 14C&gt;G014 - GuaranteeOffice&gt;Guarantee office, coded</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="LocationRole">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:LocationRole">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dateTimes" type="tns_1:DateTimeRole">
+            <xsd:annotation>
+              <xsd:documentation>The dates/times (if any) that are relevant in the context of the location, e.g. the loading or departure date/time of a goods location NOTE: 	in WCO these date/time attributes are defined in: WCO CLASS:	LoadingLocation WCO REF: 	169 WCO NAME: 	Date of departure from place of loading WCO DESC: 	Date / scheduled date of the goods depart the place of loading, coded WCO REF: 	031 WCO NAME: 	Consignment loading date WCO DESC: 	Date of initial loading onto ship or airplane during one journey from export place to import place</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="physicalAddress" type="tns_4:PhysicalAddress">
+            <xsd:annotation>
+              <xsd:documentation>The physical address for a location in a specific context
+
+UCC Annex B: 5/23 Location of Goods</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ProcedureTreatmentDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:ProcedureTreatment">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration or additional message</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="goodsItem_sequenceNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the related goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CoverageResponseDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns:CoverageResponse"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GoodsItem">
+    <xsd:annotation>
+      <xsd:documentation>Goods item as declared to Customs. WCO ID: WCO NAME:   GovernmentAgencyGoodsItem WCO DESC:   Goods item as declared to Government Agency NOTE 1:       Objects of class DeclarationGoodsItem provide details about the goods that –within the declaration- are identified by the same    commodity code. NOTE 2:       in addition to the WCO attributes, this class has been extended with attributes that have been identified to be relevant for    declaration processing purposes</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:GoodsItemBase">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="commodity" type="xsd_1:Commodity">
+            <xsd:annotation>
+              <xsd:documentation>Identification of the commodity class to which this goods item belong as specified in SAD box 33. WCO ID:      - WCO NAME:   Commodity WCO DESC:   Details about the properties of the goods. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsPositionDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:CustomsPosition">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration or additional message</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationNotFoundFault">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GoodsItemWithResults">
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:GoodsItemBase">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="quota" type="tns_1:Quota">
+            <xsd:annotation>
+              <xsd:documentation>Details on requested and allocated quota</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dutyTaxFees" type="tns_1:DutyTaxFee">
+            <xsd:annotation>
+              <xsd:documentation>All assessed duties/taxes/fees </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="securities" type="tns_1:Security">
+            <xsd:annotation>
+              <xsd:documentation>All assessed security amounts</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dutyTaxFeeMeasures" type="xsd_1:DutyTaxFeeMeasure">
+            <xsd:annotation>
+              <xsd:documentation>The duty/tax/fee measures as returned by Tariff, including duties/taxes/fees, footnotes and security amounts</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="procedureTreatments" type="tns_1:ProcedureTreatment">
+            <xsd:annotation>
+              <xsd:documentation>The procedure treatments determined for this goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="customsValue" type="xsd_1:CustomsValue">
+            <xsd:annotation>
+              <xsd:documentation>The assessed customsValue</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="commodity" type="xsd_1:CommodityWithResults">
+            <xsd:annotation>
+              <xsd:documentation>Identification of the commodity class to which this goods item belong as specified in SAD box 33. WCO ID:      - WCO NAME:   Commodity WCO DESC:   Details about the properties of the goods. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Declaration">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the data required by Law to be provided in case a declarant wishes to announce the entry of goods in or the exit of goods out of the customs area of the involved customs agency, or to place the goods under a given customs procedure. WCO: Any statement or action, in any form prescribed or accepted by the Governmental Agency, giving information or particulars required by the Governmental Agency. NOTE: In practice, 'customs declaration' data is captured in an document whose contents and structure complies to that of the 'Single Administrative Document' (SAD). In addition, there may be summary declarations with a different structure and contents.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:DeclarationBase">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="consignmentShipment" type="xsd_1:ConsignmentShipment">
+            <xsd:annotation>
+              <xsd:documentation>The shipment with which the consignment goods that are declared through the declaration, were transported into the customs area.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AutomaticallyRaisedControlInstruction">
+    <xsd:annotation>
+      <xsd:documentation>Control instruction raised by the Risk Assessment Service</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:AutomaticallyRaisedControlInstruction">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="identifiedRisks" type="tns:Risk">
+            <xsd:annotation>
+              <xsd:documentation>The identified risk (zero or more) which has triggered the control instruction </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="source" type="tns_2:User">
+            <xsd:annotation>
+              <xsd:documentation>The user (person of system, e.g. risk assessment service or customs official) that created the control instruction.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="additionalDocument" type="tns_1:AdditionalDocument">
+            <xsd:annotation>
+              <xsd:documentation>The additional document (if any) whose control is manually instructed.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlMeans" type="tns:ControlMeans">
+            <xsd:annotation>
+              <xsd:documentation>The means (one ore more) by which control is to be performed</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="declaration" type="xsd_1:Declaration">
+    <xsd:annotation>
+      <xsd:documentation>Can hold the declaration as submitted by the trader (including directly derived attributes / objects)</xsd:documentation>
+      <xsd:documentation>Version: 2.5</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="ControlResult">
+    <xsd:annotation>
+      <xsd:documentation>The result of the governmental control or inspection, either administrative or physical The control result is reflected in the custums position NOTE1:   A control result pertains to one or more data elements (indicated by a pointer) NOTE2:   the name is chosen to refer to the WCO name Control used or the inspection</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ControlResult">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="actor" type="tns_2:User">
+            <xsd:annotation>
+              <xsd:documentation>The person that performed the inspection.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="observations" type="tns:Observation">
+            <xsd:annotation>
+              <xsd:documentation>The observation(s)  made during control made with respect to the report back elements</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="controlResponse" type="tns:ServiceResponse">
+            <xsd:annotation>
+              <xsd:documentation>The id of the related control response (when applicable)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="manuallyRaisedControlInstructions" type="xsd_1:ManuallyRaisedControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>The control instructions (if any), that were manually raised when performing the control</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RemarkDossier">
+    <xsd:annotation>
+      <xsd:documentation>Remarks on the declaration dossier, entered by a customs official.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Remark">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationDossier">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="declarations" type="xsd_1:Declaration">
+        <xsd:annotation>
+          <xsd:documentation>the declaration versions related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="additionalMessages" type="xsd_1:AdditionalMessageDossier">
+        <xsd:annotation>
+          <xsd:documentation>the additional messages related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="traderNotifications" type="xsd_1:TraderNotificationDossier">
+        <xsd:annotation>
+          <xsd:documentation>the trader notifications related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="processingStatus" type="xsd_1:ProcessingStatusDossier">
+        <xsd:annotation>
+          <xsd:documentation>the processing states related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="customsPosition" type="xsd_1:CustomsPositionDossier">
+        <xsd:annotation>
+          <xsd:documentation>the customs positions related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="quota" type="xsd_1:QuotaDossier">
+        <xsd:annotation>
+          <xsd:documentation>the quota details related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="dutyTaxFees" type="xsd_1:DutyTaxFeeDossier">
+        <xsd:annotation>
+          <xsd:documentation>The duty/tax/fee calculated by Tariff as well as calculated manually</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="dutyCalculationResponses" type="xsd_1:DutyCalculationResponseDossier">
+        <xsd:annotation>
+          <xsd:documentation>the duty calculation responses related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="securities" type="xsd_1:SecurityDossier">
+        <xsd:annotation>
+          <xsd:documentation>The security calculated by Tariff as well as calculated manually</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="customsDebts" type="xsd_1:CustomsDebtDossier">
+        <xsd:annotation>
+          <xsd:documentation>the customs debt calculations related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="validationResponses" type="xsd_1:DeclarationValidationResponseDossier">
+        <xsd:annotation>
+          <xsd:documentation>the validation responses related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="exitResultMessages" type="xsd_1:ExitResultMessageDossier">
+        <xsd:annotation>
+          <xsd:documentation>The exit result messages pertaining to the declaration (if any)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="procedureTreatments" type="xsd_1:ProcedureTreatmentDossier">
+        <xsd:annotation>
+          <xsd:documentation>the procedure treatments related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="customsValue" type="xsd_1:CustomsValueDossier">
+        <xsd:annotation>
+          <xsd:documentation>The customs values of the declaration goods items calculated by DMS based on attributes provided in the declaration</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="goodsExportStatus" type="xsd_1:GoodsExportStatusDossier">
+        <xsd:annotation>
+          <xsd:documentation>the goods exit states related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="remarks" type="xsd_1:RemarkDossier">
+        <xsd:annotation>
+          <xsd:documentation>Remarks on the declaration dossier, entered by a customs official.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="nomenclatureGroups" type="xsd_1:NomenclatureGroupDossier">
+        <xsd:annotation>
+          <xsd:documentation>The nomenclature group(s) for the commodities included in the declaration, as returned by Tariff</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlTasks" type="xsd_1:ControlTaskDossier">
+        <xsd:annotation>
+          <xsd:documentation>Any controltasks for this declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="coverageResponses" type="xsd_1:CoverageResponseDossier">
+        <xsd:annotation>
+          <xsd:documentation>the coverage responses related to the declaration dossier</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ObligationGuarantee">
+    <xsd:annotation>
+      <xsd:documentation>Details regarding a coverage for a customs debt given in cash, bond or as a written guarantee to ensure that the liability will be fulfilled (later)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_4:ObligationGuarantee">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="authorization" type="tns_4:Authorization">
+            <xsd:annotation>
+              <xsd:documentation>The authorization on which the obligation guarantee / coverage means is based (if the type of guarantee is a permanent authorization)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="provider" type="tns_4:EconomicOperator">
+            <xsd:annotation>
+              <xsd:documentation>The economic operator that has provided the coverage means</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="surety" type="tns_4:Party">
+            <xsd:annotation>
+              <xsd:documentation>The party, usually a bank, that stands surety for the guarantee.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="entries" type="tns_4:AccountingEntry">
+            <xsd:annotation>
+              <xsd:documentation>The entries made to update the balance of this (transaction based) coverage means</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CommodityWithResults">
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:Commodity">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="nomenclatureGroups" type="tns_1:NomenclatureGroup">
+            <xsd:annotation>
+              <xsd:documentation>Nomenclature group(s) -if any- to which the commodity belongs
+
+NOTE:   the nomenclature groups are provided by the Tariff system, stored and versioned separate from the declaration object graph</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Coverage">
+    <xsd:annotation>
+      <xsd:documentation>Part of the customs debt the payment of which is to be covered.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Coverage">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="means" type="tns_4:CoverageMeans">
+            <xsd:annotation>
+              <xsd:documentation>The coverage means that is used to cover the involved coverage amount</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationManagementInformationResponse">
+    <xsd:annotation>
+      <xsd:documentation>Response of complete declaration details</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="declaration" type="xsd_1:Declaration">
+            <xsd:annotation>
+              <xsd:documentation>complete declaration details</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlNotification">
+    <xsd:complexContent>
+      <xsd:extension base="tns:Notification">
+        <xsd:sequence>
+          <xsd:element name="controlTask" type="tns:ControlTask">
+            <xsd:annotation>
+              <xsd:documentation>The related control task.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" name="controlInstructions" type="xsd_1:AutomaticallyRaisedControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>Authoritative directions furnished by the person (in case of additional control) or system (in case of a risk assessment result) with respect to the control to be performed.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="controlAgent" type="tns_5:ControlAgentType">
+            <xsd:annotation>
+              <xsd:documentation>Party performing control</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="declaration" type="xsd_1:Declaration">
+            <xsd:annotation>
+              <xsd:documentation>The involved declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DutyTaxFeeMeasure">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:DutyTaxFeeMeasure">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="footnotes" type="tns_1:Footnote">
+            <xsd:annotation>
+              <xsd:documentation>The footnote(s) belonging to this measure.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="securities" type="tns_1:Security">
+            <xsd:annotation>
+              <xsd:documentation>Amounts (if any) that need to be reserved as a security to ensure payment should the duty/tax/fee component related to the measure for this goods item turn out to be higher than what is to be expected on the basis of the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dutyTaxFees" type="tns_1:DutyTaxFee">
+            <xsd:annotation>
+              <xsd:documentation>The duty/tax/fee components that result from applying the measure to the goods items.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlTask">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ControlTask">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlResults" type="xsd_1:ControlResult">
+            <xsd:annotation>
+              <xsd:documentation>The control results for this control task</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="riskAssessmentResult" type="xsd_1:RiskAssessmentResult">
+            <xsd:annotation>
+              <xsd:documentation>The associated risk assessment result for which this control task has been created</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="manuallyRaisedControlInstructions" type="xsd_1:ManuallyRaisedControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>The control instructions (if any), associated with the control task, that were manually raised</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ProcessingStatusDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:ProcessingStatus">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration or additional message</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ArchiveAcknowledgment">
+    <xsd:annotation>
+      <xsd:documentation>The archive acknowledgment</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="signals" type="tns:Signal">
+            <xsd:annotation>
+              <xsd:documentation>The error (if any), included in the service response, that was encountered while processing the service request</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsDebt">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the amount of money, and its constituent parts, to settle the legal obligation ensuing from bringing goods under a particular customs procedure. NOTE: 	the customs debt consists of the part to be covered (specified) in the associated Coverage objects) and the parts that need not be covered (inclused as attributes) WCO:    not defined in WCO datamodel v3 </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:CustomsDebt">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="coverages" type="xsd_1:Coverage">
+            <xsd:annotation>
+              <xsd:documentation>The parts of the customs debt that needs to be covered (i.e the amounts not transferred, relieved or waived)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ConsignmentShipment">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the data of a consignment as they crossed the border of a customs area. i.e.: the shipment of the goods belonging to one particular consignment being moved by one and only one transport means crossing the border of the customs area. WCO ID   No corresponding WCO class NOTE:      During end-to-end shipment from consignor to consignee the consigment may be transhipped zero or more times, in which case the consigment involves multiple ConsignmentShipments. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="xsd_1:ConsignmentShipmentBase">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="goodsItems" type="xsd_1:GoodsItem">
+            <xsd:annotation>
+              <xsd:documentation>The goods items belonging to the consignment goods shipment which is being declared</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExitResultMessage">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ExitResultMessage">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="results" type="tns:ExitControlResult">
+            <xsd:annotation>
+              <xsd:documentation>Outcome of goods control performed in the context of export/exit, on exit result message level.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="exitStatus" type="tns:GoodsExitStatus">
+            <xsd:annotation>
+              <xsd:documentation>Movement state as reported by the office of exit</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="goodsItemDetails" type="xsd_1:ExitGoodsItemDetails">
+            <xsd:annotation>
+              <xsd:documentation>The exit control result details on goods item level</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExitResultMessageDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ExitResultMessage">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="results" type="tns:ExitControlResult">
+            <xsd:annotation>
+              <xsd:documentation>Outcome of goods control performed in the context of export/exit, on exit result message level.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="exitStatus" type="tns:GoodsExitStatus">
+            <xsd:annotation>
+              <xsd:documentation>Movement state as reported by the office of exit</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="goodsItemDetails" type="xsd_1:ExitGoodsItemDetails">
+            <xsd:annotation>
+              <xsd:documentation>The exit control result details on goods item level</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExitGoodsItemDetails">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ExitGoodsItemDetails">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="results" type="tns:ExitControlResult">
+            <xsd:annotation>
+              <xsd:documentation>Outcome of goods control performed in the context of export/exit, on goods item level.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="DutyTaxFeeDossier">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:DutyTaxFee">
+        <xsd:sequence>
+          <xsd:element name="declaration_reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The reference of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="declaration_versionNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The version of the related declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="goodsItem_sequenceNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the related goods item</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ArchiveRequest">
+    <xsd:annotation>
+      <xsd:documentation>The Declaration Dossier Message</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="reference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The declaration reference</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="submitterReference" type="tns_3:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>the submitter assigned reference for the declaration</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="dossier" type="xsd_1:DeclarationDossier">
+            <xsd:annotation>
+              <xsd:documentation>the declaration dossier itself</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="TariffManagementServiceSOAP" 
+                  targetNamespace="http://tariff.core.ecf/TariffManagementServiceSOAP/v2/" 
+                  xmlns:tns="http://tariff.core.ecf/TariffManagementServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tariff.core.ecf/TariffManagementServiceSOAP/v2/" xmlns:xsd_1="http://tariff.core.ecf/messages/2017/01/30/">
+      <xsd:import namespace="http://tariff.core.ecf/messages/2017/01/30/" schemaLocation="messages_20170130/messages.xsd"/>
+      <xsd:element name="validateDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="validateDeclarationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffValidationResponse" type="xsd_1:TariffValidationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="calculateDuties">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="calculateDutiesResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffCalculationResponse" type="xsd_1:TariffCalculationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="validateDeclarationRequest">
+    <wsdl:part element="tns:validateDeclaration" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="validateDeclarationResponse">
+    <wsdl:part element="tns:validateDeclarationResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="calculateDutiesRequest">
+    <wsdl:part element="tns:calculateDuties" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="calculateDutiesResponse">
+    <wsdl:part element="tns:calculateDutiesResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="TariffManagementServiceSOAPHttp">
+    <wsdl:operation name="validateDeclaration">
+      <wsdl:input message="tns:validateDeclarationRequest"/>
+      <wsdl:output message="tns:validateDeclarationResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="calculateDuties">
+      <wsdl:input message="tns:calculateDutiesRequest"/>
+      <wsdl:output message="tns:calculateDutiesResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="TariffManagementBindingHttp" type="tns:TariffManagementServiceSOAPHttp">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="validateDeclaration">
+      <soap:operation soapAction="http://tariff.core.ecf/TariffManagementServiceSOAP/v2/TariffManagementServiceSOAPHttp/validateDeclarationRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>	
+    <wsdl:operation name="calculateDuties">
+      <soap:operation soapAction="http://tariff.core.ecf/TariffManagementServiceSOAP/v2/TariffManagementServiceSOAPHttp/calculateDutiesRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="TariffManagementServiceSOAP">
+    <wsdl:port binding="tns:TariffManagementBindingHttp" name="TariffManagementServiceSOAPHttp">
+      <soap:address location="http://server:port"/>
+    </wsdl:port>
+  </wsdl:service>      
+</wsdl:definitions>

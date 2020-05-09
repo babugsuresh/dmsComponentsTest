@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/revenue/2017/02/02/" version="2.8" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/revenue/2017/02/02/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/revenue/2017/02/02/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/revenue/2017/02/02/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/revenue/2017/02/02/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/revenue/2017/02/02/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/revenue/2017/02/02/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/revenue/2017/02/02/" schemaLocation="cmmEnhancementTypes.xsd"/>
+  <xsd:complexType name="CustomsDebt">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the amount of money, and its constituent parts, to settle the legal obligation ensuing from bringing goods under a particular customs procedure. NOTE 1: 	This class is an heir of class Auditable, from which it inherits the attributes that are necessary to track changes in the declaration's customs debt for auditing 			purposes.  NOTE 2: 	the customs debt consists of the part to be covered (specified) in the associated Coverage objects) and the parts that need not be covered (inclused as attributes) WCO: 		not defined in WCO datamodel v3 </xsd:documentation>
+      <xsd:documentation>Related objects: coverages(Coverage) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Auditable">
+        <xsd:sequence>
+          <xsd:element name="givenAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>Amount of the declaration customs debt as given by the automatic duty calculator or  (partially) by a customs official NOTE:		Derived. Equal to the sum of the givenAmounts of the DutyTaxFee objects at Declaration GoodsItem level.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="nonSecuredReliefAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>Part of the customs debt that is being relieved (exempted) but need not be secured, NOTE: Equal to the sum of the non secured relief amount amounts on goods item level</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="coverageMode" type="tns_3:CoverageModeType">
+            <xsd:annotation>
+              <xsd:documentation>The coverage/payment mode applying to the whole declaration NOTE: Derived from the method of payment on good item level -&gt; since the method of payment, defined at GoodsItem level, must be the same for all the declaration goods items, the payment method at declaration level can be implemented as a function that takes the goodsItem.methodOfPayment attribtue of the first goods item in the declalration. If that method of payment belongs to the category of cash payment methods, the coverage mode type 'immeditate/cash' (code = '1'). Otherwise it is postponed/guarantee (code = '2'). If during verification of coverage, the coverage mode switches from 'postponed' to 'cash' (e.g. when a guarantee for (a part of) the coverage mode is missing and it is configured that the whole customs debt must then be covered by cash), DMS must reset the value of the attribute.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="adjustmentAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>Amount by which the given amount was adjusted. NOTE:		Derived. Equal to the sum of the adjustmentAmounts of the DutyTaxFee objects at Declaration GoodsItem level.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="transferAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>Part of the customs debt amount, being the sum of the Value Added Tax (VAT) amounts on goods item level, that are being transferred to the VAT declaration of the consignor of the declared goods. NOTE: Derived: equal to the sum of GoodsItem.DutyTaxFee.transferAmount </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="isCovered" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>Indicator telling that the full coverage amount is covered NOTE: True if a the 'Handle Coverage' sub process, executed for the customs debt, yielded a positive result</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="isFinal" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>Indicator telling whether the customs debt is final or provisional. NOTE: 	the customs debt is provisional if it is the result of a first request to the duty calculator and the customs position belonged to the category of 'releaseOnlyCustomsPositions', otherwise it it final </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="coverageIsVerified" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>Indicator telling whether it has been verified that customs debt is covered NOTE: derived: true if a coverage status request exists for the declaration (which need not necessarily be responded to yet)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="waivedAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>Amount of customs debt that is being acquitted and therefore not required to be effectively paid due to a minimum amount not being reached (a threshold may apply on goods item tax level, so the waived amount can the customs debt can in fact be partially waived; i.e. the waived amount is lower than the payable customs debt but greater than zero)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="roundNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>Sequence number of the customs debt calculation cycle for a particular declaration </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="payableAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>the amount of customs debt to be effectively paid NOTE:	Derived. equals CustomsDebt.givenAmount - CustomsDebt.adjustmentAmount -	 CustomsDebt.reliefAmount - CustomsDebt.suspensionAmount - CustomsDebt.transferAmount - CustomsDebt.waivedAmount where CustomsDebt.reliefAmount equals the sum of Declaration.ConsignmentShipment.GoodsItem.DutyTaxFee[*].reliefAmount CustomsDebt.suspensionAmount equals the sum of Declaration.ConsignmentShipment.GoodsItem.DutyTaxFee[*].suspensionAmount </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Coverage">
+    <xsd:annotation>
+      <xsd:documentation>Part of the customs debt the payment of which is to be covered.
+
+Note: the customs debt is currently made up of the following coverage amounts (types):
+1:   FCA = Full Coverage Amount -&gt; Level 4: to cover all amounts not covered at a lower level being the sum of the payable and the security part of the customs debt.
+
+2:   PP = Payment Part -&gt; Level 3: to cover the payment part inasmuch their constituent parts are not covered at a lower level (same as PA) The PP is the customs debt amount which is assumed to be effectively paid; equal to the sum of the Payable Vat Amount (PVA) and the Payable Non-Vat Amount (PNA)-&gt; same as PA
+
+3:   SP = Security Part -&gt; Level 3: to cover the security part inasmuch their constituent parts are not covered at a lower level. The SP is the amount to be taken as security to cover all amounts not (immediately) payable, being the sum of the DMS security (DS) and the Tariff security (TS) amounts
+
+4:   DS = DMS Security -&gt; level 2: to cover the DMS calculated security amounts inasmuch its parts are not covered at a lower level. DS is the sum of the secured relief or suspension amounts and secured provisional duties (SRA, SSA, PDS) determined by DMS. 
+
+5:    TS = Tariff Security -&gt; level 2: to cover the Tariff calculated security amount inasmuch its parts are not covered at a lower level. TS is the sum of the preferential tariff security (PTS) and additional duty security (ADS) determined by Tariff, to be provided by the declarant as security should (higher) duties related to critical quota, missing preferential documents or additional duty apply
+
+6:   ASA = Additional Security Amount -&gt; level 2/1: to cover the security amount entered by a customs official to be taken as security in case of a customs position release of goods (additional security) or 'clearance (additional security). ASA is the sum of security amounts of type 'additional security' on goods item level
+
+7:   PNA = Payable Non-Vat Amount -&gt; Level 1: Part of the customs debt amount, equal to the sum of the duties/fees/taxes on goods item level, not being VAT, that is to be effectively paid (that is: not transferred, suspended, relieved or waived).
+
+8:    PVA = Payable Vat Amount -&gt; Level 1: Part of the customs debt amount, being the sum of the Value Added Tax (VAT) amounts on goods item level, that is to be effectively paid (not being transferred to the VAT declaration of the consignee of the declared goods)
+
+9:    SRA = Secured Relief Amount -&gt; Level 1: Part of the customs debt that is being relieved (exempted) and needs to be secured, being the sum of the secured relief amount amounts on goods item level
+
+11:   SSA = Secured Suspension Amount -&gt; Level 1: Part of the customs debt that is being suspended (payment postponed until brought under another customs procedure) and secured, being the sum of the suspended amounts on goods item level. NOTE: no distinction is made between secured and non-secured suspension amounts yet
+
+13:   PDS = Provisional Duty Security -&gt; Level 1: Amount to be taken as security to cover the exta duties that would have to be paid for the declaration should a provisional anti-dumping or countervailing duty apply. NOTE: sum of the security amount of type 'provisional duty' on goods item level
+
+14:   ADS = Additional Duty Security -&gt; Level 1: Amount to be taken as security to cover the extra duties that would have to be paid for the declaration under certain conditions (e.g. in case of commodities like poultry and sugar or perishables) apply. NOTE: sum of the security amount of type 'additional duty' on goods item level (same as AS)
+
+16: PA = payable amount -&gt; Level 2: to cover the payable amount inasmuch their constituent parts are not covered at a lower level (same as PP)
+
+17: AS = Additional Security -&gt; level 2: to cover the security amount entered by a customs official to be taken as security (ASA) and any trader declared security amount (TDS)
+
+20: PEA = Payable Excise Amount -&gt; Level 1: Part of the customs debt amount, being the sum of the Excise amounts on goods item level, that is to be effectively paid
+
+21: TDS = Trader Declared Security -&gt; Level 1: Security as declared by the trader in UCC Annex B DE 4/6 and 4/8
+
+22: PTS = Preferential Tariff Security-&gt; Level 1: Amount to be taken as security to cover the extra duties that would have to be paid for the declaration should the non-preferential tariff apply. Reasons could be quota, whose status was critical, has been exhausted or a preferential document, indicated to be missing in an incomplete declaration, will not be provided.</xsd:documentation>
+      <xsd:documentation>Related objects: means(CoverageMeans) [0..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="deficit" type="tns_2:MonetaryAmount">
+        <xsd:annotation>
+          <xsd:documentation>The amount by which the balance of the involved coverage means is lacking to cover the involved amount NOTE: 0.0 in case of authorization based coverage means  </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="difference" type="tns_2:MonetaryAmount">
+        <xsd:annotation>
+          <xsd:documentation>Difference (in a coverage object determined for a final customs debt) with the coverage amount of the same amount type determined for the provisional custom debt NOTE: only filled in case of a coverage object associated with a CustomsDebt object with a preceding version (i.e. its version number = '2')</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="amount" type="tns_2:MonetaryAmount">
+        <xsd:annotation>
+          <xsd:documentation>The amount of the involved customs debt part  NOTE: derivation rule specified in Process Definition 'Handle Customs Debt' </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="amountType" type="tns_3:CoverageAmountType">
+        <xsd:annotation>
+          <xsd:documentation>The type of the coverage amount</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="dutyType" type="tns_3:DutyTaxFeeType">
+        <xsd:annotation>
+          <xsd:documentation>The duty/tax/fee type of the coverage amount</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

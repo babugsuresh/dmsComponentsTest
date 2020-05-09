@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="RiskAssessmentServiceSOAP" 
+                  targetNamespace="http://risk.core/RiskAssessmentServiceSOAP/2016/12/30/" 
+                  xmlns:bons1="http://risk.core.ecf/messages/2011/11/30/" 
+                  xmlns:bons2="http://risk.core.ecf/RiskAssessmentServiceSOAP/2011/11/30/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://risk.core/RiskAssessmentServiceSOAP/2016/12/30/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.5.3</version>
+  </wsdl:documentation>
+  
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://risk.core/RiskAssessmentServiceSOAP/2016/12/30/" xmlns:bons2="http://risk.core/RiskAssessmentServiceSOAP/2016/12/30/">
+      <xsd:import namespace="http://risk.core.ecf/messages/2011/11/30/" schemaLocation="messages_20111130/messages_20111130.xsd" />
+      <xsd:element name="initiateRiskAssessment">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="riskAssessmentRequest" nillable="true" type="bons1:RiskAssessmentRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cancelRiskAssessment">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="riskAssessmentCancellationRequest" nillable="true" type="bons1:RiskAssessmentCancellationRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="initiateRiskAssessmentRequest">
+    <wsdl:part element="tns:initiateRiskAssessment" name="initiateRiskAssessmentParameters" />
+  </wsdl:message>
+  <wsdl:message name="cancelRiskAssessmentRequest">
+    <wsdl:part element="tns:cancelRiskAssessment" name="cancelRiskAssessmentParameters" />
+  </wsdl:message>
+  
+  <wsdl:portType name="RiskAssessmentServiceSOAP">
+    <wsdl:operation name="initiateRiskAssessment">
+      <wsdl:input message="tns:initiateRiskAssessmentRequest" name="initiateRiskAssessmentRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="cancelRiskAssessment">
+      <wsdl:input message="tns:cancelRiskAssessmentRequest" name="cancelRiskAssessmentRequest" />
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="RiskAssessmentServiceSOAP" type="tns:RiskAssessmentServiceSOAP">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/" />
+    <wsdl:operation name="initiateRiskAssessment">
+      <wsdl:input name="initiateRiskAssessmentRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="cancelRiskAssessment">
+      <wsdl:input name="cancelRiskAssessmentRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="RiskAssessmentServiceSOAPOverJMS">
+    <wsdl:port binding="tns:RiskAssessmentServiceSOAP" name="RiskAssessmentServiceSOAP">
+      <soap:address location="jms:jndi:destinationName" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

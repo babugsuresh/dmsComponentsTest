@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/" version="2.4" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/">
+  <xsd:complexType name="CodeListElementField">
+    <xsd:annotation>
+      <xsd:documentation>Element of a code list. Abstract object describing the common features of reference data elements.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:token">
+        <xsd:attribute name="type" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>The identification of a list of codes.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="responsibleAgent" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>An agency that maintains one or more code lists.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlAgentType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a control agent (as an entry of a code list) Possible values defined and maintained by the client, e.g.: PhytoSanitary Service </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ServiceRequestStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of status of a service request: NOTE: possible values defined by eCF: 22: Cancelled 23: Suspended 24: Pending 25: Responded</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="TaskReasonType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the reason why a task was initiated. NOTE:   Defined and maintained by eCF: 1. payup deadline expired 2. trader does not want to apply quota for the additional quantity observed during control (this may no longer beneeded as DMS allows for splitting item) NOTE 2: To inform the user in the UI of a manual task about the reason why the task was initiated (i.e. in case of atask to manually take a customs position as a result of a quota quantity addition for which the trader does not want toapply quota-&gt; this can not be handled automatically so it requires a customs position to 'Settle Manually'.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="TaskActionType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of action taken in a task NOTE:	possible values defined and maintained by eCF: 1:	Extend deadline	 2:	Unable to provide coverage </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="TaskType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of task carried out in the context of customs management NOTE: defined and maintained by eCF  1. Automated  Control Task         category: ControlTasks  2. External Control Task            category: ControlTasks 3. Manual Control Task              category: ControlTasks 4. Pay-up Deadline Monitoring Task</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SpecialTaskType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of a special task NOTE: values defined and maintained by the client.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of control instruction NOTE: possible values defined/maintained by eCF 1:	document control 2:	physical control 3:	undetermined </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlTaskStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the status type of a control task: NOTE:		possible values defined/maintained by eCF: 1: Initiated (task created but not yet forwarded to control agent/no control request issued yet) 2: Started (task was started) -&gt; needed to evaluate decision point 'will control be performed -&gt; yes if not started, finished or stopped) 3: finished (all results have arrived) 4: Stopped (before being finished) e.g.: when the declaration is settled Manually outside DMS</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExtensionType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a code, maintainable by the DMS client, which can be used to encode information in an extension object linked to an extendable object. NOTE: values are to be provided by clients of the eCF/DMS in their capacity of code list responsible agent NOTE 2: 	possible values for NL Customs: 1:	nl.riskassessment.InBehBij 2: 	nl.riskassessment.In_Beh_monent 3:	nl.riskassessment.VrijgPartij-SLO 4:	nl.riskassessment.Vrijg_moment 5: 	nl.riskassessment.Uitv_moment 6:	nl.riskassessment.Terugmeld_moment 7:	nl.riskassessment.GebrDrempWrde 8:	removed 9:	nl.riskassessment.GebrPlafWrde 10:	nl.riskassessment.VrijgPartij-SRD	 11:	nl.riskassessment.VrijgMoment 12:	nl.riskassessment.Volgnr-RGS 13:	nl.riskassessment.Status-VBW 14:	nl.riskassessment.VaststPartij 15:	nl.riskassessment.VastStMoment 16: nl.riskassessment.Sltl_Ref 17: nl.riskassessment.Beschr2 18: nl.riskassessment.RglKenm1 </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DocumentType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of a document NOTE: for 'additional document' (SAD box 44) the types are 4 digit codes found in the Taric database (included in the category of AllowedAdditionalDocuments) for 'previous documents' (SAD box 40) the types are 3 digit codes as specified in CCIP  (included in the category of AllowedPreviouslDocuments)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DocumentExemptionType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a type of document exemption</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlMeansType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of a means (tool, equipment or other resource) of control NOTE: possible values maintained NL Customs 004	Tracker dog 005	Other 006	Scanner 008	Flash 009	Conclusion 010	Guard 011	Observation 012	Tracker Dog – Narcotics 013	Tracker Dog – Precursors 014	Tracker Dog – Tabaco 015	Tracker Dog – Explosives 016	Tracker Dog – Money NOTE 2: the NL list also contains values that can not be considered control means. The local adapter may have to take care of this.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="RiskAreaType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the area to which a risk belongs NOTE: 	possible values, maintained by NL Customs (code list:TAB N65) ACC	Excise goods CFK	CFC CM		Cadmium DIVE	Multiple risk area’s DR		Customs duties DV		Animalfood EVOA	Waste material FF		Flora and Fauna Act FYT	Plant health rules GE		ealth comsumables GM		Drugs KB		Quality	 provisions KW		Nuclear energy act LB		Agiriculture NM		Intellectual capital PREC	Drugs precursors PV		Product savety SG		Strategical goods SM		Sanction measures VET	Vetenairy rules VG		Tranport of dangerous goods VM		Narcotics VW		Fireworks WM	Weapons and munition </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CountryType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing information about a country represented by a country code NOTE: countries are code using the 2 digit ISO 3166-1 standard country name code list </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExitSealsStateType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the state of seals observed at the office of exit NOTE:	possible value defined and maintained by EU: 0: seals state is not OK 1: seals state is OK  </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="OverallControlResultType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of an overall control result NOTE: 	possible values defined and maintained by the EU: A1: Satisfactory (A1 is also used for cases with minor discrepancies), A2: Considered Satisfactory (No control performed), A3: Simplified procedure (Trader premises, value is provided by trader at submission), A4: Minor Discrepancies, B1: Not Satisfactory NOTE: A1, A2, A3 and B1  may be used by the office of export. A1, A2, A4, and  B1 may be used by the office of exit </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsOfficeCode">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a customs office code NOTE:	the codes are the customs office codes defined and maintained by the EU customs offices resorting under the customs agency, or those for which the customs agency wants to capture addtional data such as addresses, locations, organizational hierarchy, will also be stored in the party view</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExitMessageType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of an exit message NOTE: 	possible values as defined and maintained by eCF: 1:	Anticipated Exit Data Request (IE502) 2:	Exit Result Message (IE518) 3: 	Export Declaration Data Request (IE527) 4:	Export Cancellation Acknowledgment (IE901) 5: 	Functional Error Response (IE906) 6: 	Anticipated Exit Message (IE501) 7: 	Export Cancellation Message (IE510) 8: 	Exit Status Request (IE904) 9:	Exit Status Response (IE905) 10:	Anticipated Exit Data Response (IE503) 11:	Export Declaration Data Response (IE538) 12:	Exit Diversion Message (IE524) 13:	Exit Follow-up Request (IE584) 14:	Exit Follow-up Negative Response (IE586)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="TopicType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of a topic of a notification/publication NOTE:	possible values defined by eCF: 1:	Declaration validation 2:	Declaration goods release 3:	Declaration clearance 4:	Declaration invalidation 5:	Declaration rejected 6:	Declaration handled externally</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlResultAssessmentType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of control result assessment NOTE: 	possible values defined/maintained by eCF 1: No discrepancy 2: Minor discrepancy 4: Major discrepancy 5: Unable to determine NOTE: code '3' possible discrepancies (in case of laboratory test driving the manual determination of additional security) was removed (taking additional security is now initiated in case of a provisonal control result)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="IdentificationMeansType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of identification means used during control (Article 247 lid 3 CCIP)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlResultType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of a control result. NOTE: 	possible values maintainded by eCF       	01  Performed       	02	Not performed - goods no longer available       	03  Not performed - documents not presented in time       	04  Not performed - other reasons 05  No result expected (i.e. in case of external control)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="OppositionType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of opposition a declaration may have launched against a control result. NOTE: 	possible values defined and maintained by eCF 1: Agreed 2: Opposed 3: Not registered 4: No advise</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ObservationActionType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of action a user can take with regards to an observation. NOTE: 	possible value defined and maintained by eCF (country confiigurable) 1:	Use Original 2:	Use Observed 3:	Not Controlled </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

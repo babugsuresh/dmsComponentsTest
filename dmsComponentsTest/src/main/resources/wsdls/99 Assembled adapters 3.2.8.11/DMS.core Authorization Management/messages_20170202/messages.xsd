@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://party.core.ecf/messages/2017/02/02/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/party/2017/02/02/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/party/2017/02/02/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" xmlns:xsd_1="http://party.core.ecf/messages/2017/02/02/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" schemaLocation="../cmm_20170202/cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" schemaLocation="../cmm_20170202/cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/party/2017/02/02/" schemaLocation="../cmm_20170202/cmmPartyTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/party/2017/02/02/" schemaLocation="../cmm_20170202/cmmServiceTypes.xsd"/>
+  <xsd:complexType name="PartyAuthorizationsRequest">
+    <xsd:annotation>
+      <xsd:documentation>The request for party detail information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="partyIdentification" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>The identification of the party for which details are requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="referenceDate" type="tns_2:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>The reference date to use for the request</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="authorizationCategory" type="tns_3:AuthorizationCategoryType">
+            <xsd:annotation>
+              <xsd:documentation>The type category of the authorizations to request for a given party</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyRelationship">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:PartyRelationship">
+        <xsd:sequence>
+          <xsd:element name="otherParty" type="tns_1:Party">
+            <xsd:annotation>
+              <xsd:documentation>Party playing the role mentioned at the other hand side of the relationship</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsAgency">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:CustomsAgency">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="roles" type="tns_1:DeclaredPartyRole">
+            <xsd:annotation>
+              <xsd:documentation>The roles a party are declared it may play</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" name="identifications" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>IDs by which the party are identified in the DMS or external Party management system</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="bankAccounts" type="tns_1:BankAccount">
+            <xsd:annotation>
+              <xsd:documentation>The bank account number(s) belonging to the party</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="relationships" type="xsd_1:PartyRelationship">
+            <xsd:annotation>
+              <xsd:documentation>The relationship(s) -if any- this party may have with other parties</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contactMechanisms" type="tns_1:ContactMechanism">
+            <xsd:annotation>
+              <xsd:documentation>The mechanisms through which the party may be contacted Will be one of its sub types: PhysicalAddress, TelecomAddress, ElectronicAddress </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="addresses" type="tns_1:PhysicalAddress">
+            <xsd:annotation>
+              <xsd:documentation>The main address of the party.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EconomicOperator">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:EconomicOperator">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="roles" type="tns_1:DeclaredPartyRole">
+            <xsd:annotation>
+              <xsd:documentation>The roles a party are declared it may play</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" name="identifications" type="tns_1:PartyIdentification">
+            <xsd:annotation>
+              <xsd:documentation>IDs by which the party are identified in the DMS or external Party management system</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="bankAccounts" type="tns_1:BankAccount">
+            <xsd:annotation>
+              <xsd:documentation>The bank account number(s) belonging to the party</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="relationships" type="xsd_1:PartyRelationship">
+            <xsd:annotation>
+              <xsd:documentation>The relationship(s) -if any- this party may have with other parties</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="locations" type="tns_1:Location">
+            <xsd:annotation>
+              <xsd:documentation>The location(s) -if any- owned or used by the party. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="contactMechanisms" type="tns_1:ContactMechanism">
+            <xsd:annotation>
+              <xsd:documentation>The mechanisms through which the party may be contacted Will be one of its sub types: PhysicalAddress, TelecomAddress, ElectronicAddress </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="addresses" type="tns_1:PhysicalAddress">
+            <xsd:annotation>
+              <xsd:documentation>The main address of the party.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationCommodity">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="classifications" type="tns_1:AuthorizationGoodsClassification">
+        <xsd:annotation>
+          <xsd:documentation>The goods classifications identifying the commodity for which this authorization applies</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Authorization">
+    <xsd:complexContent>
+      <xsd:extension base="tns_1:Authorization">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="owner" type="xsd_1:EconomicOperator">
+            <xsd:annotation>
+              <xsd:documentation>The economic operator that owns the licence</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="issuer" type="xsd_1:CustomsAgency">
+            <xsd:annotation>
+              <xsd:documentation>The government agency that issued the licence</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="countryRoles" type="tns_1:AuthorizationCountryRole">
+            <xsd:annotation>
+              <xsd:documentation>The countries (possibly in a specific role) for which this authorization applies</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="commodities" type="xsd_1:AuthorizationCommodity">
+            <xsd:annotation>
+              <xsd:documentation>The commodities for which this authorization applies</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationResponse">
+    <xsd:annotation>
+      <xsd:documentation>The response to a request for authorizations.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="authorizations" type="xsd_1:Authorization"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyNotFoundFault">
+    <xsd:annotation>
+      <xsd:documentation>In the case that a party cannot be found.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="UnsupportedAuthorizationFault">
+    <xsd:annotation>
+      <xsd:documentation>In the case that an authorization category type is not supported</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationDetailRequest">
+    <xsd:annotation>
+      <xsd:documentation>The request for authorization details.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="referenceNumber" type="tns_2:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The identification of the authorization for which details are requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="referenceDate" type="tns_2:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>The reference date to use for the request</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="authorizationCategory" type="tns_3:AuthorizationCategoryType">
+            <xsd:annotation>
+              <xsd:documentation>The type category of the authorization to request details for</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationNotFoundFault">
+    <xsd:annotation>
+      <xsd:documentation>In the case that an authorization cannot be found.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationReservationRequest">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the request to reserve a monetary amount and/or quantity on an authorization for a license certificate declared for some goods item</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:AuthorizationReservationRequest">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="goodsClassifications" type="tns_1:AuthorizationGoodsClassification">
+            <xsd:annotation>
+              <xsd:documentation>The classifications of the goods for which the reservation is requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationReservationResponse">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the response to a request to reserve a monetary amount and/or quantity on an authorization for a license certificate declared for some goods item</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:AuthorizationReservationResponse"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ReservationNotAllowedFault">
+    <xsd:annotation>
+      <xsd:documentation>In the case that an authorization reservation is not allowed (e.g. because available amount/quantity is not sufficient, or authorization does not have an amount/quantity associated).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error">
+            <xsd:annotation>
+              <xsd:documentation>The error generated.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

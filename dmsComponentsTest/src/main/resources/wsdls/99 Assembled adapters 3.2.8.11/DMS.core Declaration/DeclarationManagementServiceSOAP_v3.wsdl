@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DeclarationServiceSOAP" 
+                  targetNamespace="http://declaration.core/DeclarationServiceSOAP/v3/" 
+                  xmlns:tns="http://declaration.core/DeclarationServiceSOAP/v3/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wco="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" 
+                  xmlns:gwh="http://ecf.dms.core/gatewayHeader/v1/">
+  <wsdl:documentation>
+    <version>3.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://declaration.core/DeclarationServiceSOAP/v3/">
+      <xsd:import namespace="http://ecf.dms.core/gatewayHeader/v1/" schemaLocation="xsd/gatewayHeader.xsd"/>
+      <xsd:import namespace="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" schemaLocation="xsd/DocumentMetaData_2_DMS.xsd"/>
+      <xsd:element name="submitDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="wco:MetaData" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="submitDeclarationMsg">
+    <wsdl:part element="gwh:dmsGatewayHeader" name="header"/>
+    <wsdl:part element="tns:submitDeclaration" name="parameters" />
+  </wsdl:message>
+  
+  <wsdl:portType name="DeclarationServiceSOAPJms">
+    <wsdl:operation name="submitDeclaration">
+      <wsdl:input message="tns:submitDeclarationMsg" name="wcoDeclarationMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="DeclarationServiceInboundBindingJms" type="tns:DeclarationServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="submitDeclaration">
+      <wsdl:input name="wcoDeclarationMessage">
+        <soap:header message="tns:submitDeclarationMsg" part="header" use="literal"/>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="DeclarationServiceSOAP">
+    <wsdl:port binding="tns:DeclarationServiceInboundBindingJms" name="DeclarationServiceInboundPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

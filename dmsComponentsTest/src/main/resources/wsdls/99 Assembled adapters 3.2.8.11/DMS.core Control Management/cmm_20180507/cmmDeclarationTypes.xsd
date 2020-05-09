@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/inspection/2018/05/07/" version="2.5" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/inspection/2018/05/07/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmValueTypes/inspection/2018/05/07/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/inspection/2018/05/07/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:complexType name="AdditionalDocument">
+    <xsd:annotation>
+      <xsd:documentation>Document accompanying, attached or related to a declaration. WCO ID:		- WCO NAME:	AdditionalDocument WCO DESC:	Supporting documents with declaration.</xsd:documentation>
+      <xsd:documentation>Related objects: presentationData(DocumentPresentationData) [0..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="amount" type="tns_1:MonetaryAmount">
+        <xsd:annotation>
+          <xsd:documentation>Amount to write-off -if any- UCC Annex B: 8/7 - Writing-off amount WCO: 503 - Writing-off amount</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="sequenceNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number uniquely identifying the additional document object at goods item level</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="quantity" type="tns_1:Quantity">
+        <xsd:annotation>
+          <xsd:documentation>Quantity to write-off -if any- UCC Annex B: 8/7 - Writing-off quantity WCO: 502 - Writing-off quantity</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="identifier" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The identification number of the referenced document. WCO ID:      D005 WCO NAME:   Additional document reference number WCO DESC:   Identifier of a document providing additional information. NOTE:          if the referenced document is a preceding document, the identification number is what is specified in the third element of box 40. Format: an..35</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" type="tns_2:DocumentType">
+        <xsd:annotation>
+          <xsd:documentation>The type of the additional document. UCC Annex B: 2/3 8/7 - Document category and type WCO ID:      D031 WCO NAME:   Additional document category, coded WCO DESC:      Code specifying the category of an additional document WCO ID:      D006 WCO NAME:   Additional document type, coded WCO DESC:      Code specifying the name of an additional document. NOTE 1:      In WCO, two fields are used to represent the type of additional documents. In the BOM, these fields are combined into one attribute. NOTE 2:       see document type codes for the possible values. Format: an..6</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="effectiveDate" type="tns_1:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The date of validity for the document UCC Annex B: 8/7 - Writing-off date of validity WCO: 276 - Document Effective Date</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="issuerName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The name of the issuing authority UCC Annex B: 8/7 - Writing-off issuing authority name WCO: 17B/R058 - Submitter/Submitter</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="exemption" type="tns_2:DocumentExemptionType">
+        <xsd:annotation>
+          <xsd:documentation>Type of exemption from a license, permit, certificate, or other document (LPCO) or indication that no LPCO is required
+
+WCO: 360 - LPCO Exemption Code</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="name" type="tns_1:Text">
+        <xsd:annotation>
+          <xsd:documentation>The free text name of the additional document
+
+WCO: D028 - Additional document name</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

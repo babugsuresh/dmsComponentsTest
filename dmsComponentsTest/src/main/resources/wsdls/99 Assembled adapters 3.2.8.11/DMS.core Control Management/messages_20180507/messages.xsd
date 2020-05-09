@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://inspection.core.ecf/messages/2018/05/07/" version="4.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/inspection/2018/05/07/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/inspection/2018/05/07/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/inspection/2018/05/07/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/" xmlns:xsd_1="http://inspection.core.ecf/messages/2018/05/07/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/" schemaLocation="../cmm_20180507/cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmDeclarationTypes/inspection/2018/05/07/" schemaLocation="../cmm_20180507/cmmDeclarationTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/inspection/2018/05/07/" schemaLocation="../cmm_20180507/cmmEnhancementTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/inspection/2018/05/07/" schemaLocation="../cmm_20180507/cmmServiceTypes.xsd"/>
+  <xsd:complexType name="ControlObject">
+    <xsd:sequence>
+      <xsd:any namespace="##any" processContents="lax">
+        <xsd:annotation>
+          <xsd:documentation>The message to perform inspection for, e.g. an import/export declaration</xsd:documentation>
+        </xsd:annotation>
+      </xsd:any>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ManuallyRaisedControlInstruction">
+    <xsd:annotation>
+      <xsd:documentation>Control instruction raised by a customs official</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ManuallyRaisedControlInstruction">
+        <xsd:sequence>
+          <xsd:element name="source" type="tns_1:User">
+            <xsd:annotation>
+              <xsd:documentation>The user (person of system, e.g. risk assessment service or customs official) that created the control instruction.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="additionalDocument" type="tns_2:AdditionalDocument">
+            <xsd:annotation>
+              <xsd:documentation>The additional document (if any) whose control is manually instructed.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlMeans" type="tns:ControlMeans">
+            <xsd:annotation>
+              <xsd:documentation>The means (one ore more) by which control is to be performed</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AutomaticallyRaisedControlInstruction">
+    <xsd:annotation>
+      <xsd:documentation>The automatically generated control instructions. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:AutomaticallyRaisedControlInstruction">
+        <xsd:sequence>
+          <xsd:element name="source" type="tns_1:User">
+            <xsd:annotation>
+              <xsd:documentation>The user / system that created the control instruction.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="additionalDocument" type="tns_2:AdditionalDocument">
+            <xsd:annotation>
+              <xsd:documentation>The additional document (if any) whose control is manually instructed.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlMeans" type="tns:ControlMeans">
+            <xsd:annotation>
+              <xsd:documentation>The means (one ore more) by which control is to be performed</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" name="identifiedRisks" type="tns:Risk">
+            <xsd:annotation>
+              <xsd:documentation>The identified risk (zero or more) which has triggered the control instruction </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlRequest">
+    <xsd:annotation>
+      <xsd:documentation>The request to initiate a control. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="controlTask" type="tns:ControlTask">
+            <xsd:annotation>
+              <xsd:documentation>The Control Task that contains the risk assessmenet results that were generated by the risk assessment service.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" name="controlInstructions" type="tns:ControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>Authoritative directions furnished by the person (in case of additional control) or system (in case of a risk assessment result) with respect to the control to be performed.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="controlAgent" type="tns_3:ControlAgentType">
+            <xsd:annotation>
+              <xsd:documentation>Party performing control</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="object" type="xsd_1:ControlObject">
+            <xsd:annotation>
+              <xsd:documentation>Wrapper around the object of inspection</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlCancellationRequest">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="requestId" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlResult">
+    <xsd:annotation>
+      <xsd:documentation>The result of the governmental control or inspection, either administrative or physical The control result is reflected in the custums position NOTE1:   A control result pertains to one or more data elements (indicated by a pointer) NOTE2:   the name is chosen to refer to the WCO name Control used or the inspection</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ControlResult">
+        <xsd:sequence>
+          <xsd:element name="actor" type="tns_1:User">
+            <xsd:annotation>
+              <xsd:documentation>The user (person or system) preformed the control or provided information about the control result</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="observations" type="tns:Observation">
+            <xsd:annotation>
+              <xsd:documentation>The observation(s)  made during control made with respect to the report back elements</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="manuallyRaisedControlInstructions" type="xsd_1:ManuallyRaisedControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>The control instructions (if any), that were manually raised when performing the control</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ControlResponse">
+    <xsd:annotation>
+      <xsd:documentation>Message that returns control results.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="controlResults" type="xsd_1:ControlResult">
+            <xsd:annotation>
+              <xsd:documentation>The control results included in this control response.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/revenue/2017/02/02/" version="2.8" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/revenue/2017/02/02/">
+  <xsd:complexType name="CodeListElementField">
+    <xsd:annotation>
+      <xsd:documentation>Element of a code list. Abstract object describing the common features of reference data elements.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:token">
+        <xsd:attribute name="type" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>The identification of a list of codes.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="responsibleAgent" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>An agency that maintains one or more code lists.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyIdentificationType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of identification of a party NOTE:       Examples of possible values defined and supported byeCF    1.  Eori Number: Economic Operator Registration and Identification number (see furtherbelow) 2.  VAT number: Value Added tax number (NL: BTW nummer) 3.  DUNS number: Dun Bradstreet Number, being a unique nine-digit sequence for identifyingbusinesses. 4.  EAN number: European Article Number party ID number 5.  Fiscal number     6.  SSN: Social Security Number used to identify natural persons in a government context  (NL: BNS: BurgerService Nummer) 7.  User defined: Number identifying a party defined by the user that uses the party identification  8.  EU customs office ID: Number identifying a EU customs office  9.  Country specific customs office ID: Number Identifying a Customs Office in a specific country NOTE. EORI numbers will start with the ISO country code and will usually be followed by a 12 digit number based on theEO’s VAT number, eg GB 123 4567 89 000. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CoverageAmountType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the part of a customs debt which an obligation guarantee is meant to cover
+
+NOTE:   possible values (defined and maintained by eCF):
+
+1:   FCA = Full Coverage Amount -&gt; Level 4: to cover all amounts not covered at a lower level being the sum of the payable and the security part of the customs debt.
+
+2:   PP = Payment Part -&gt; Level 3: to cover the payment part inasmuch their constituent parts are not covered at a lower level (same as PA) The PP is the customs debt amount which is assumed to be effectively paid; equal to the sum of the Payable Vat Amount (PVA) and the Payable Non-Vat Amount (PNA)-&gt; same as PA
+
+3:   SP = Security Part -&gt; Level 3: to cover the security part inasmuch their constituent parts are not covered at a lower level. The SP is the amount to be taken as security to cover all amounts not (immediately) payable, being the sum of the DMS security (DS) and the Tariff security (TS) amounts
+
+4:   DS = DMS Security -&gt; level 2: to cover the DMS calculated security amounts inasmuch its parts are not covered at a lower level. DS is the sum of the secured relief or suspension amounts and secured provisional duties (SRA, SSA, PDS) determined by DMS. 
+
+5:    TS = Tariff Security -&gt; level 2: to cover the Tariff calculated security amount inasmuch its parts are not covered at a lower level. TS is the sum of the preferential tariff security (PTS) and additional duty security (ADS) determined by Tariff, to be provided by the declarant as security should (higher) duties related to critical quota, missing preferential documents or additional duty apply
+
+6:   ASA = Additional Security Amount -&gt; level 2/1: to cover the security amount entered by a customs official to be taken as security in case of a customs position release of goods (additional security) or 'clearance (additional security). ASA is the sum of security amounts of type 'additional security' on goods item level
+
+7:   PNA = Payable Non-Vat Amount -&gt; Level 1: Part of the customs debt amount, equal to the sum of the duties/fees/taxes on goods item level, not being VAT, that is to be effectively paid (that is: not transferred, suspended, relieved or waived).
+
+8:    PVA = Payable Vat Amount -&gt; Level 1: Part of the customs debt amount, being the sum of the Value Added Tax (VAT) amounts on goods item level, that is to be effectively paid (not being transferred to the VAT declaration of the consignee of the declared goods)
+
+9:    SRA = Secured Relief Amount -&gt; Level 1: Part of the customs debt that is being relieved (exempted) and needs to be secured, being the sum of the secured relief amount amounts on goods item level
+
+11:   SSA = Secured Suspension Amount -&gt; Level 1: Part of the customs debt that is being suspended (payment postponed until brought under another customs procedure) and secured, being the sum of the suspended amounts on goods item level. NOTE: no distinction is made between secured and non-secured suspension amounts yet
+
+13:   PDS = Provisional Duty Security -&gt; Level 1: Amount to be taken as security to cover the exta duties that would have to be paid for the declaration should a provisional anti-dumping or countervailing duty apply. NOTE: sum of the security amount of type 'provisional duty' on goods item level
+
+14:   ADS = Additional Duty Security -&gt; Level 1: Amount to be taken as security to cover the extra duties that would have to be paid for the declaration under certain conditions (e.g. in case of commodities like poultry and sugar or perishables) apply. NOTE: sum of the security amount of type 'additional duty' on goods item level (same as AS)
+
+16: PA = payable amount -&gt; Level 2: to cover the payable amount inasmuch their constituent parts are not covered at a lower level (same as PP)
+
+17: AS = Additional Security -&gt; level 2: to cover the security amount entered by a customs official to be taken as security (ASA) and any trader declared security amount (TDS)
+
+20: PEA = Payable Excise Amount -&gt; Level 1: Part of the customs debt amount, being the sum of the Excise amounts on goods item level, that is to be effectively paid
+
+21: TDS = Trader Declared Security -&gt; Level 1: Security as declared by the trader in UCC Annex B DE 4/6 and 4/8
+
+22: PTS = Preferential Tariff Security-&gt; Level 1: Amount to be taken as security to cover the extra duties that would have to be paid for the declaration should the non-preferential tariff apply. Reasons could be quota, whose status was critical, has been exhausted or a preferential document, indicated to be missing in an incomplete declaration, will not be provided.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ServiceRequestStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of status of a service request: NOTE: possible values defined by eCF: 22: Cancelled 23: Suspended 24: Pending 25: Responded</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExtensionType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a code, maintainable by the DMS client, which can be used to encode information in an extension object linked to an extendable object. NOTE: values are to be provided by clients of the eCF/DMS in their capacity of code list responsible agent NOTE 2: 	possible values for NL Customs: 1:	nl.riskassessment.InBehBij 2: 	nl.riskassessment.In_Beh_monent 3:	nl.riskassessment.VrijgPartij-SLO 4:	nl.riskassessment.Vrijg_moment 5: 	nl.riskassessment.Uitv_moment 6:	nl.riskassessment.Terugmeld_moment 7:	nl.riskassessment.GebrDrempWrde 8:	removed 9:	nl.riskassessment.GebrPlafWrde 10:	nl.riskassessment.VrijgPartij-SRD	 11:	nl.riskassessment.VrijgMoment 12:	nl.riskassessment.Volgnr-RGS 13:	nl.riskassessment.Status-VBW 14:	nl.riskassessment.VaststPartij 15:	nl.riskassessment.VastStMoment 16: nl.riskassessment.Sltl_Ref 17: nl.riskassessment.Beschr2 18: nl.riskassessment.RglKenm1 </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AccountingEntryType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of an accounting entry NOTE:	possible value defined and maintained by eCF: 1: deposit (money paid up to the account) =&gt; crediting the account 2: reservation (money reserved from the account  =&gt; debiting the account  3: release (reserved money to be made available to the account again) =&gt; crediting the account 4: payment (money paid from the account =&gt; debiting the account 5: account receivable booking (=&gt; crediting the account) </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SecurityAmountType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of a Security amount
+
+NOTE :      possible values defined and maintained by the client.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="TopicType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of a topic of a notification/publication NOTE:	possible values defined by eCF: 1:	Declaration validation 2:	Declaration goods release 3:	Declaration clearance 4:	Declaration invalidation 5:	Declaration rejected 6:	Declaration handled externally</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="GovernmentProcedureType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of government/customs procedure. NOTE: possible (2-digit) values defined for EU countries in CCIP Annex 38 A: Export/Dispatch 10, 11, 23 B: Customs warehousing of prefinanced goods for export 76, 77 C: Re-export after a customs procedure with economic impact other than the customs warehousing procedure (inward processing, temporary importation, processing under customs control) 31 D: Re-export after customs warehousing 31 E: Outward processing 21, 22 F: Transit G: Community status of goods H: Release for free circulation 01, 02, 07, 40 41, 42, 43, 45, 48, 49, 61, 63, 68 I: Placing under a customs procedure with economic impact other than the outward processing and customs warehousing procedures (inward processing (suspension system), temporary importation, processing under customs control) 51, 53, 54, 91, 92 J: Placing in type A, B, C, E and F customs warehouses 71, 78 K: Placing in a type D customs warehouse 71, 78 Supported procedures as per annex 38 CCIP: 00 This code is used to indicate that there is no previous procedure (a) 01 	Free circulation of goods simultaneously redispatched in the context of trade between parts of the customs territory of the Community in which the provisions of Directive 77/388/EEC are applicable and parts of that territory in which these provisions do not apply, or in the context of trade between the parts of that territory where these provisions do not apply. 02 	Free circulation of goods with a view to applying the inward processing procedure (drawback system). 07 	Free circulation with simultaneous placing of goods under a warehousing procedure other than a customs warehousing procedure. 10 	Permanent export. 11 	Export of compensating products obtained from equivalent goods under the inward processing procedure (suspension system) before entering import goods for the procedure. 21 	Temporary export under the outward processing procedure. 22 	Temporary export other than that referred to under code 21. 23 	Temporary export for return in the unaltered state. 31 	Re-export. 40 	Simultaneous release for free circulation and home use of goods which are not the subject of a VAT-exempt supply. 41 	Simultaneous release for free circulation and home use of goods placed under the inward processing procedure (drawback system). 42 	Simultaneous release for free circulation and home use of goods which are the subject of a VAT-exempt supply to another Member State. 43 	Simultaneous release for free circulation and home use of goods subject to specific measures connected with the collection of an amount during the transitional period following the accession of new Member States. 45 	Release of goods for free circulation and home use for either VAT or excise duties and their placing under the tax warehouse procedure. Explanation: VAT or excise exemption by placing the goods under a fiscal warehouse procedure. 48 	Entry for home use with simultaneous release for free circulation of replacement goods under the customs outward processing procedure prior to the export of the temporary export goods. 49 	Entry for home use of Community goods in the context of trade between parts of the customs territory of the Community in which the provisions of Directive 77/388/EEC are applicable and parts of that territory in which those provisions do not apply, or in the context of trade between the parts of that territory where these provisions do not apply. Entry for home use of goods in the context of trade between the Community and the countries with which it has formed a customs union. 51 	Inward processing procedure (suspension system). 53 	Import under temporary import procedure. 54 	Inward processing (suspension system) in another Member State (without their being released for free circulation in that Member State) 61 	Re-importation with simultaneous release for free circulation and home use of goods which are not the subject of a VAT-exempt supply. 63 	Re-importation with simultaneous release for free circulation and home use of goods which are the subject of a VAT-exempt supply to another Member State. 68 	Re-importation with partial entry for home use and simultaneous entry for free circulation and placing of goods under a warehousing procedure other than a customs warehousing procedure. 71 	Placing of goods under the customs warehousing procedure. 76 	Placing under the customs warehousing procedure or in a free zone with advance payment of export refunds of products or goods intended for export without further processing. 77 	Placing in an export warehouse, free zone or free warehouse with advance payment of export refunds of processed products or goods intended for export after processing. 78 	Entry of goods for a free zone subject to type II controls. 91 	Placing of goods under processing under customs control. 1993R2454— EN— 01.01.2008 — 011.002—572 92 	Processing under customs control in another Member State (without release for free circulation in that Member State).(a) Explanation: This code is used to record the operation for the purposes of statistics on intra-Community trade. Example: Goods from a third country are processed under customs control in Belgium (9100). After undergoing processing, they are dispatched to Germany for release for free circulation (4092) or further processing (9192).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CoverageModeType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing a coverage/payment mode NOTE: 	possible values defined/maintained by eCF 1: Immediate/cash 2: Postponed/guarantee</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SpecialProcedureType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the special procedure further detailing a government procedure NOTE:   values defined/maintained by country or customs union, here the EU: A01:	Goods entered for an IP procedure (suspension system) after prior export of compensating products obtained from milk and milk products A02:	Goods placed under an IP procedure (suspension system) and intended for military use abroad A03:	Goods placed under an IP procedure (suspension system) and intended for re-export to the continental shelf A04:	Goods placed under an IP procedure (suspension system) (VAT only) A05:	Goods placed under an IP procedure (suspension system) (VAT only) and intended for re-export to the continental shelf A06:	Goods placed under an IP procedure (drawback system) and intended for military use abroad A07:	Goods placed under an IP procedure (drawback system) and intended for re-export to the continental shelf A08:	Goods which are placed under an IP procedure (suspension system) without suspension of excise duties. A51:	Compensating products obtained from milk and milk products A52:	Compensating products placed under an IP procedure (suspension system) (VAT only) A53:	Compensating products placed under an IP procedure and intended for military use abroad B01:	Compensating products returning to the Member State in which duties were paid B02:	Compensating products returning after repair under guarantee B03:	Compensating products returning after replacement under guarantee B04:	Compensating products returning after outward processing and VAT suspension in case of end-use. B05:	Compensating products returning with partial relief of customs duties when the cost of the processing operation is used for calculation (article 591) B51:	Goods imported for IP exported for repair under OP B52:	Goods imported for IP exported for replacement under guarantee B53:	OP under agreements with third countries, possibly combined with VAT OP B54:	VAT OP only C01:	Personal property belonging to natural persons transferring their normal place of residence to the Community  C02: 	Goods imported on the occasion of a marriage (trousseaux and household effects) C03:	Goods imported on the occasion of a marriage (presents customarily given on the occasion of a marriage) C04:	Personal property acquired by inheritance  C05:	Household effects for furnishing a secondary residence  C06:	School outfits, scholastic materials and other scholastic household effects  C07:	Consignments of negligible value  C08:	Consignments sent from one private individual to another C09:	Capital goods and other equipment imported on the transfer of activities from a third country into the Community C10:	Capital goods and other equipment belonging to persons engaged in a liberal profession and to legal persons engaged in a non-profit making activity etc.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CoverageMeansStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the status of a coverage means
+
+NOTE:    possible values defined by eCF:
+      1: Active
+      2: Suspended
+      3: Revoked</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CoverageMeansType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of coverage means (guarantee). NOTE:      Possible values maintained by eCF:          1:   Permanent authorization      Continuous         Non-transaction based;                2:   Credit account               Continuous         Transaction based;                   3:   Cash (deposit)               Incidental            Transaction based; NOTE:       possible values (provided by Tony Crewdson 04-08-09 10:21) Code 0: Guarantee waiver Code 1: Comprehensive guarantee Code 2: Individual guarantee (by Guarantor) Code 3: Cash deposit guarantee (by Principal) Code 4: Individual guarantee in the form of vouchers Code 5: For guarantee waiver where the secured amount does not exceed 500 EURO Code 6: Guarantee not required  Code 7: Guarantee not required for the journey between Office of Departure and Office of Transit (EFTA only) Code 8: Guarantee not required for certain public bodies (EC code only) Code 9: Individual guarantee with multiple use Code A: For guarantee waiver by agreement (EFTA code only) Code B: movements carried under the TIR Convention</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CountryType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing information about a country represented by a country code NOTE: countries are code using the 2 digit ISO 3166-1 standard country name code list </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AddressType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of a physical address NOTE:	possible values defined and maintained by UNTDED 3131: 1 	Postal address - The address is representing a postal address. 2	Fiscal address - Identification of an address as required by fiscal administrations. 3 	Physical address - The address represents an actual physical location. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AeoStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the authorization level of economic operator. NOTE: possible values defined and maintained by eCF 0: EU code - =	no AEO status 1: EU code 'AEOC'= Customs Simplifications (AEO status allowing customs simplifications) 2: EU code 'AEOS' = Security and Safety (AEO status with respect to security and safety) 3: EU code 'AEOF' = Customs Simplifications/Security and Safety</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="LegalStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of legal status (of a economic operator) NOTE:		possible values maintained and defined by the client, e.g: - Regular - Suspension of payment (filed for bankruptcy) - Bankrupt</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="IsicCode">
+    <xsd:annotation>
+      <xsd:documentation>International Standard Industrial Classification (ISIC) code issued by the United Nations NOTE: The following codes apply: Agriculture, forestry and fishing * 01 - Crop and animal production, hunting and related service activities * 02 - Forestry and logging * 03 - Fishing and aquaculture B - Mining and quarrying * 05 - Mining of coal and lignite * 06 - Extraction of crude petroleum and natural gas * 07 - Mining of metal ores * 08 - Other mining and quarrying * 09 - Mining support service activities C - Manufacturing * 10 - Manufacture of food products * 11 - Manufacture of beverages * 12 - Manufacture of tobacco products * 13 - Manufacture of textiles * 14 - Manufacture of wearing apparel * 15 - Manufacture of leather and related products * 16 - Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials * 17 - Manufacture of paper and paper products * 18 - Printing and reproduction of recorded media * 19 - Manufacture of coke and refined petroleum products * 20 - Manufacture of chemicals and chemical products * 21 - Manufacture of basic pharmaceutical products and pharmaceutical preparations * 22 - Manufacture of rubber and plastics products * 23 - Manufacture of other non-metallic mineral products * 24 - Manufacture of basic metals * 25 - Manufacture of fabricated metal products, except machinery and equipment * 26 - Manufacture of computer, electronic and optical products * 27 - Manufacture of electrical equipment * 28 - Manufacture of machinery and equipment n.e.c. * 29 - Manufacture of motor vehicles, trailers and semi-trailers * 30 - Manufacture of other transport equipment * 31 - Manufacture of furniture * 32 - Other manufacturing * 33 - Repair and installation of machinery and equipment D - Electricity, gas, steam and air conditioning supply * 35 - Electricity, gas, steam and air conditioning supply E - Water supply; sewerage, waste management and remediation activities * 36 - Water collection, treatment and supply * 37 - Sewerage * 38 - Waste collection, treatment and disposal activities; materials recovery * 39 - Remediation activities and other waste management services F - Construction * 41 - Construction of buildings * 42 - Civil engineering * 43 - Specialized construction activities G - Wholesale and retail trade; repair of motor vehicles and motorcycles * 45 - Wholesale and retail trade and repair of motor vehicles and motorcycles * 46 - Wholesale trade, except of motor vehicles and motorcycles * 47 - Retail trade, except of motor vehicles and motorcycles H - Transportation and storage * 49 - Land transport and transport via pipelines * 50 - Water transport * 51 - Air transport * 52 - Warehousing and support activities for transportation * 53 - Postal and courier activities I - Accommodation and food service activities * 55 - Accommodation * 56 - Food and beverage service activities J - Information and communication * 58 - Publishing activities * 59 - Motion picture, video and television programme production, sound recording and music publishing activities * 60 - Programming and broadcasting activities * 61 - Telecommunications * 62 - Computer programming, consultancy and related activities * 63 - Information service activities K - Financial and insurance activities * 64 - Financial service activities, except insurance and pension funding * 65 - Insurance, reinsurance and pension funding, except compulsory social security * 66 - Activities auxiliary to financial service and insurance activities L - Real estate activities * 68 - Real estate activities M - Professional, scientific and technical activities * 69 - Legal and accounting activities * 70 - Activities of head offices; management consultancy activities * 71 - Architectural and engineering activities; technical testing and analysis * 72 - Scientific research and development * 73 - Advertising and market research * 74 - Other professional, scientific and technical activities * 75 - Veterinary activities N - Administrative and support service activities * 77 - Rental and leasing activities * 78 - Employment activities * 79 - Travel agency, tour operator, reservation service and related activities * 80 - Security and investigation activities * 81 - Services to buildings and landscape activities * 82 - Office administrative, office support and other business support activities O - Public administration and defence; compulsory social security * 84 - Public administration and defence; compulsory social security P - Education * 85 - Education Q - Human health and social work activities * 86 - Human health activities * 87 - Residential care activities * 88 - Social work activities without accommodation R - Arts, entertainment and recreation * 90 - Creative, arts and entertainment activities * 91 - Libraries, archives, museums and other cultural activities * 92 - Gambling and betting activities * 93 - Sports activities and amusement and recreation activities S - Other service activities * 94 - Activities of membership organizations * 95 - Repair of computers and personal and household goods * 96 - Other personal service activities T - Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use * 97 - Activities of households as employers of domestic personnel * 98 - Undifferentiated goods- and services-producing activities of private households for own use U - Activities of extraterritorial organizations and bodies * 99 - Activities of extraterritorial organizations and bodies</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ContactMechanismType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of contact mechanism NOTE 1: UNTDID code list 3153 Communication medium type NOTE 2: the UNTDID code list 3153 does not contain a value indicating a physical contact address. For this we may need to define an eCF value e.g.: 'ZZ' NOTE 3:  UNTDID code list 3153 Values: AA    Circuit switching A process that, on demand, connects two or more data terminal equipments and permits the exclusive use of a data circuit between them until the connection is released (ISO). AB    SITA Communications number assigned by Societe Internationale de Telecommunications Aeronautiques (SITA). AC    ARINC Communications number assigned by Aeronautical Radio Inc. AD    Courier A communication channel identifying a courier. AE    Express post Express (e.g. overnight) postal service document delivery. CA    Cable address The cable is used as communication medium. EI    EDI transmission Number identifying the service and service user. EM    Electronic mail Exchange of mail by electronic means. EX    Extension Telephone extension. FT    File transfer access method According to ISO. FX    Telefax Device used for transmitting and reproducing fixed graphic material (as printing) by means of signals over telephone lines or other electronic transmission media. GM    GEIS (General Electric Information Service) mailbox GEIS mailbox system is used as communication medium. IE    IBM information exchange IBM IE is used as communication medium. IM    Internal mail Internal mail address/number. MA    Mail Postal service document delivery. PB    Postbox no. Postbox system is used as communication medium. PS    Packet switching The process of routing and transferring data by means of addressed packets so that a channel is occupied only during the transmission; upon completion of the transmission the channel is made available for the transfer of other packets (ISO). SW    S.W.I.F.T. Communications address assigned by Society for Worldwide Interbank Financial Telecommunications s.c. TE    Telephone Voice/data transmission by telephone. TG    Telegraph Text transmission via telegraph. TL    Telex Transmission of text/data via telex. TM    Telemail Transmission of text/data via telemail. TT    Teletext Transmission of text/data via teletext. TX    TWX Communication service involving Teletypewriter machines connected by wire or electronic transmission media. Teletypewriter machines are the devices used to send and receive signals and produce hardcopy from them. XF    X.400 CCITT Message handling system. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ContactMechanismPurposeType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the purpose for which a contact mechanism is used. NOTE: eCF maintained code list 1: 'General'</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationCategoryType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the authorization type category. NOTE: possible values to be defined by the eCF client NOTE: may contain: 1. Import or export license 2. Warehousing 3. Procedure combination</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a type of authorization (license). NOTE: possible values to be defined by the eCF client NOTE: may contain: 1:	warehouse authorization type,  2:   customs procedures authorization 3:   authorizations for special procedures,  4:   authorizations for submitting declaration types</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SignalType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a signal (like an error, warning or information) Note: defined and maintained by eCF</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SignalQualifier">
+    <xsd:annotation>
+      <xsd:documentation>Object representing signal qualifier NOTE: 	possible values defined and maintained by eCF 1:	Information 2: 	Warning 3: 	Error</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DeclarationType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of a declaration as specified in the second sub box of SAD box 1 NOTE: Possible instances for declaration to bring goods under a customs procedure as defined/maintained by CCIP A for a normal declaration (normal procedure under Article 62 of the Code) B for an incomplete declaration (simplified procedure under Article 76(1)(a) of the Code) C for a simplified declaration (simplified procedure under Article 76(1)(b) of the Code) D For lodging a normal declaration (such as referred to under code A) before the declarant is in a position to present the goods. E For lodging an incomplete declaration (such as referred to under code B) before the declarant is in a position to present the goods. F For lodging a simplified declaration (such as referred to under code C) before the declarant is in a position to present the goods. X for a supplementary declaration under a simplified procedure covered by B Y for a supplementary declaration under a simplified procedure covered by C Z for a supplementary declaration under a simplified procedure under Article 76(1)(c) of the Code (entry of the goods in the records) Codes D, E and F can only be used in the framework of the procedure provided for in Article 201(2) where customs authorities authorise the lodging of a declaration before the declarant is in a position to present the goods NOTE: for summary declarations, the codes still need to be defined.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DutyTaxFeeType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of a Duty, a Tax or a Fee NOTE:   possible values defined in CCIP and maintained by Arctic Tariff: Customs duties on industrial products            A00 Customs duties on agricultural products          A10 Additional duties                            A20 Definitive antidumping duties                   A30 Provisional antidumping duties                A35 Definitive countervailing duties                A40 Provisional countervailing duties                A45 VAT                                     B00 Compensatory interest (VAT)                  B10 Interest on arrears (VAT)                      B20 Export taxes                               C00 Export taxes on agricultural products          C10 Interest on arrears                         D00 Compensatory interest (I.e. Inward processing)   D10 Duties collected on behalf of other countries      E00</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

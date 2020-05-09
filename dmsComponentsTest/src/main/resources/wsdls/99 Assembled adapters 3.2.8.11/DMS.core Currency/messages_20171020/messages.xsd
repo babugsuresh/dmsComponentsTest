@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://referencedata.core.ecf/messages/2017/10/20/" version="3.0.5" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/referenceData/2017/10/20/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/referenceData/2017/10/20/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/referenceData/2017/10/20/" xmlns:xsd_1="http://referencedata.core.ecf/messages/2017/10/20/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/referenceData/2017/10/20/" schemaLocation="../cmm_20171020/cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/referenceData/2017/10/20/" schemaLocation="../cmm_20171020/cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/referenceData/2017/10/20/" schemaLocation="../cmm_20171020/cmmServiceTypes.xsd"/>
+  <xsd:complexType name="ExchangeRateRequest">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="baseCurrency" type="tns_1:CurrencyType">
+            <xsd:annotation>
+              <xsd:documentation>The currency in which to express the requested exchange rate</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="currency" type="tns_1:CurrencyType">
+            <xsd:annotation>
+              <xsd:documentation>The currency to request the exchange rate for</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="rateType" type="tns_1:ExchangeRateType">
+            <xsd:annotation>
+              <xsd:documentation>The type of exchange rate</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="referenceDate" type="tns_2:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>The reference date to request the exchange rate for</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExchangeRateResponse">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="exchangeRate" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The requested exchange rate that is valid on the requested date, expressed in the requested base currency </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="UnknownCurrencyFault">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="UnknownExchangeRateFault">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

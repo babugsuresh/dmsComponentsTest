@@ -1,0 +1,15 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <_30:requestPartyDetails xmlns:_30="http://party.core/PartyManagementServiceSOAP/2016/12/30/" xmlns:_30_1="http://serviceobjects.cmm.core.ecf/2012/04/30/" xmlns:_30_2="http://party.core.ecf/messages/2012/04/30/" xmlns:_30_3="http://partyobjects.cmm.core.ecf/2012/04/30/">
+         <partyRequest>
+            <_30_1:id>6a19cb2534264ee094d4ad6c2262a53f</_30_1:id>
+            <_30_1:sequenceNumber>1</_30_1:sequenceNumber>
+            <_30_2:partyIdentification>
+               <_30_3:type>1</_30_3:type>
+               <_30_3:number>GB603202734852</_30_3:number>
+            </_30_2:partyIdentification>
+            <_30_2:referenceDate>2020-02-07T09:25:58.000Z</_30_2:referenceDate>
+         </partyRequest>
+      </_30:requestPartyDetails>
+   </soapenv:Body>
+</soapenv:Envelope>

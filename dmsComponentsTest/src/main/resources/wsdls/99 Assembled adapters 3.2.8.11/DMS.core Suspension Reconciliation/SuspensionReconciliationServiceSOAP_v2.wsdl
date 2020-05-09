@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="SuspensionReconciliationServiceSOAP" 
+                  targetNamespace="http://trade.core.ecf/SuspensionReconciliationServiceSOAP/v2/" 
+                  xmlns:tns="http://trade.core.ecf/SuspensionReconciliationServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://trade.core.ecf/SuspensionReconciliationServiceSOAP/v2/" xmlns:xsd_1="http://trade.core.ecf/messages/2017/03/31/">
+      <xsd:import namespace="http://trade.core.ecf/messages/2017/03/31/" schemaLocation="messages_20170331/messages.xsd"/>
+      <xsd:element name="notifyDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="suspensionReconciliationRequest" type="xsd_1:SuspensionReconciliationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="notifyDeclarationRequest">
+    <wsdl:part element="tns:notifyDeclaration" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="SuspensionReconciliationServiceSOAPJms">
+    <wsdl:operation name="notifyDeclaration">
+      <wsdl:input message="tns:notifyDeclarationRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="SuspensionReconciliationBindingJms" type="tns:SuspensionReconciliationServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="notifyDeclaration">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="SuspensionReconciliationServiceSOAP">
+    <wsdl:port binding="tns:SuspensionReconciliationBindingJms" name="SuspensionReconciliationPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+  
+  
+</wsdl:definitions>

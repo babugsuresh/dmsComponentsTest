@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/tariff/2017/01/26/" version="2.6" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/tariff/2017/01/26/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/tariff/2017/01/26/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/tariff/2017/01/26/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/tariff/2017/01/26/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/tariff/2017/01/26/" schemaLocation="cmmEnhancementTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/tariff/2017/01/26/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/tariff/2017/01/26/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:complexType name="ServiceRequest">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the data about a request made from within the DMS to an external of internal service NOTE 1: 	abstract class serving as parent to concrete service requests. NOTE 2:	ServiceRequest (and its sub types) inherit from class Extendable to allow for the possibility to capture certain external service data elements 			(i.e. Prisma in NL) that do not merit a ligitimate place in the RA object structure that but need to be persisted in the DWH. </xsd:documentation>
+      <xsd:documentation>Related objects: responses(ServiceResponse) [0..*] declaration(Declaration) [1..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="status" type="tns_1:ServiceRequestStatusType">
+        <xsd:annotation>
+          <xsd:documentation>The status of the service request (if relevant for the involved service) NOTE: possible values: 22: Cancelled 24: Pending 25: Responded</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="id" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>ID by which this request is identified.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="sequenceNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number indicating the sequence in which this request was issued in the order of requests of this particular type for this particular declaration/goods item. NOTE: the sequence number is unique per service request type / declaration</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="timeStamp" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The time at which the request was submitted.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="externalId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>External ID by which this request is identified.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ServiceResponse">
+    <xsd:annotation>
+      <xsd:documentation>The response of a service request.</xsd:documentation>
+      <xsd:documentation>Related objects: signals(Signal) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="extensions" type="tns_3:Extension">
+        <xsd:annotation>
+          <xsd:documentation>The extensions associated with this extendable object.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="sequenceNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number indicating the sequence in the set of responses to the associated request. NOTE: a sequence number is relevant in case there are more than one response to the same request.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="request" type="tns:ServiceRequest">
+        <xsd:annotation>
+          <xsd:documentation>The service request to which this service response is a reaction.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="id" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Identifier by which this response is identified</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="timeStamp" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The time at which the response was received</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="isFinal" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling whether the response is a final response. NOTE: this flag is relevant in case there are more than one response to the same request.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="externalId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>External ID by which this response is identified.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Signal">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a piece of information other than, or in addition to a service result. NOTE:	a signal may be an error or some additional information</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="qualifier" type="tns_1:SignalQualifier">
+        <xsd:annotation>
+          <xsd:documentation>Qualifier by which the signal is further categorized</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" type="tns_1:SignalType">
+        <xsd:annotation>
+          <xsd:documentation>Type of signal WCO REF: 377 WCO NAME: Error, coded WCO DESC: Code specifying a data validation error</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="pointer" type="tns_2:Pointer">
+        <xsd:annotation>
+          <xsd:documentation>The data element in the declaration to which the signal pertains</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="explanation" type="tns_2:Text">
+        <xsd:annotation>
+          <xsd:documentation>Information providing background information about the signal in text NOTE:	An example of an signal with explanation is when the Duty Calculatation Service has encountered multiple calculations without being able to choose the right one. In this case the 2 calculations are included in the explanation, allowing a user to resolve the error (choose among the calculations) in a human task. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ValidationResult">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the result of a validation request (included in the response to a call on the Declaration Validation Service (DCS) </xsd:documentation>
+      <xsd:documentation>Related objects: rule(ValidationRule) [0..1] information(ValidationInformation) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="type" type="tns_1:ValidationResultType">
+        <xsd:annotation>
+          <xsd:documentation>The type of the validation result</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="qualifier" type="tns_1:ValidationResultQualifier">
+        <xsd:annotation>
+          <xsd:documentation>Indicator of the kind of validation result. NOTE:   Validation result qualifiers are, in particular, returned by the Tariff system to convey additional information allowing other clients of that component than DMS, that may not have knowledge of the categories to which validation results belong, to obtain additional information about the way the results shall be processed.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" name="pointers" type="tns_2:Pointer">
+        <xsd:annotation>
+          <xsd:documentation>The data element(s) in the declaration to which the validation result pertains. NOTE: in case of a relationship validation the result may involve multiple data elements</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ValidationInformation">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing additional information about a validation result.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="text" type="tns_2:Text">
+        <xsd:annotation>
+          <xsd:documentation>A possible text providing further explaination about the validation </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" type="tns_1:ValidationInformationType">
+        <xsd:annotation>
+          <xsd:documentation>The type (group) of validation information NOTE:	possible values defined and maintained by eCF: 1:  	General Validation Information 2:	Additional units 3:	Supplementary units 4:	Commodity codes 5:	Document types 6:	Tariff Action Code 7:	Tariff Condition Code 8:	Tariff Measure Id 9: 	Tariff Document occurrence type</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="code" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Code denoting the specific meaning of the involved validation information type </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

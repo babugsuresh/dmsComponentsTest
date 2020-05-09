@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ControlManagementServiceInboundSOAP" 
+                  targetNamespace="http://inspection.core.ecf/ControlManagementServiceInboundSOAP/v2/" 
+                  xmlns:tns="http://inspection.core.ecf/ControlManagementServiceInboundSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://inspection.core.ecf/ControlManagementServiceInboundSOAP/v2/" xmlns:xsd_1="http://inspection.core.ecf/messages/2018/05/07/">
+      <xsd:import namespace="http://inspection.core.ecf/messages/2018/05/07/" schemaLocation="messages_20180507/messages.xsd"/>
+      <xsd:element name="receiveControlResults">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="controlResultResponse" type="xsd_1:ControlResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="receiveControlResultsRequest">
+    <wsdl:part element="tns:receiveControlResults" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="ControlManagementServiceInboundSOAP">
+    <wsdl:operation name="receiveControlResults">
+      <wsdl:input message="tns:receiveControlResultsRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="controlInboundBinding" type="tns:ControlManagementServiceInboundSOAP">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="receiveControlResults">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="ControlManagementServiceInboundSOAPOverJMS">
+    <wsdl:port binding="tns:controlInboundBinding" name="ControlManagementServiceInboundPort">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

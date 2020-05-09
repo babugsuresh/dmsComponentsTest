@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/party/2017/02/02/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/party/2017/02/02/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/party/2017/02/02/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/party/2017/02/02/" schemaLocation="cmmEnhancementTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:complexType name="ServiceRequest">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the data about a request made from within the DMS to an external of internal service NOTE 1: 	abstract class serving as parent to concrete service requests. NOTE 2:	ServiceRequest (and its sub types) inherit from class Extendable to allow for the possibility to capture certain external service data elements 			(i.e. Prisma in NL) that do not merit a ligitimate place in the RA object structure that but need to be persisted in the DWH. </xsd:documentation>
+      <xsd:documentation>Related objects: responses(ServiceResponse) [0..*] declaration(Declaration) [1..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="status" type="tns_1:ServiceRequestStatusType">
+        <xsd:annotation>
+          <xsd:documentation>The status of the service request (if relevant for the involved service) NOTE: possible values: 22: Cancelled 24: Pending 25: Responded</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="id" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>ID by which this request is identified.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="sequenceNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number indicating the sequence in which this request was issued in the order of requests of this particular type for this particular declaration/goods item. NOTE: the sequence number is unique per service request type / declaration</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="timeStamp" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The time at which the request was submitted.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="externalId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>External ID by which this request is identified.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ServiceResponse">
+    <xsd:annotation>
+      <xsd:documentation>The response of a service request.</xsd:documentation>
+      <xsd:documentation>Related objects: signals(Signal) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="extensions" type="tns_3:Extension">
+        <xsd:annotation>
+          <xsd:documentation>The extensions associated with this extendable object.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="sequenceNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number indicating the sequence in the set of responses to the associated request. NOTE: a sequence number is relevant in case there are more than one response to the same request.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="request" type="tns:ServiceRequest">
+        <xsd:annotation>
+          <xsd:documentation>The service request to which this service response is a reaction.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="id" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Identifier by which this response is identified</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="timeStamp" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The time at which the response was received</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="isFinal" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling whether the response is a final response. NOTE: this flag is relevant in case there are more than one response to the same request.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="externalId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>External ID by which this response is identified.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Signal">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a piece of information other than, or in addition to a service result. NOTE:	a signal may be an error or some additional information</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="qualifier" type="tns_1:SignalQualifier">
+        <xsd:annotation>
+          <xsd:documentation>Qualifier by which the signal is further categorized</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="type" type="tns_1:SignalType">
+        <xsd:annotation>
+          <xsd:documentation>Type of signal WCO REF: 377 WCO NAME: Error, coded WCO DESC: Code specifying a data validation error</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="pointer" type="tns_2:Pointer">
+        <xsd:annotation>
+          <xsd:documentation>The data element in the declaration to which the signal pertains</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="explanation" type="tns_2:Text">
+        <xsd:annotation>
+          <xsd:documentation>Information providing background information about the signal in text NOTE:	An example of an signal with explanation is when the Duty Calculatation Service has encountered multiple calculations without being able to choose the right one. In this case the 2 calculations are included in the explanation, allowing a user to resolve the error (choose among the calculations) in a human task. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Error">
+    <xsd:annotation>
+      <xsd:documentation>Object representing an error encountered while performing a service WCO ID:   - WCO NAME: Error WCO DESC: Details to identify data validation errors </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:Signal"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationReservationRequest">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the request to reserve a monetary amount and/or quantity on an authorization for a license certificate declared for one goods item</xsd:documentation>
+      <xsd:documentation>Related objects: goodsClassifications(AuthorizationGoodsClassification) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element form="qualified" name="authorizationId" type="tns_2:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>The identification of the authorization to reserve on</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" name="declarationReference" type="tns_2:ReferenceNumber">
+            <xsd:annotation>
+              <xsd:documentation>Id of the declaration for which the authorization reservation is requested.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" name="consignmentShipmentNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the consignment/shipment for which the reservation is requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" name="goodsItemNumber" type="xsd:integer">
+            <xsd:annotation>
+              <xsd:documentation>The sequence number of the goods item for which the reservation is requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="requestedAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The monetary amount requested to reserve on an authorization (i.e. in total for a license certificate declared for one goods item)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="requestedQuantity" type="tns_2:Quantity">
+            <xsd:annotation>
+              <xsd:documentation>The quantity requested to reserve on an authorization (i.e. in total for a license certificate declared for one goods item)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="reservedAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The monetary amount reserved on an authorization (i.e. in total for a license certificate declared for one goods item)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="reservedQuantity" type="tns_2:Quantity">
+            <xsd:annotation>
+              <xsd:documentation>The quantity reserved on an authorization (i.e. in total for a license certificate declared for one goods item)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" name="isExported" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>Indicator telling whether the goods item is exported from or imported into the customs area.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="countryOfOrigin" type="tns_1:CountryType">
+            <xsd:annotation>
+              <xsd:documentation>The country of origin of the goods for which the reservation is requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="countryOfExportation" type="tns_1:CountryType">
+            <xsd:annotation>
+              <xsd:documentation>The country of exportation (or dispatch) of the goods for which the reservation is requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="countryOfFinalDestination" type="tns_1:CountryType">
+            <xsd:annotation>
+              <xsd:documentation>The country of final destination of the goods for which the reservation is requested</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationReservationResponse">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the response to a request to reserve a monetary amount and/or quantity on an authorization for a license certificate specified for one goods item</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element form="qualified" minOccurs="0" name="reservedAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The monetary amount reserved on an authorization (i.e. in total for a license certificate declared for one goods item)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="reservedQuantity" type="tns_2:Quantity">
+            <xsd:annotation>
+              <xsd:documentation>The quantity reserved on an authorization (i.e. in total for a license certificate declared for one goods item)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="availableAmount" type="tns_2:MonetaryAmount">
+            <xsd:annotation>
+              <xsd:documentation>The monetary amount that is still available for write-offs on this authorization</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="availableQuantity" type="tns_2:Quantity">
+            <xsd:annotation>
+              <xsd:documentation>The quantity that is still available for write-offs on this authorization</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

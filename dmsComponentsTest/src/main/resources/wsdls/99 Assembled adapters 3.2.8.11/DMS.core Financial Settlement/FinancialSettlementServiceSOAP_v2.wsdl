@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="FinancialSettlementServiceSOAP" 
+                  targetNamespace="http://revenue.core/FinancialSettlementServiceSOAP/v2/" 
+                  xmlns:tns="http://revenue.core/FinancialSettlementServiceSOAP/v2/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+  <wsdl:documentation>
+    <version>2.1</version>
+  </wsdl:documentation>
+  
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://revenue.core/FinancialSettlementServiceSOAP/v2/" xmlns:xsd_1="http://revenue.core.ecf/messages/2017/02/02/">
+      <xsd:import namespace="http://revenue.core.ecf/messages/2017/02/02/" schemaLocation="messages_20170202/messages.xsd"/>
+      <xsd:element name="subscribeCashDepositPayup">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="subscribeCashDepositRequest" type="xsd_1:CashDepositPayupSubscriptionRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="subscribeCashDepositPayupResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="subscribeCashDepositResponse" type="xsd_1:CashDepositPayupSubscriptionResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cancelSubscription">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="subscriptionCancellationRequest" type="xsd_1:SubscriptionCancellationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="informAccountsReceivable">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="accountsReceivableNotification" type="xsd_1:AccountsReceivableNotification"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="subscribeCashDepositPayupRequest">
+    <wsdl:part element="tns:subscribeCashDepositPayup" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="subscribeCashDepositPayupResponse">
+    <wsdl:part element="tns:subscribeCashDepositPayupResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="cancelSubscriptionRequest">
+    <wsdl:part element="tns:cancelSubscription" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="informAccountsReceivableRequest">
+    <wsdl:part element="tns:informAccountsReceivable" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="FinancialSettlementServiceSOAPJms">
+    <wsdl:operation name="subscribeCashDepositPayup">
+      <wsdl:input message="tns:subscribeCashDepositPayupRequest" name="subscribeCashDepositPayupRequest"/>
+      <wsdl:output message="tns:subscribeCashDepositPayupResponse" name="subscribeCashDepositPayupResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="cancelSubscription">
+      <wsdl:input message="tns:cancelSubscriptionRequest" name="cancelSubscriptionRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="informAccountsReceivable">
+      <wsdl:input message="tns:informAccountsReceivableRequest" name="informAccountsReceivableRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="FinancialSettlementServiceJms" type="tns:FinancialSettlementServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="informAccountsReceivable">
+      <wsdl:input name="informAccountsReceivableRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+        
+    <wsdl:operation name="cancelSubscription">
+      <wsdl:input name="cancelSubscriptionRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+        
+    <wsdl:operation name="subscribeCashDepositPayup">
+      <wsdl:input name="subscribeCashDepositPayupRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="subscribeCashDepositPayupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+ 
+  <wsdl:service name="FinancialSettlementServiceSOAP">
+    <wsdl:port binding="tns:FinancialSettlementServiceJms" name="FinancialSettlementServicePortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

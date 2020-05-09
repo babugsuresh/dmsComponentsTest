@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="AuthorizationManagementServiceSOAP" 
+                  targetNamespace="http://party.core.ecf/AuthorizationManagementServiceSOAP/v2/" 
+                  xmlns:tns="http://party.core.ecf/AuthorizationManagementServiceSOAP/v2/"                   
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://party.core.ecf/AuthorizationManagementServiceSOAP/v2/" xmlns:xsd_1="http://party.core.ecf/messages/2017/02/02/">
+      <xsd:import namespace="http://party.core.ecf/messages/2017/02/02/" schemaLocation="messages_20170202/messages.xsd"/>
+      <xsd:element name="requestPartyAuthorizations">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="partyAuthorizationsRequest" type="xsd_1:PartyAuthorizationsRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestPartyAuthorizationsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="authorizationResponse" type="xsd_1:AuthorizationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestPartyAuthorizationspartyNotFoundFault" type="xsd_1:PartyNotFoundFault"/>
+      <xsd:element name="requestPartyAuthorizationsunsupportedAuthorizationFault" type="xsd_1:UnsupportedAuthorizationFault"/>
+      <xsd:element name="requestAuthorizationDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="authorizationDetailRequest" type="xsd_1:AuthorizationDetailRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestAuthorizationDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="authorizationResponse" type="xsd_1:AuthorizationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestAuthorizationDetailsauthorizationNotFoundFault" type="xsd_1:AuthorizationNotFoundFault"/>
+      <xsd:element name="requestAuthorizationDetailsunsupportedAuthorizationFault" type="xsd_1:UnsupportedAuthorizationFault"/>
+      <xsd:element name="createAuthorizationReservation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationRequest" type="xsd_1:AuthorizationReservationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="createAuthorizationReservationauthorizationNotFoundFault" type="xsd_1:AuthorizationNotFoundFault"/>
+      <xsd:element name="createAuthorizationReservationreservationNotAllowedFault" type="xsd_1:ReservationNotAllowedFault"/>
+      <xsd:element name="updateAuthorizationReservation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationRequest" type="xsd_1:AuthorizationReservationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateAuthorizationReservationauthorizationNotFoundFault" type="xsd_1:AuthorizationNotFoundFault"/>
+      <xsd:element name="updateAuthorizationReservationreservationNotAllowedFault" type="xsd_1:ReservationNotAllowedFault"/>
+      <xsd:element name="deleteAuthorizationReservation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationRequest" type="xsd_1:AuthorizationReservationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteAuthorizationReservationauthorizationNotFoundFault" type="xsd_1:AuthorizationNotFoundFault"/>
+      <xsd:element name="deleteAuthorizationReservationreservationNotAllowedFault" type="xsd_1:ReservationNotAllowedFault"/>
+      <xsd:element name="confirmAuthorizationReservation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationRequest" type="xsd_1:AuthorizationReservationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="confirmAuthorizationReservationauthorizationNotFoundFault" type="xsd_1:AuthorizationNotFoundFault"/>
+      <xsd:element name="confirmAuthorizationReservationreservationNotAllowedFault" type="xsd_1:ReservationNotAllowedFault"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="requestPartyAuthorizationsRequest">
+    <wsdl:part element="tns:requestPartyAuthorizations" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="requestPartyAuthorizationsResponse">
+    <wsdl:part element="tns:requestPartyAuthorizationsResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="requestPartyAuthorizationsPartyNotFoundFault">
+    <wsdl:part element="tns:requestPartyAuthorizationspartyNotFoundFault" name="partyNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="requestPartyAuthorizationsUnsupportedAuthorizationFault">
+    <wsdl:part element="tns:requestPartyAuthorizationsunsupportedAuthorizationFault" name="unsupportedAuthorizationFault"/>
+  </wsdl:message>
+  <wsdl:message name="requestAuthorizationDetailsRequest">
+    <wsdl:part element="tns:requestAuthorizationDetails" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="requestAuthorizationDetailsResponse">
+    <wsdl:part element="tns:requestAuthorizationDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="requestAuthorizationDetailsAuthorizationNotFoundFault">
+    <wsdl:part element="tns:requestAuthorizationDetailsauthorizationNotFoundFault" name="authorizationNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="requestAuthorizationDetailsUnsupportedAuthorizationFault">
+    <wsdl:part element="tns:requestAuthorizationDetailsunsupportedAuthorizationFault" name="unsupportedAuthorizationFault"/>
+  </wsdl:message>
+  <wsdl:message name="createAuthorizationReservationRequest">
+    <wsdl:part element="tns:createAuthorizationReservation" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="updateAuthorizationReservationRequest">
+    <wsdl:part element="tns:updateAuthorizationReservation" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="deleteAuthorizationReservationRequest">
+    <wsdl:part element="tns:deleteAuthorizationReservation" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="confirmAuthorizationReservationRequest">
+    <wsdl:part element="tns:confirmAuthorizationReservation" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="AuthorizationManagementServiceSOAPHttp">
+    <wsdl:operation name="requestPartyAuthorizations">
+      <wsdl:input message="tns:requestPartyAuthorizationsRequest"/>
+      <wsdl:output message="tns:requestPartyAuthorizationsResponse"/>
+      <wsdl:fault message="tns:requestPartyAuthorizationsPartyNotFoundFault" name="partyNotFound"/>
+      <wsdl:fault message="tns:requestPartyAuthorizationsUnsupportedAuthorizationFault" name="unsupportedAuthorization"/>
+    </wsdl:operation>
+    <wsdl:operation name="requestAuthorizationDetails">
+      <wsdl:input message="tns:requestAuthorizationDetailsRequest"/>
+      <wsdl:output message="tns:requestAuthorizationDetailsResponse"/>
+      <wsdl:fault message="tns:requestAuthorizationDetailsAuthorizationNotFoundFault" name="authorizationNotFound"/>
+      <wsdl:fault message="tns:requestAuthorizationDetailsUnsupportedAuthorizationFault" name="unsupportedAuthorization"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="AuthorizationManagementServiceSOAPJms">
+    <wsdl:operation name="createAuthorizationReservation">
+      <wsdl:input message="tns:createAuthorizationReservationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateAuthorizationReservation">
+      <wsdl:input message="tns:updateAuthorizationReservationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAuthorizationReservation">
+      <wsdl:input message="tns:deleteAuthorizationReservationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="confirmAuthorizationReservation">
+      <wsdl:input message="tns:confirmAuthorizationReservationRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="AuthorizationManagementBindingHttp" type="tns:AuthorizationManagementServiceSOAPHttp">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="requestPartyAuthorizations">
+      <soap:operation soapAction="http://party.core.ecf/AuthorizationManagementServiceSOAP/v2/AuthorizationManagementServiceSOAPHttp/requestPartyAuthorizationsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="partyNotFound">
+        <soap:fault name="partyNotFound" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="unsupportedAuthorization">
+        <soap:fault name="unsupportedAuthorization" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="requestAuthorizationDetails">
+      <soap:operation soapAction="http://party.core.ecf/AuthorizationManagementServiceSOAP/v2/AuthorizationManagementServiceSOAPHttp/requestAuthorizationDetailsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="authorizationNotFound">
+        <soap:fault name="authorizationNotFound" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="unsupportedAuthorization">
+        <soap:fault name="unsupportedAuthorization" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:binding name="AuthorizationManagementBindingJms" type="tns:AuthorizationManagementServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="createAuthorizationReservation">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="updateAuthorizationReservation">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAuthorizationReservation">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="confirmAuthorizationReservation">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="AuthorizationManagementServiceSOAP">
+    <wsdl:port binding="tns:AuthorizationManagementBindingHttp" name="AuthorizationManagementPortHttp">
+      <soap:address location="http://sever:port/"/>
+    </wsdl:port>
+    <wsdl:port binding="tns:AuthorizationManagementBindingJms" name="AuthorizationManagementPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

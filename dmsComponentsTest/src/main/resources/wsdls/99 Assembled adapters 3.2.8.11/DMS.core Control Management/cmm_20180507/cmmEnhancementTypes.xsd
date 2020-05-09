@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/inspection/2018/05/07/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/inspection/2018/05/07/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/inspection/2018/05/07/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/inspection/2018/05/07/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/inspection/2018/05/07/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:complexType name="User">
+    <xsd:annotation>
+      <xsd:documentation>User of the DMS NOTE: the user may be a machine (component, (sub) system, program) or a person</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="isMachine" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling that the user is not a human but a machine (program, process, subsystem, component)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Name of the user (person or machine/program/system), if any.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="id" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The id by which the user (person or machine/program/system) is identified</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Task">
+    <xsd:annotation>
+      <xsd:documentation>A piece of work assigned or done as part of the activities performed in the declaration management context NOTE: service as a parent to control task </xsd:documentation>
+      <xsd:documentation>Related objects: declaration(Declaration) [1..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="reason" type="tns_1:TaskReasonType">
+        <xsd:annotation>
+          <xsd:documentation>Reason why the task was initiated.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="actionTimeStamp" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The time the action related to this task was taken or is assumed to be taken</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="action" type="tns_1:TaskActionType">
+        <xsd:annotation>
+          <xsd:documentation>the (encoded) action taken in this task.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="specialTaskType" type="tns_1:SpecialTaskType">
+        <xsd:annotation>
+          <xsd:documentation>The category of special tasks (if any) to which the task belongs</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="explanation" type="tns_2:Text">
+        <xsd:annotation>
+          <xsd:documentation>Additional information with respect to the task to be performed, entered by the officer.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="creationDate" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>Date at which the task was created</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" type="tns_1:TaskType">
+        <xsd:annotation>
+          <xsd:documentation>Object capturing the type of the task. NOTE: NL alias 'Behandelwijze'.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isFinished" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling whether the task is finished. NOTE: 	For control tasks, the attribute's value can be derived since a control task is finished when it has a control result; if a control result's 		attribute 'isCauseForNewControl' reads 'True' this implies that a new control task is generated, so the original task is and remains finished.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="user" type="tns:User">
+        <xsd:annotation>
+          <xsd:documentation>Person to which the task is assigned</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Extension">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing information supplementing an extendable object. NOTE: the type of the additional data may be described in free text (using the attribute 'description') or may be codified (using the attribute 'code''. The contents of the additional data is captured in the attribute 'value'.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="value" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The contents of the data element extending the extendable object.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" type="tns_1:ExtensionType">
+        <xsd:annotation>
+          <xsd:documentation>Type of the data captured in the extension.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

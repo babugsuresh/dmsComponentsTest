@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="ArchiveServiceInboundSOAP" 
+                  targetNamespace="http://trade.core.ecf/ArchiveServiceInboundSOAP/v1/" 
+                  xmlns:tns="http://trade.core.ecf/ArchiveServiceInboundSOAP/v1/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://trade.core.ecf/ArchiveServiceInboundSOAP/v1/" xmlns:xsd_1="http://trade.core.ecf/messages/2017/03/31/">
+      <xsd:import namespace="http://trade.core.ecf/messages/2017/03/31/" schemaLocation="messages_20170331/messages.xsd"/>
+      <xsd:element name="receiveArchiveAcknowledgement">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="archiveAcknowledgement" type="xsd_1:ArchiveAcknowledgment"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="receiveArchiveAcknowledgementRequest">
+    <wsdl:part element="tns:receiveArchiveAcknowledgement" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="ArchiveServiceInboundSOAPJms">
+    <wsdl:operation name="receiveArchiveAcknowledgement">
+      <wsdl:input message="tns:receiveArchiveAcknowledgementRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="ArchiveInboundBindingJms" type="tns:ArchiveServiceInboundSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="receiveArchiveAcknowledgement">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="ArchiveServiceInboundSOAP">
+    <wsdl:port binding="tns:ArchiveInboundBindingJms" name="ArchiveInboundPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+  
+</wsdl:definitions>

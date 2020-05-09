@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ExportManagementServiceForExitSOAP"
+                  targetNamespace="http://movement.core.ecf/ExportManagementServiceForExitSOAP/v3/"
+                  xmlns:tns="http://movement.core.ecf/ExportManagementServiceForExitSOAP/v3/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>3.2</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema
+      xmlns:cd502a="http://ecs.dgtaxud.ec/CD502A"
+      xmlns:cd518b="http://ecs.dgtaxud.ec/CD518B"
+      xmlns:cd527a="http://ecs.dgtaxud.ec/CD527A"
+      xmlns:cd586a="http://ecs.dgtaxud.ec/CD586A"
+      xmlns:cd901b="http://ecs.dgtaxud.ec/CD901B"
+      xmlns:cd905a="http://ecs.dgtaxud.ec/CD905A"
+      xmlns:cd906a="http://ecs.dgtaxud.ec/CD906A"
+      targetNamespace="http://movement.core.ecf/ExportManagementServiceForExitSOAP/v3/">
+      <xsd:import namespace="http://ecs.dgtaxud.ec/CD502A" schemaLocation="xsd/CD502A.xsd"/>
+      <xsd:import namespace="http://ecs.dgtaxud.ec/CD518B" schemaLocation="xsd/CD518B.xsd"/>
+      <xsd:import namespace="http://ecs.dgtaxud.ec/CD527A" schemaLocation="xsd/CD527A.xsd"/>
+      <xsd:import namespace="http://ecs.dgtaxud.ec/CD586A" schemaLocation="xsd/CD586A.xsd"/>
+      <xsd:import namespace="http://ecs.dgtaxud.ec/CD901B" schemaLocation="xsd/CD901B.xsd"/>
+      <xsd:import namespace="http://ecs.dgtaxud.ec/CD905A" schemaLocation="xsd/CD905A.xsd"/>
+      <xsd:import namespace="http://ecs.dgtaxud.ec/CD906A" schemaLocation="xsd/CD906A.xsd"/>
+      <xsd:element name="handleDeclarationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="cd502a:CD502A"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="handleExitResults">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="cd518b:CD518B"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="handleExportQuery">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="cd527a:CD527A"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="handleExportFollowUpNegativeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="cd586a:CD586A"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="handleCancellationAcknowledgment">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="cd901b:CD901B"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="handleStatusResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="cd905a:CD905A"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="handleFunctionalNack">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="cd906a:CD906A"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="declarationRequestMsg">
+    <wsdl:part element="tns:handleDeclarationRequest" name="declarationRequest" />
+  </wsdl:message>
+  <wsdl:message name="exitResultsMsg">
+    <wsdl:part element="tns:handleExitResults" name="exitResults" />
+  </wsdl:message>
+  <wsdl:message name="exportQueryMsg">
+    <wsdl:part element="tns:handleExportQuery" name="exportQuery" />
+  </wsdl:message>
+  <wsdl:message name="exportFollowUpNegativeResponseMsg">
+    <wsdl:part element="tns:handleExportFollowUpNegativeResponse" name="exportFollowUpNegativeResponse" />
+  </wsdl:message>
+  <wsdl:message name="cancellationAcknowledgmentMsg">
+    <wsdl:part element="tns:handleCancellationAcknowledgment" name="cancellationAcknowledgment" />
+  </wsdl:message>
+  <wsdl:message name="statusResponseMsg">
+    <wsdl:part element="tns:handleStatusResponse" name="statusResponse" />
+  </wsdl:message>
+  <wsdl:message name="functionalNackMsg">
+    <wsdl:part element="tns:handleFunctionalNack" name="functionalNack" />
+  </wsdl:message>
+
+  <wsdl:portType name="ExportManagementServiceForExit">
+    <wsdl:operation name="handleDeclarationRequest">
+      <wsdl:input message="tns:declarationRequestMsg" name="declarationRequestRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="handleExitResults">
+      <wsdl:input message="tns:exitResultsMsg" name="exitResultsRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="handleExportQuery">
+      <wsdl:input message="tns:exportQueryMsg" name="exportQueryRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="handleExportFollowUpNegativeResponse">
+      <wsdl:input message="tns:exportFollowUpNegativeResponseMsg" name="exportFollowUpNegativeResponseRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="handleCancellationAcknowledgment">
+      <wsdl:input message="tns:cancellationAcknowledgmentMsg" name="cancellationAcknowledgmentRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="handleStatusResponse">
+      <wsdl:input message="tns:statusResponseMsg" name="statusResponseRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="handleFunctionalNack">
+      <wsdl:input message="tns:functionalNackMsg" name="functionalNackRequest" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="ExportManagementServiceForExitBindingJms" type="tns:ExportManagementServiceForExit">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/jms"/>
+    <wsdl:operation name="handleDeclarationRequest">
+      <wsdl:input name="declarationRequestRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="handleExitResults">
+      <wsdl:input name="exitResultsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="handleExportQuery">
+      <wsdl:input name="exportQueryRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="handleExportFollowUpNegativeResponse">
+      <wsdl:input name="exportFollowUpNegativeResponseRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="handleCancellationAcknowledgment">
+      <wsdl:input name="cancellationAcknowledgmentRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="handleStatusResponse">
+      <wsdl:input name="statusResponseRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="handleFunctionalNack">
+      <wsdl:input name="functionalNackRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="ExportManagementServiceForExitSOAP">
+    <wsdl:port binding="tns:ExportManagementServiceForExitBindingJms" name="ExportManagementServiceForExitSOAPPort">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

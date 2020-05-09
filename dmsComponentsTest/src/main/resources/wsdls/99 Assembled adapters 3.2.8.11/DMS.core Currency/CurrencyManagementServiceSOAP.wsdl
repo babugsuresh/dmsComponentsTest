@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CurrencyManagementServiceSOAP" 
+                  targetNamespace="http://currency.core/CurrencyManagementService/2016/12/30/" 
+                  xmlns:bons0="http://currency.core/CurrencyManagementService/2016/12/30/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://currency.core/CurrencyManagementService/2016/12/30/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://currency.core/CurrencyManagementService/2016/12/30/" xmlns:xsd_1="http://revenue.core.ecf/messages/2011/11/30/">
+      <xsd:import namespace="http://revenue.core.ecf/messages/2011/11/30/" schemaLocation="messages_20111130/messages_20111130.xsd"/>
+      <xsd:element name="convertMonetaryAmount">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="convertMonetaryAmountRequest" type="xsd_1:ConvertMonetaryAmountRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="convertMonetaryAmountResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="convertMonetaryAmountResponse" type="xsd_1:ConvertMonetaryAmountResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="convertMonetaryAmountinvalidCurrencyFault" type="xsd_1:InvalidCurrencyFault"/>
+      <xsd:element name="convertMonetaryAmountexchangeRateNotAvailableFault" type="xsd_1:ExchangeRateNotAvailableFault"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="convertMonetaryAmountRequest">
+    <wsdl:part element="tns:convertMonetaryAmount" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="convertMonetaryAmountResponse">
+    <wsdl:part element="tns:convertMonetaryAmountResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="convertMonetaryAmountFault">
+    <wsdl:part element="tns:convertMonetaryAmountinvalidCurrencyFault" name="invalidCurrencyFault"/>
+  </wsdl:message>
+  <wsdl:message name="convertMonetaryAmountFault1">
+    <wsdl:part element="tns:convertMonetaryAmountexchangeRateNotAvailableFault" name="exchangeRateNotAvailableFault"/>
+  </wsdl:message>
+  <wsdl:portType name="CurrencyManagementServiceSOAP">
+    <wsdl:operation name="convertMonetaryAmount">
+      <wsdl:input message="tns:convertMonetaryAmountRequest"/>
+      <wsdl:output message="tns:convertMonetaryAmountResponse"/>
+      <wsdl:fault message="tns:convertMonetaryAmountFault" name="invalidCurrency"/>
+      <wsdl:fault message="tns:convertMonetaryAmountFault1" name="exchangeRateNotAvailable"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <!-- Binding (SOAP 1.1/HTTP binding) -->
+  <wsdl:binding name="currencyManagementBinding" type="bons0:CurrencyManagementServiceSOAP">
+    <!-- document/literal/wrapped -->
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <!-- Operation -->
+    <wsdl:operation name="convertMonetaryAmount">
+      <soap:operation soapAction="http://currency.core/CurrencyManagementService/2016/12/30/CurrencyManagementServiceSOAP/convertMonetaryAmountRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="invalidCurrency">
+        <soap:fault name="invalidCurrency" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="exchangeRateNotAvailable">
+        <soap:fault name="exchangeRateNotAvailable" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <!-- Service -->
+  <wsdl:service name="CurrencyManagementService">
+    <!-- Port -->
+    <wsdl:port binding="tns:currencyManagementBinding" name="currencyManagement">
+      <soap:address location="http://host:port/CurrencyManagementService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

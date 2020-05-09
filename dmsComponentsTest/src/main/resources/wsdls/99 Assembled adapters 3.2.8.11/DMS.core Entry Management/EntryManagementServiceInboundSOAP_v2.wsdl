@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+					name="EntryManagementServiceInboundSOAP" 
+					targetNamespace="http://movement.core.ecf/EntryManagementServiceInboundSOAP/v2/" 
+					xmlns:tns="http://movement.core.ecf/EntryManagementServiceInboundSOAP/v2/" 
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+					xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>Version: 2.0 </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://movement.core.ecf/EntryManagementServiceInboundSOAP/v2/" xmlns:xsd_1="http://movement.core.ecf/messages/2017/01/31/">
+      <xsd:import namespace="http://movement.core.ecf/messages/2017/01/31/" schemaLocation="messages_20170131/messages.xsd"/>
+      <xsd:element name="receiveValidationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="validationResponse" type="xsd_1:MovementValidationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="receiveValidationResponseRequest">
+    <wsdl:part element="tns:receiveValidationResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="EntryManagementServiceInboundSOAPJms">
+    <wsdl:documentation>Using this inbound service, the validation results can be provided asynchronously. </wsdl:documentation>
+    <wsdl:operation name="receiveValidationResponse">
+      <wsdl:input message="tns:receiveValidationResponseRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="EntryManagementServiceInboundBindingJms" type="tns:EntryManagementServiceInboundSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="receiveValidationResponse">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="EntryManagementServiceInboundSOAP">
+    <wsdl:port binding="tns:EntryManagementServiceInboundBindingJms" name="EntryManagementServiceInboundPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>   
+</wsdl:definitions>

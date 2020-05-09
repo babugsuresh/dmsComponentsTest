@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="TraderNotificationServiceSOAP" 
+                  targetNamespace="http://core.dms/TraderNotificationServiceSOAP/v3/"
+                  xmlns:tns="http://core.dms/TraderNotificationServiceSOAP/v3/" 
+                  xmlns:wco="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" 
+                  xmlns:gwh="http://ecf.dms.core/gatewayHeader/v1/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>3.2</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://core.dms/TraderNotificationServiceSOAP/v3/">
+      <xsd:import namespace="urn:wco:datamodel:WCO:RES-DMS:2" schemaLocation="xsd/WCO_RES_2_DMS.xsd"/>
+      <xsd:import namespace="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" schemaLocation="xsd/DocumentMetaData_2_DMS.xsd"/>
+      <xsd:import namespace="http://ecf.dms.core/gatewayHeader/v1/" schemaLocation="xsd/gatewayHeader.xsd"/>
+      <xsd:element name="notifyTrader">
+        <xsd:complexType>
+        <xsd:sequence>
+           <xsd:element ref="wco:MetaData" />
+           </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>      
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="notifyTraderMsg">
+    <wsdl:part element="gwh:dmsGatewayHeader" name="header"/>
+    <wsdl:part element="tns:notifyTrader" name="notification"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="TraderNotificationServiceSOAPJms">
+    <wsdl:operation name="notifyTrader">
+      <wsdl:input name="notifyTraderMsg" message="tns:notifyTraderMsg"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="TraderNotificationBindingJms" type="tns:TraderNotificationServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="notifyTrader">
+      <wsdl:input name="notifyTraderMsg">
+        <soap:header message="tns:notifyTraderMsg" part="header" use="literal"/>
+        <soap:body parts="notification" use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="TraderNotificationServiceSOAP">
+    <wsdl:port name="NotificationService" binding="tns:TraderNotificationBindingJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

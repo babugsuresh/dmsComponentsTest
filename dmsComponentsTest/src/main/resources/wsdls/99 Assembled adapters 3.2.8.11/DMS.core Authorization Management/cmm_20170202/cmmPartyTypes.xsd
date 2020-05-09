@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/party/2017/02/02/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/party/2017/02/02/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/party/2017/02/02/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/party/2017/02/02/" schemaLocation="cmmEnhancementTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:complexType name="PartyIdentification">
+    <xsd:annotation>
+      <xsd:documentation>Identification of a party</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" name="type" type="tns_1:PartyIdentificationType">
+        <xsd:annotation>
+          <xsd:documentation>The type of identification number NOTE: 		possible values: 1: Eori Number 2: VAT number 3: DUNS number 4: EAN number</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="number" type="tns_2:ReferenceNumber">
+        <xsd:annotation>
+          <xsd:documentation>The identification proper NOTE: 		The identification may be an instance of class String or one of its sub types such as a reference </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Authorization">
+    <xsd:annotation>
+      <xsd:documentation>Official or legal permission issued by Customs to do or own a specified thing. NOTE: one authorization will be issued by one customs agency to one economic operator for multiple customs warehouses. The warehouses to which an authorization pertains is of one and the same type, but they may be at different locations. One customs warehouse is used by one or more economic operators, each of which will have its own authorization.</xsd:documentation>
+      <xsd:documentation>Related objects: owner(EconomicOperator) [0..1] issuer(CustomsAgency) [1..1] countryRoles(AuthorizationCountryRole) [0..*] commodities(AuthorizationCommodity) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" name="id" type="tns_2:ReferenceNumber">
+        <xsd:annotation>
+          <xsd:documentation>The reference number by which the authorization is identified.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="endDate" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The date the license has or will become expired.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="startDate" type="tns_2:DateTime">
+        <xsd:annotation>
+          <xsd:documentation>The date the authorization became or will become effective</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="applicableProcedure" type="tns_1:GovernmentProcedureType">
+        <xsd:annotation>
+          <xsd:documentation>The procedure (or category of procedures) for which the authorization applies. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="restrictionsConditions" type="tns_2:Text">
+        <xsd:annotation>
+          <xsd:documentation>The restrictions and/or conditions applicable to the license.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="isContinuous" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling whether the authorization is continuous or one-off/temporary</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="type" type="tns_1:AuthorizationType">
+        <xsd:annotation>
+          <xsd:documentation>The type of authorization</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="availableAmount" type="tns_2:MonetaryAmount">
+        <xsd:annotation>
+          <xsd:documentation>The monetary amount that is still available for write-offs on this authorization</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="availableQuantity" type="tns_2:Quantity">
+        <xsd:annotation>
+          <xsd:documentation>The quantity that is still available for write-offs on this authorization</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="category" type="tns_1:AuthorizationCategoryType">
+        <xsd:annotation>
+          <xsd:documentation>The type category of the authorization</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="isUsed" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicator telling whether this authorization has been used</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContactMechanism">
+    <xsd:annotation>
+      <xsd:documentation>The mechanism by which a party can be contacted for a particular purpose.</xsd:documentation>
+      <xsd:documentation>Related objects: </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_3:TimeAware">
+        <xsd:sequence>
+          <xsd:element form="qualified" name="identification" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>Identification of the contact mechanism used, e.g. phone number for TelecomAddress, address code or full address line for Physical Address WCO class Communication. public identifier identification WCO NAME: Communication number WCO DESC: To identify a communication address</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" name="purpose" type="tns_1:ContactMechanismPurposeType">
+            <xsd:annotation>
+              <xsd:documentation>The role or purpose of the contact mechanism in contacting the party. NOTE: 'General' if not specified.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" name="type" type="tns_1:ContactMechanismType">
+            <xsd:annotation>
+              <xsd:documentation>The type of contact mechanism. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BankAccount">
+    <xsd:annotation>
+      <xsd:documentation>Financial account with a banking institution, recording the financial transactions between the customer and the bank and the resulting financial position of the customer with the bank.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" name="number" type="tns_2:BankAccountNumber">
+        <xsd:annotation>
+          <xsd:documentation>Number by which the bank account is identified</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Party">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing information about an organization or person known to the DMS.</xsd:documentation>
+      <xsd:documentation>Related objects: roles(DeclaredPartyRole) [0..*] identifications(PartyIdentification) [1..*] bankAccounts(BankAccount) [0..*] relationships(PartyRelationship) [0..*] locations(Location) [0..*] contactMechanisms(ContactMechanism) [0..*] addresses(PhysicalAddress) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_3:TimeAware">
+        <xsd:sequence>
+          <xsd:element form="qualified" minOccurs="0" name="name" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>Name of the party (last name if the party is a Person)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="isAuthorizedForVatTransfer" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>Indicates whether the party is authorized for VAT transfer</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CustomsAgency">
+    <xsd:annotation>
+      <xsd:documentation>The organization responsible for enforcing Customs law and regulation in a particular country. Client of the DMS.</xsd:documentation>
+      <xsd:documentation>Related objects: offices(CustomsOffice) [1..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:Party">
+        <xsd:sequence>
+          <xsd:element form="qualified" minOccurs="0" name="currency" type="tns_1:CurrencyType">
+            <xsd:annotation>
+              <xsd:documentation>The default currency of the customs agency (to calculate and capture customs debt in Accounts Receivable).</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyRelationship">
+    <xsd:annotation>
+      <xsd:documentation>Relationship between two parties NOTE 1: a party relationship may be a-symmetric, in which case the relationship is labeled as a pair of 2 roles, the left side role and the right side role (e.g. in a buyer-seller relationship) or it may be symmetric, in which case both parties play the same role (e.g. in a 'partnership' relationship NOTE 2: in the eCF context, relevant relationships type are: - Customs Agency Office - a customs office belonging to a particular custums agency - Covenant Partner: a customs office may have a covenant partner with whom it may have a memorandum of understanding to perform inspections</xsd:documentation>
+      <xsd:documentation>Related objects: leftSideRoleParty(Party) [1..1] rightSideRoleParty(Party) [1..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" name="type" type="tns_1:PartyRelationshipType">
+        <xsd:annotation>
+          <xsd:documentation>Type of relationship between two parties NOTE: in the eCF context, relevant relationships type are: 1:	Customs Agency - Office: a customs office belonging to a particular customs agency 2:	Party - Contact person: a contact person belonging to a particular party</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Country">
+    <xsd:annotation>
+      <xsd:documentation>Information about a Country</xsd:documentation>
+      <xsd:documentation>Related objects: currencies(Currency) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" name="code" type="tns_1:CountryType">
+        <xsd:annotation>
+          <xsd:documentation>The code of the country WCO REFERENCE: 242 WCO NAME: Country, coded WCO DESC: Identification of the name of the country or other geographical entity as specified in ISO 3166 and UN/ECE Rec 3</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PhysicalAddress">
+    <xsd:annotation>
+      <xsd:documentation>Physical contact address. WCO: Details relating to an address. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="countrySubDivisionId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>ID of the country sub division NOTE: a country sub entity may be a state, province, canton, departement, county etc. WCO REF: 244 WCO NAME: Country sub-entity identification WCO DESC: Code specifying the name of a country subdivision</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="type" type="tns_1:AddressType">
+        <xsd:annotation>
+          <xsd:documentation>The type of physical address NOTE: possible values defined and maintained by UNTDED 3131 (Address type code)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="streetAndNumber" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Street and number or P.O. box of the address. NOTE: This attribute is used when the street and number are not available as separate data elements. WCO REF: 239 WCO NAME: Street and number/P.O. Box WCO DESC: Specification of the postal delivery point such as street and number or post office box</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="countrySubDivisionName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Name of the country sub division in which the address is located WCO REF: 243 WCO NAME: Country sub-entity name WCO DESC: Name of a country subdivision</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="cityName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Name of the city in which the address is located. WCO REF: 241 WCO NAME: City name WCO DESC: Name of a city</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="zipCode" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Postal code of the physical address. WCO REF: 245 WCO NAME: Postcode identification WCO DESC: Code specifying a postal zone or address</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="houseNumberExtension" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Extension to the number of the physical address' street.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="houseNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number of the physical address' street.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="streetName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Name of the street in which the physical address is located.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="country" type="tns:Country">
+        <xsd:annotation>
+          <xsd:documentation>The country in which the physical address is located. WCO ID: 		not defined as a separate class WCO NAME: 	- WCO DESC: 	- </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DeclaredPartyRole">
+    <xsd:annotation>
+      <xsd:documentation>The role a party is declared it may play in the DMS context.</xsd:documentation>
+      <xsd:documentation>Related objects: parties(Party) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_3:TimeAware">
+        <xsd:sequence>
+          <xsd:element form="qualified" name="type" type="tns_1:PartyRoleType">
+            <xsd:annotation>
+              <xsd:documentation>The type of the declared role</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="EconomicOperator">
+    <xsd:annotation>
+      <xsd:documentation>Party involved in the international movement of goods in whatever function. Economic Operators include manufacturers, importers, exporters, brokers, carriers, consolidators, intermediaries, ports, airports, terminal operators, integrated operators, warehouses and distributors</xsd:documentation>
+      <xsd:documentation>Related objects: authorizations(Authorization) [0..*] coverageMeans(CoverageMeans) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:Party">
+        <xsd:sequence>
+          <xsd:element form="qualified" minOccurs="0" name="aeoCertificate" type="tns_2:AeoCertificateNumber">
+            <xsd:annotation>
+              <xsd:documentation>The certificate (if any) capturing the status of the economic operator as an authorized economic operator</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="aeoStatus" type="tns_1:AeoStatusType">
+            <xsd:annotation>
+              <xsd:documentation>The status of the economic operator as an authorized economic operator.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="legalStatus" type="tns_1:LegalStatusType">
+            <xsd:annotation>
+              <xsd:documentation>The legal status of the economic operator (e.g. whether he is bankrupt or not).</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="principleActivity" type="tns_1:IsicCode">
+            <xsd:annotation>
+              <xsd:documentation>International Standard Industrial Classification (ISIC) code representing the principle economic activity of the operator; used for statistical classification purposes.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element form="qualified" minOccurs="0" name="establishmentDate" type="tns_2:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>Date from which the operator has been active in a customs context</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Location">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the details of a place of facility. WCO: Detailed information about places and facilities. </xsd:documentation>
+      <xsd:documentation>Related objects: address(PhysicalAddress) [0..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" minOccurs="0" name="unLocode" type="tns_1:UnLocode">
+        <xsd:annotation>
+          <xsd:documentation>UN location code by which the location is identified</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The name of the location. WCO NAME: Location WCO DESC: Name of location </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="identification" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The id of the location NOTE: the type of the location id will dynamically vary with the sub type of location -&gt; e.g.: in case of a CustomsWarehouse, the id will be of type CustomsWarehouseID</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationCountryRole">
+    <xsd:annotation>
+      <xsd:documentation>A list of countries (possibly in a specific role) as used for authorizations</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="countries" type="tns_1:CountryType">
+        <xsd:annotation>
+          <xsd:documentation>The involved countries</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" minOccurs="0" name="type" type="tns_1:AuthorizationCountryRoleType">
+        <xsd:annotation>
+          <xsd:documentation>The role of the countries in the involved context.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationGoodsClassification">
+    <xsd:annotation>
+      <xsd:documentation>A commodity classification as used for Authorizations</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" name="identifier" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The id (code/number) by which the classification is identified</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="type" type="tns_1:CommodityClassificationType">
+        <xsd:annotation>
+          <xsd:documentation>The type of classification</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

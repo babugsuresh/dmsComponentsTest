@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="PartyManagementServiceSOAP" 
+                  targetNamespace="http://party.core/PartyManagementServiceSOAP/2016/12/30/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://party.core/PartyManagementServiceSOAP/2016/12/30/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.10.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://party.core/PartyManagementServiceSOAP/2016/12/30/" xmlns:xsd_1="http://party.core.ecf/messages/2012/04/30/">
+      <xsd:import namespace="http://party.core.ecf/messages/2012/04/30/" schemaLocation="messages_20120430/messages_20120430.xsd"/>
+      <xsd:element name="verifyPartyIdentification">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="partyRequest" type="xsd_1:PartyRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyPartyIdentificationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="partyIdentificationValidationResponse" type="xsd_1:PartyVerificationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestPartyDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="partyRequest" type="xsd_1:PartyRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestPartyDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="partyResponse" type="xsd_1:PartyResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="requestPartyDetailspartyNotFoundFault" type="xsd_1:PartyNotFoundFault"/>
+      <xsd:element name="verifyPartyRelationship">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="verificationRequest" type="xsd_1:PartyRelationshipVerificationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyPartyRelationshipResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="verificationResponse" type="xsd_1:PartyVerificationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyPartyRelationshippartyNotFoundFault" type="xsd_1:PartyNotFoundFault"/>
+      <xsd:element name="verifyPartyRelationshipunsupportedRelationshipFault" type="xsd_1:UnsupportedRelationshipFault"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="verifyPartyIdentificationRequest">
+    <wsdl:part element="tns:verifyPartyIdentification" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="verifyPartyIdentificationResponse">
+    <wsdl:part element="tns:verifyPartyIdentificationResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="requestPartyDetailsRequest">
+    <wsdl:part element="tns:requestPartyDetails" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="requestPartyDetailsResponse">
+    <wsdl:part element="tns:requestPartyDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="requestPartyDetailsFault">
+    <wsdl:part element="tns:requestPartyDetailspartyNotFoundFault" name="partyNotFoundFault"/>
+  </wsdl:message>
+ 
+  <wsdl:message name="verifyPartyRelationshipRequest">
+    <wsdl:part element="tns:verifyPartyRelationship" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="verifyPartyRelationshipResponse">
+    <wsdl:part element="tns:verifyPartyRelationshipResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="verifyPartyRelationshipFault">
+    <wsdl:part element="tns:verifyPartyRelationshippartyNotFoundFault" name="partyNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="verifyPartyRelationshipFault1">
+    <wsdl:part element="tns:verifyPartyRelationshipunsupportedRelationshipFault" name="unsupportedRelationshipFault"/>
+  </wsdl:message>
+  <wsdl:portType name="PartyManagementServiceSOAP">
+    <wsdl:operation name="verifyPartyIdentification">
+      <wsdl:input message="tns:verifyPartyIdentificationRequest"/>
+      <wsdl:output message="tns:verifyPartyIdentificationResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="requestPartyDetails">
+      <wsdl:input message="tns:requestPartyDetailsRequest"/>
+      <wsdl:output message="tns:requestPartyDetailsResponse"/>
+      <wsdl:fault message="tns:requestPartyDetailsFault" name="partyNotFound"/>
+    </wsdl:operation>
+    <wsdl:operation name="verifyPartyRelationship">
+      <wsdl:documentation>Operation to verify whether a relationship of a specified type exists between two particular parties </wsdl:documentation>
+      <wsdl:input message="tns:verifyPartyRelationshipRequest"/>
+      <wsdl:output message="tns:verifyPartyRelationshipResponse"/>
+      <wsdl:fault message="tns:verifyPartyRelationshipFault" name="partyNotFound"/>
+      <wsdl:fault message="tns:verifyPartyRelationshipFault1" name="unsupportedRelationship"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <!-- Binding (SOAP 1.1/HTTP binding) -->
+  <wsdl:binding name="PartyManagementServiceSOAP" type="tns:PartyManagementServiceSOAP">
+    <!-- document/literal/wrapped -->
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <!-- Operation -->
+    <wsdl:operation name="verifyPartyIdentification">
+      <soap:operation soapAction="http://party.core/PartyManagementServiceSOAP/2016/12/30/PartyManagementServiceSOAP/verifyPartyIdentificationRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestPartyDetails">
+      <soap:operation soapAction="http://party.core/PartyManagementServiceSOAP/2016/12/30/PartyManagementServiceSOAP/requestPartyDetailsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="partyNotFound">
+        <soap:fault name="partyNotFound" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyPartyRelationship">
+      <soap:operation soapAction="http://party.core/PartyManagementServiceSOAP/2016/12/30/PartyManagementServiceSOAP/verifyPartyRelationshipRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="partyNotFound">
+        <soap:fault name="partyNotFound" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="unsupportedRelationship">
+        <soap:fault name="unsupportedRelationship" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <!-- Service -->
+  <wsdl:service name="PartyManagementServiceSOAP">
+    <!-- Port -->
+    <wsdl:port binding="tns:PartyManagementServiceSOAP" name="PartyManagementServiceSOAP">
+      <soap:address location="http://localhost:9080/PartyManagementServiceSOAP"/> 
+    </wsdl:port>
+  </wsdl:service>  
+</wsdl:definitions>

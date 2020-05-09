@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="QuotaManagementServiceSOAP" 
+                  targetNamespace="http://tariff.core.ecf/QuotaManagementServiceSOAP/v2/" 
+                  xmlns:tns="http://tariff.core.ecf/QuotaManagementServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tariff.core.ecf/QuotaManagementServiceSOAP/v2/" xmlns:xsd_1="http://tariff.core.ecf/messages/2017/01/30/">
+      <xsd:import namespace="http://tariff.core.ecf/messages/2017/01/30/" schemaLocation="messages_20170130/messages.xsd"/>
+      <xsd:element name="requestQuotasForDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateQuotasForDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteQuotasForDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffRequest" type="xsd_1:TariffRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="requestQuotasForDeclarationRequest">
+    <wsdl:part element="tns:requestQuotasForDeclaration" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="updateQuotasForDeclarationRequest">
+    <wsdl:part element="tns:updateQuotasForDeclaration" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="deleteQuotasForDeclarationRequest">
+    <wsdl:part element="tns:deleteQuotasForDeclaration" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="QuotaManagementServiceSOAPJms">
+    <wsdl:operation name="requestQuotasForDeclaration">
+      <wsdl:input message="tns:requestQuotasForDeclarationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuotasForDeclaration">
+      <wsdl:input message="tns:updateQuotasForDeclarationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteQuotasForDeclaration">
+      <wsdl:input message="tns:deleteQuotasForDeclarationRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="QuotaManagementBindingJms" type="tns:QuotaManagementServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="requestQuotasForDeclaration">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="updateQuotasForDeclaration">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="deleteQuotasForDeclaration">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="QuotaManagementServiceSOAP">
+    <wsdl:port binding="tns:QuotaManagementBindingJms" name="QuotaManagementPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+  
+</wsdl:definitions>

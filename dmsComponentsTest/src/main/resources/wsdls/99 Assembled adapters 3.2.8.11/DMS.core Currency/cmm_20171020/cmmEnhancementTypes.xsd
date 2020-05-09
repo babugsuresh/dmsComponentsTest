@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/referenceData/2017/10/20/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/referenceData/2017/10/20/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/referenceData/2017/10/20/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/referenceData/2017/10/20/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:complexType name="Extension">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing information supplementing an extendable object. NOTE: the type of the additional data may be described in free text (using the attribute 'description') or may be codified (using the attribute 'code''. The contents of the additional data is captured in the attribute 'value'.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element form="qualified" name="type" type="tns_1:ExtensionType">
+        <xsd:annotation>
+          <xsd:documentation>Type of the data captured in the extension.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element form="qualified" name="value" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The contents of the data element extending the extendable object.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

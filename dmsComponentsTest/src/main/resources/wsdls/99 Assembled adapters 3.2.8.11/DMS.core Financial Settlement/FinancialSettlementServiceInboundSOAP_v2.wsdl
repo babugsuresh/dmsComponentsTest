@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="FinancialSettlementServiceInboundSOAP_v2" 
+                  targetNamespace="http://revenue.core/FinancialSettlementServiceInboundSOAP/v2/" 
+                  xmlns:tns="http://revenue.core/FinancialSettlementServiceInboundSOAP/v2/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:documentation>
+    <version>2.1</version>
+  </wsdl:documentation>
+
+  <wsdl:types>
+  	<xsd:schema targetNamespace="http://revenue.core/FinancialSettlementServiceInboundSOAP/v2/" xmlns:xsd_1="http://revenue.core.ecf/messages/2017/02/02/">
+      <xsd:import namespace="http://revenue.core.ecf/messages/2017/02/02/" schemaLocation="messages_20170202/messages.xsd"/>
+      <xsd:element name="notifyCashDepositPayup">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="accountingEntryResponse" type="xsd_1:AccountingEntryResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="notifyCashDepositPayupRequest">
+    <wsdl:part element="tns:notifyCashDepositPayup" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="FinancialSettlementServiceInboundSOAP">
+    <wsdl:operation name="notifyCashDepositPayup" >
+      <wsdl:input message="tns:notifyCashDepositPayupRequest" name="notifyCashDepositPayupRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="FinancialSettlementServiceInboundSOAP" type="tns:FinancialSettlementServiceInboundSOAP">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="notifyCashDepositPayup">
+      <wsdl:input name="notifyCashDepositPayupRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>    
+  </wsdl:binding>
+  
+  <wsdl:service name="FinancialSettlementServiceInboundSOAP">
+    <wsdl:port binding="tns:FinancialSettlementServiceInboundSOAP" name="FinancialSettlementServiceInboundSOAP">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+  
+</wsdl:definitions>

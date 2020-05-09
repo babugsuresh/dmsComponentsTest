@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="TariffReferenceDataServiceInboundSOAP" 
+                  targetNamespace="http://tariff.core/TariffReferenceDataServiceInboundSOAP/2016/12/30/" 
+                  xmlns:bons0="http://tariff.core.ecf/TariffReferenceDataServiceInboundSOAP/2011/11/30/" 
+                  xmlns:bons1="http://tariff.core.ecf/messages/2011/11/30/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://tariff.core/TariffReferenceDataServiceInboundSOAP/2016/12/30/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.4.4</version>
+  </wsdl:documentation>
+  
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tariff.core/TariffReferenceDataServiceInboundSOAP/2016/12/30/" 
+                xmlns:bons0="http://tariff.core/TariffReferenceDataServiceInboundSOAP/2016/12/30/">
+      <xsd:import namespace="http://tariff.core.ecf/messages/2011/11/30/" 
+                  schemaLocation="messages_20111130/messages_20111130.xsd" />
+      <xsd:element name="notifyProvisionalDutiesBecomingFinal">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="finalDutyDecision" type="bons1:FinalDutyDecision" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="notifyIncompleteMeasureBecomingComplete">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tariffMeasureCompletion" type="bons1:TariffMeasureCompletion" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="notifyProvisionalDutiesBecomingFinalRequest">
+    <wsdl:part element="tns:notifyProvisionalDutiesBecomingFinal" 
+               name="notifyProvisionalDutiesBecomingFinalParameters" />
+  </wsdl:message>
+  <wsdl:message name="notifyIncompleteMeasureBecomingCompleteRequest">
+    <wsdl:part element="tns:notifyIncompleteMeasureBecomingComplete" 
+               name="notifyIncompleteMeasureBecomingCompleteParameters" />
+  </wsdl:message>
+  
+  <wsdl:portType name="TariffReferenceDataServiceInboundSOAP">
+    <wsdl:operation name="notifyProvisionalDutiesBecomingFinal">
+      <wsdl:input message="tns:notifyProvisionalDutiesBecomingFinalRequest" 
+                  name="notifyProvisionalDutiesBecomingFinalRequest" />
+    </wsdl:operation>
+    <wsdl:operation name="notifyIncompleteMeasureBecomingComplete">
+      <wsdl:input message="tns:notifyIncompleteMeasureBecomingCompleteRequest" 
+                  name="notifyIncompleteMeasureBecomingCompleteRequest" />
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="TariffReferenceDataServiceInboundSOAP" 
+                type="tns:TariffReferenceDataServiceInboundSOAP">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/" />
+    <wsdl:operation name="notifyProvisionalDutiesBecomingFinal">
+      <wsdl:input name="notifyProvisionalDutiesBecomingFinalRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="notifyIncompleteMeasureBecomingComplete">
+      <wsdl:input name="notifyIncompleteMeasureBecomingCompleteRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="TariffReferenceDataServiceInboundSOAP">
+    <wsdl:port binding="tns:TariffReferenceDataServiceInboundSOAP" 
+               name="TariffReferenceDataServiceInboundSOAP">
+      <soap:address location="http://www.example.org/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

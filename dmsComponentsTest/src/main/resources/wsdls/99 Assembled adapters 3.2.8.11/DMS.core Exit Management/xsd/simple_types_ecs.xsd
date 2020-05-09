@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:simple_ecs="http://ecs.dgtaxud.ec/simple_ecs" xmlns:simple="http://ecs.dgtaxud.ec/simple" xmlns:doc="http://ecs.dgtaxud.ec/doc" targetNamespace="http://ecs.dgtaxud.ec/simple_ecs" attributeFormDefault="unqualified" elementFormDefault="unqualified" version="40.20">
+  <!--=========================================-->
+  <!--===== ECS P2 Simple Types -->
+  <!--===== DDNXA 11.00  -->
+  <!--===== XSD version v40.20  -->
+  <!--===== Aligned with RFC-List version 0.29-->
+  <!--=========================================-->
+  <!--===== Imports =====-->
+  <xs:import namespace="http://ecs.dgtaxud.ec/simple" schemaLocation="simple_types.xsd" />
+  <xs:import namespace="http://ecs.dgtaxud.ec/doc" schemaLocation="doc.xsd" />
+  <!--===== Data Item Types =====-->
+</xs:schema>
+

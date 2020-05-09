@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/movement/2017/01/31/" version="2.8" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/movement/2017/01/31/" xmlns:tns_1="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/movement/2017/01/31/" xmlns:tns_2="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/movement/2017/01/31/" xmlns:tns_3="http://cmm.core.ecf/BaseTypes/cmmValueTypes/movement/2017/01/31/">
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/movement/2017/01/31/" schemaLocation="cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmEnhancementTypes/movement/2017/01/31/" schemaLocation="cmmEnhancementTypes.xsd"/>
+  <xsd:import namespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/movement/2017/01/31/" schemaLocation="cmmCodeListTypes.xsd"/>
+  <xsd:complexType name="Location">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the details of a place of facility. WCO: Detailed information about places and facilities. </xsd:documentation>
+      <xsd:documentation>Related objects: address(PhysicalAddress) [0..1] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="unLocode" type="tns_1:UnLocode">
+        <xsd:annotation>
+          <xsd:documentation>UN location code by which the location is identified</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The name of the location. WCO NAME: Location WCO DESC: Name of location </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="identification" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The id of the location NOTE: the type of the location id will dynamically vary with the sub type of location -&gt; e.g.: in case of a CustomsWarehouse, the id will be of type CustomsWarehouseID</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Country">
+    <xsd:annotation>
+      <xsd:documentation>Information about a Country</xsd:documentation>
+      <xsd:documentation>Related objects: currencies(Currency) [0..*] </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="code" type="tns_1:CountryType">
+        <xsd:annotation>
+          <xsd:documentation>The code of the country WCO REFERENCE: 242 WCO NAME: Country, coded WCO DESC: Identification of the name of the country or other geographical entity as specified in ISO 3166 and UN/ECE Rec 3</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PhysicalAddress">
+    <xsd:annotation>
+      <xsd:documentation>Physical contact address. WCO: Details relating to an address. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="countrySubDivisionId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>ID of the country sub division NOTE: a country sub entity may be a state, province, canton, departement, county etc. WCO REF: 244 WCO NAME: Country sub-entity identification WCO DESC: Code specifying the name of a country subdivision</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="type" type="tns_1:AddressType">
+        <xsd:annotation>
+          <xsd:documentation>The type of physical address NOTE: possible values defined and maintained by UNTDED 3131 (Address type code)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="streetAndNumber" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Street and number or P.O. box of the address. 
+
+UCC Annex B: 3/xx street and number 
+UCC Annex B: 5/23 Location of goods - Street and number
+
+WCO: 239 - Street and number/P.O. Box</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="countrySubDivisionName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Name of the country sub division in which the address is located WCO REF: 243 WCO NAME: Country sub-entity name WCO DESC: Name of a country subdivision</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cityName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Name of the city in which the address is located. 
+
+UCC Annex B: 3/xx city
+UCC Annex B: 5/23 Location of goods - City
+
+WCO: 241 - City name</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="zipCode" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Postal code of the physical address.
+
+UCC Annex B: 3/xx postcode 
+UCC Annex B: 5/23 Location of goods - Postcode
+
+WCO: 245 - Postcode identification</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="houseNumberExtension" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Extension to the number of the physical address' street.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="houseNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number of the physical address' street.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="streetName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Name of the street in which the physical address is located.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="country" type="tns:Country">
+        <xsd:annotation>
+          <xsd:documentation>The country in which the physical address is located.
+
+UCC Annex B: 3/xx country code
+UCC Annex B: 5/23 Location of goods - Country code
+
+WCO: 242 - Country, coded</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContactMechanism">
+    <xsd:annotation>
+      <xsd:documentation>The mechanism by which a party can be contacted for a particular purpose.</xsd:documentation>
+      <xsd:documentation>Related objects: </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns_2:TimeAware">
+        <xsd:sequence>
+          <xsd:element name="identification" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>Identification of the contact mechanism used, e.g. phone number for TelecomAddress, address code or full address line for Physical Address WCO class Communication. public identifier identification WCO NAME: Communication number WCO DESC: To identify a communication address</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="purpose" type="tns_1:ContactMechanismPurposeType">
+            <xsd:annotation>
+              <xsd:documentation>The role or purpose of the contact mechanism in contacting the party. NOTE: 'General' if not specified.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="type" type="tns_1:ContactMechanismType">
+            <xsd:annotation>
+              <xsd:documentation>The type of contact mechanism. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyIdentification">
+    <xsd:annotation>
+      <xsd:documentation>Identification of a party</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="type" type="tns_1:PartyIdentificationType">
+        <xsd:annotation>
+          <xsd:documentation>The type of identification number NOTE: 		possible values: 1: Eori Number 2: VAT number 3: DUNS number 4: EAN number</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="number" type="tns_3:ReferenceNumber">
+        <xsd:annotation>
+          <xsd:documentation>The identification proper NOTE: 		The identification may be an instance of class String or one of its sub types such as a reference </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Currency">
+    <xsd:annotation>
+      <xsd:documentation>Information about a currency</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="exchangeRate" type="tns_3:MonetaryAmount">
+        <xsd:annotation>
+          <xsd:documentation>The exchange rate from a foreign currency (either the given currency, or -if not provided- the invoice currency from UCC 4/10) to the currency of the member state.
+
+UCC Annex B: 4/15 - Exchange rate
+WCO: 118 - Rate of exchange</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="sequenceNumber" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Sequence number (if any) indicating the order in which the currency object is given in a particular context</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="code" type="tns_1:CurrencyType">
+        <xsd:annotation>
+          <xsd:documentation>The (encoded) type of the currency UCC Annex B: 4/12 - Internal currency unit</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

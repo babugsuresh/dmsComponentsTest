@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ControlManagementServiceSOAP" 
+                  targetNamespace="http://inspection.core.ecf/ControlManagementServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://inspection.core.ecf/ControlManagementServiceSOAP/v2/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://inspection.core.ecf/ControlManagementServiceSOAP/v2/" xmlns:xsd_1="http://inspection.core.ecf/messages/2018/05/07/">
+      <xsd:import namespace="http://inspection.core.ecf/messages/2018/05/07/" schemaLocation="messages_20180507/messages.xsd"/>
+      <xsd:element name="initiateControl">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="controlRequest" type="xsd_1:ControlRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cancelControl">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="controlCancellationRequest" type="xsd_1:ControlCancellationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="initiateControlRequest">
+    <wsdl:part element="tns:initiateControl" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="cancelControlRequest">
+    <wsdl:part element="tns:cancelControl" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="ControlManagementServiceSOAP">
+    <wsdl:operation name="initiateControl">
+      <wsdl:input message="tns:initiateControlRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="cancelControl">
+      <wsdl:input message="tns:cancelControlRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="controlBinding" type="tns:ControlManagementServiceSOAP">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="initiateControl">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="cancelControl">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="ControlManagementServiceSOAPOverJMS">
+    <wsdl:port binding="tns:controlBinding" name="ControlManagementServicePort">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

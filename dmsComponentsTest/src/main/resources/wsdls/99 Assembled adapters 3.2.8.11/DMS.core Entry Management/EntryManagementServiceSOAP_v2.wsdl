@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="EntryManagementServiceSOAP" 
+                  targetNamespace="http://movement.core.ecf/EntryManagementServiceSOAP/v2/" 
+                  xmlns:tns="http://movement.core.ecf/EntryManagementServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.2</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://movement.core.ecf/EntryManagementServiceSOAP/v2/" xmlns:xsd_1="http://movement.core.ecf/messages/2017/01/31/">
+      <xsd:import namespace="http://movement.core.ecf/messages/2017/01/31/" schemaLocation="messages_20170131/messages.xsd"/>
+      <xsd:element name="notifyDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="entryManagmentRequest" type="xsd_1:NotifyDeclarationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="validateMovement">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="validationRequest" type="xsd_1:MovementValidationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="notifyDeclarationRequest">
+    <wsdl:part element="tns:notifyDeclaration" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="validateMovementRequest">
+    <wsdl:part element="tns:validateMovement" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="EntryManagementServiceSOAPJms">
+    <wsdl:operation name="notifyDeclaration">
+      <wsdl:input message="tns:notifyDeclarationRequest" name="notifyDeclarationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="validateMovement">
+      <wsdl:input message="tns:validateMovementRequest" name="validateMovementRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="EntryManagementBindingJms" type="tns:EntryManagementServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="notifyDeclaration">
+      <wsdl:input name="notifyDeclarationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="validateMovement">
+      <wsdl:input name="validateMovementRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="EntryManagementServiceSOAP">
+    <wsdl:port binding="tns:EntryManagementBindingJms" name="EntryManagementServiceSOAPJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

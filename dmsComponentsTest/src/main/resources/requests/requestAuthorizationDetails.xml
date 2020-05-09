@@ -1,0 +1,14 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://authorization.core/AuthorizationManagementService/2016/12/30/" xmlns:ns1="http://serviceobjects.cmm.core.ecf/2012/04/30/" xmlns:ns2="http://codelistelements.cmm.core.ecf/2012/04/30/" xmlns:ns3="http://party.core.ecf/messages/2012/04/30/">
+   <soap:Header/>
+   <soap:Body>
+      <v2:requestAuthorizationDetails xmlns:_02="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/party/2017/02/02/" xmlns:_02_1="http://party.core.ecf/messages/2017/02/02/" xmlns:v2="http://party.core.ecf/AuthorizationManagementServiceSOAP/v2/">
+         <authorizationDetailRequest>
+            <_02:id>5800b6c5-c6de-4bef-8c97-8011496dcd5a</_02:id>
+            <_02:sequenceNumber>1</_02:sequenceNumber>
+            <_02_1:referenceNumber>GB387345516000</_02_1:referenceNumber>
+            <_02_1:referenceDate>2019-12-04T10:52:03.000Z</_02_1:referenceDate>
+            <_02_1:authorizationCategory>2</_02_1:authorizationCategory>
+         </authorizationDetailRequest>
+      </v2:requestAuthorizationDetails>
+   </soap:Body>
+</soap:Envelope>

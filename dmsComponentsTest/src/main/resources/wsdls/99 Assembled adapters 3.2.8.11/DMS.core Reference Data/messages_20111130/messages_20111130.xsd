@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema elementFormDefault="qualified" targetNamespace="http://referencedata.core.ecf/messages/2011/11/30/" version="3.0.5" xmlns:tns="http://serviceobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_1="http://valueobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_2="http://codelistelements.cmm.core.ecf/2011/11/30/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd_1="http://referencedata.core.ecf/messages/2011/11/30/">
+  <xsd:import namespace="http://codelistelements.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmCodeListTypes/cmmCodeListTypes.xsd"/>
+  <xsd:import namespace="http://valueobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmValueTypes/cmmValueTypes.xsd"/>
+  <xsd:import namespace="http://serviceobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmServiceTypes/cmmServiceTypes.xsd"/>
+  <xsd:complexType name="ListNotFoundFault">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CodeListVerificationResponse">
+    <xsd:annotation>
+      <xsd:documentation>Response indicating whether a code list to
+    verify is valid or not.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element name="result" type="xsd:boolean">
+            <xsd:annotation>
+              <xsd:documentation>Boolean indicating whether the
+        specified code list element exists or not.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ReferenceDataRequest">
+    <xsd:annotation>
+      <xsd:documentation>Generic Request for validating a
+    code list
+    or requesting a code list element.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="code" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The code of the element to verify /
+        retrieve.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="listName" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The name of the list that the code should
+        belong to.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="referenceDate" type="tns_1:DateTime">
+            <xsd:annotation>
+              <xsd:documentation>The point-in-time that the element should
+        exist.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="languageCode" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The language code of the list element.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="systemId" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The identification of the system requesting reference data </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CodeNotFoundFault">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="errors" type="tns:Error"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CodeListRetrievalResponse">
+    <xsd:annotation>
+      <xsd:documentation>Returns a list of code list elements that
+    meet the criteria of a codeListRequest.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="codeListElements" type="tns_2:CodeListElement"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

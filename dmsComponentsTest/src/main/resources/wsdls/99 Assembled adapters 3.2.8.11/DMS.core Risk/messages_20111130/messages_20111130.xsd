@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema elementFormDefault="qualified" targetNamespace="http://risk.core.ecf/messages/2011/11/30/" version="3.1" xmlns:tns="http://serviceobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_1="http://enhancementobjects.cmm.core.ecf/2011/11/30/" xmlns:tns_2="http://declarationobjects.cmm.core.ecf/2011/11/30/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd_1="http://risk.core.ecf/messages/2011/11/30/">
+  <xsd:import namespace="http://declarationobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmDeclarationTypes/cmmDeclarationTypes.xsd"/>
+  <xsd:import namespace="http://enhancementobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmEnhancementTypes/cmmEnhancementTypes.xsd"/>
+  <xsd:import namespace="http://serviceobjects.cmm.core.ecf/2011/11/30/" schemaLocation="../CMM_20111130/cmmServiceTypes/cmmServiceTypes.xsd"/>
+  <xsd:complexType name="RiskAssessmentResponse">
+    <xsd:annotation>
+      <xsd:documentation>The response from the risk assessment request.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:RiskAssessmentResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="riskAssessmentResults" type="xsd_1:RiskAssessmentResult">
+            <xsd:annotation>
+              <xsd:documentation>The result of the risk assessment. </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RiskAssessmentResult">
+    <xsd:annotation>
+      <xsd:documentation>A risk related to one particular aspect (goods item) of the object of risk assessement (declaration/request)
+
+NOTE: a risk assessment resut will always yield one (and only one) control instruction but may be based on zero or more risk profiles</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:RiskAssessmentResult">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" name="controlInstructions" type="xsd_1:AutomaticallyRaisedControlInstruction">
+            <xsd:annotation>
+              <xsd:documentation>Control instruction raised by the Risk Assessment Service</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AutomaticallyRaisedControlInstruction">
+    <xsd:annotation>
+      <xsd:documentation>Control instruction raised by the Risk Assessment Service</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="tns:AutomaticallyRaisedControlInstruction">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="identifiedRisks" type="tns:Risk">
+            <xsd:annotation>
+              <xsd:documentation>The identified risk (zero or more) which has triggered the control instruction </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="source" type="tns_1:User">
+            <xsd:annotation>
+              <xsd:documentation>The user (person of system, e.g. risk assessment service or customs official) that created the control instruction.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="additionalDocument" type="tns_2:AdditionalDocument">
+            <xsd:annotation>
+              <xsd:documentation>The additional document (if any) whose control is manually instructed.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="controlMeans" type="tns:ControlMeans">
+            <xsd:annotation>
+              <xsd:documentation>The means (one ore more) by which control is to be performed</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RiskAssessmentCancellationRequest">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="requestId" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RiskAssessmentRequest">
+    <xsd:complexContent>
+      <xsd:extension base="tns:ServiceRequest">
+        <xsd:sequence>
+          <xsd:element name="object" type="xsd_1:RiskAssessmentObject">
+            <xsd:annotation>
+              <xsd:documentation>Wrapper around the object of risk assessment</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RiskAssessmentObject">
+    <xsd:sequence>
+      <xsd:any namespace="##any" processContents="lax">
+        <xsd:annotation>
+          <xsd:documentation>The objects to perform risk assessment on, e.g. an import/export declaration together with validationresults.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:any>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

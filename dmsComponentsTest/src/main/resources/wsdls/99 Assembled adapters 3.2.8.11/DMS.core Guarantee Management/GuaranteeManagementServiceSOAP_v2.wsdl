@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="GuaranteeManagementServiceSOAP" 
+                  targetNamespace="http://revenue.core.ecf/GuaranteeManagementServiceSOAP/v2/" 
+                  xmlns:tns="http://revenue.core.ecf/GuaranteeManagementServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://revenue.core.ecf/GuaranteeManagementServiceSOAP/v2/" xmlns:xsd_1="http://revenue.core.ecf/messages/2017/02/02/">
+      <xsd:import namespace="http://revenue.core.ecf/messages/2017/02/02/" schemaLocation="messages_20170202/messages.xsd"/>
+      <xsd:element name="getPartyGuarantees">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="partyGuaranteesRequest" type="xsd_1:PartyGuaranteesRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getPartyGuaranteesResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="guaranteeResponse" type="xsd_1:GuaranteeResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="partyNotFoundFault" type="xsd_1:PartyNotFoundFault"/>
+      <xsd:element name="getGuaranteeDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="guaranteeDetailsRequest" type="xsd_1:GuaranteeDetailsRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="guaranteeNotFoundFault" type="xsd_1:GuaranteeNotFoundFault"/>
+      <xsd:element name="getGuaranteeDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="guaranteeResponse" type="xsd_1:GuaranteeResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyGuaranteeAuthority">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="guaranteeAuthorityRequest" type="xsd_1:GuaranteeAuthorityRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyGuaranteeAuthorityguaranteeNotFoundFault" type="xsd_1:GuaranteeNotFoundFault"/>
+      <xsd:element name="makeReservation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationRequest" type="xsd_1:ReservationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="releaseReservation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationRequest" type="xsd_1:ReservationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="subscribeGuaranteeBalanceRaise">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="subscribeGuaranteeUpdateRequest" type="xsd_1:GuaranteeBalanceRaiseSubscriptionRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="cancelSubscription">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="subscriptionCancellationRequest" type="xsd_1:SubscriptionCancellationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getPartyGuaranteesRequest">
+    <wsdl:part element="tns:getPartyGuarantees" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getPartyGuaranteesResponse">
+    <wsdl:part element="tns:getPartyGuaranteesResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="partyNotFoundFault">
+    <wsdl:part element="tns:partyNotFoundFault" name="partyNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="getGuaranteeDetailsRequest">
+    <wsdl:part element="tns:getGuaranteeDetails" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getGuaranteeDetailsResponse">
+    <wsdl:part element="tns:getGuaranteeDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="guaranteeNotFoundFault">
+    <wsdl:part element="tns:guaranteeNotFoundFault" name="guaranteeNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="verifyGuaranteeAuthorityRequest">
+    <wsdl:part element="tns:verifyGuaranteeAuthority" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="verifyGuaranteeAuthorityResponse"/>
+  <wsdl:message name="makeReservationRequest">
+    <wsdl:part element="tns:makeReservation" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="releaseReservationRequest">
+    <wsdl:part element="tns:releaseReservation" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="subscribeGuaranteeBalanceRaiseRequest">
+    <wsdl:part element="tns:subscribeGuaranteeBalanceRaise" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="cancelSubscriptionRequest">
+    <wsdl:part element="tns:cancelSubscription" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="GuaranteeManagementServiceSOAPHttp">
+    <wsdl:documentation>This service provides information about guarantee that economic operators have provided to Customs to ensure coverage of their customs debt. </wsdl:documentation>
+    <wsdl:operation name="getPartyGuarantees">
+      <wsdl:documentation>This operation allows the consumer to request information about the available guarantees of a particular party. Guarantees could be either transactional or authorization based. </wsdl:documentation>
+      <wsdl:input message="tns:getPartyGuaranteesRequest"/>
+      <wsdl:output message="tns:getPartyGuaranteesResponse"/>
+      <wsdl:fault message="tns:partyNotFoundFault" name="partyNotFoundFault"/>
+      <wsdl:fault message="tns:guaranteeNotFoundFault" name="guaranteeNotFoundFault"/>    </wsdl:operation>
+    <wsdl:operation name="getGuaranteeDetails">
+      <wsdl:documentation>This operation allows the consumer to request information about a particular guarantee. Guarantees could be either transactional or authorization based. </wsdl:documentation>
+      <wsdl:input message="tns:getGuaranteeDetailsRequest"/>
+      <wsdl:output message="tns:getGuaranteeDetailsResponse"/>
+      <wsdl:fault message="tns:guaranteeNotFoundFault" name="guaranteeNotFoundFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="verifyGuaranteeAuthority">
+      <wsdl:documentation>This operation allows to verify whether at least one of the provided parties has the authority to use a particular guarantee owned (provided) by another party </wsdl:documentation>
+      <wsdl:input message="tns:verifyGuaranteeAuthorityRequest"/>
+      <wsdl:output message="tns:verifyGuaranteeAuthorityResponse"/>
+      <wsdl:fault message="tns:guaranteeNotFoundFault" name="guaranteeNotFoundFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:portType name="GuaranteeManagementServiceSOAPJms">
+    <wsdl:operation name="makeReservation">
+      <wsdl:documentation>Operation requesting the reservation on one or more transaction-based guarantees </wsdl:documentation>
+      <wsdl:input message="tns:makeReservationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="releaseReservation">
+      <wsdl:documentation>One-way operation to release a reservation. </wsdl:documentation>
+      <wsdl:input message="tns:releaseReservationRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="subscribeGuaranteeBalanceRaise">
+      <wsdl:input message="tns:subscribeGuaranteeBalanceRaiseRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="cancelSubscription">
+      <wsdl:documentation>One-way operation to cancel a guarantee balance raise subscription. </wsdl:documentation>
+      <wsdl:input message="tns:cancelSubscriptionRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="GuaranteeManagementBindingHttp" type="tns:GuaranteeManagementServiceSOAPHttp">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPartyGuarantees">
+      <soap:operation soapAction="http://revenue.core.ecf/GuaranteeManagementServiceSOAP/v2/GuaranteeManagementServiceSOAPHttp/getPartyGuaranteesRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="partyNotFoundFault">
+        <soap:fault name="partyNotFoundFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="guaranteeNotFoundFault">
+        <soap:fault name="guaranteeNotFoundFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getGuaranteeDetails">
+      <soap:operation soapAction="http://revenue.core.ecf/GuaranteeManagementServiceSOAP/v2/GuaranteeManagementServiceSOAPHttp/getGuaranteeDetailsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="guaranteeNotFoundFault">
+        <soap:fault name="guaranteeNotFoundFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyGuaranteeAuthority">
+      <soap:operation soapAction="http://revenue.core.ecf/GuaranteeManagementServiceSOAP/v2/GuaranteeManagementServiceSOAPHttp/verifyGuaranteeAuthorityRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="guaranteeNotFoundFault">
+        <soap:fault name="guaranteeNotFoundFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:binding name="GuaranteeManagementBindingJms" type="tns:GuaranteeManagementServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="makeReservation">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="releaseReservation">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="subscribeGuaranteeBalanceRaise">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="cancelSubscription">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="GuaranteeManagementServiceSOAP">
+    <wsdl:port binding="tns:GuaranteeManagementBindingHttp" name="GuaranteeManagementPortHttp">
+      <soap:address location="http://sever:port/"/>
+    </wsdl:port>
+    <wsdl:port binding="tns:GuaranteeManagementBindingJms" name="GuaranteeManagementPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>    
+</wsdl:definitions>

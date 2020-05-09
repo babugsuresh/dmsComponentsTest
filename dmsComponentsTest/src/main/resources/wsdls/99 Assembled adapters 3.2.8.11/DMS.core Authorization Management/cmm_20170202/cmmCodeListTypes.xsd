@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/party/2017/02/02/">
+  <xsd:complexType name="CodeListElementField">
+    <xsd:annotation>
+      <xsd:documentation>Element of a code list. Abstract object describing the common features of reference data elements.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:token">
+        <xsd:attribute form="qualified" name="type" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>The identification of a list of codes.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute form="qualified" name="responsibleAgent" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>An agency that maintains one or more code lists.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ServiceRequestStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of status of a service request: NOTE: possible values defined by eCF: 22: Cancelled 23: Suspended 24: Pending 25: Responded</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationCategoryType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the authorization type category. NOTE: possible values to be defined by the eCF client NOTE: may contain: 1. Import or export license 2. Warehousing 3. Procedure combination</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyIdentificationType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of identification of a party NOTE:       Examples of possible values defined and supported byeCF    1.  Eori Number: Economic Operator Registration and Identification number (see furtherbelow) 2.  VAT number: Value Added tax number (NL: BTW nummer) 3.  DUNS number: Dun Bradstreet Number, being a unique nine-digit sequence for identifyingbusinesses. 4.  EAN number: European Article Number party ID number 5.  Fiscal number     6.  SSN: Social Security Number used to identify natural persons in a government context  (NL: BNS: BurgerService Nummer) 7.  User defined: Number identifying a party defined by the user that uses the party identification  8.  EU customs office ID: Number identifying a EU customs office  9.  Country specific customs office ID: Number Identifying a Customs Office in a specific country NOTE. EORI numbers will start with the ISO country code and will usually be followed by a 12 digit number based on theEO’s VAT number, eg GB 123 4567 89 000. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a type of authorization (license). NOTE: possible values to be defined by the eCF client NOTE: may contain: 1:	warehouse authorization type,  2:   customs procedures authorization 3:   authorizations for special procedures,  4:   authorizations for submitting declaration types</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="GovernmentProcedureType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of government/customs procedure. NOTE: possible (2-digit) values defined for EU countries in CCIP Annex 38 A: Export/Dispatch 10, 11, 23 B: Customs warehousing of prefinanced goods for export 76, 77 C: Re-export after a customs procedure with economic impact other than the customs warehousing procedure (inward processing, temporary importation, processing under customs control) 31 D: Re-export after customs warehousing 31 E: Outward processing 21, 22 F: Transit G: Community status of goods H: Release for free circulation 01, 02, 07, 40 41, 42, 43, 45, 48, 49, 61, 63, 68 I: Placing under a customs procedure with economic impact other than the outward processing and customs warehousing procedures (inward processing (suspension system), temporary importation, processing under customs control) 51, 53, 54, 91, 92 J: Placing in type A, B, C, E and F customs warehouses 71, 78 K: Placing in a type D customs warehouse 71, 78 Supported procedures as per annex 38 CCIP: 00 This code is used to indicate that there is no previous procedure (a) 01 	Free circulation of goods simultaneously redispatched in the context of trade between parts of the customs territory of the Community in which the provisions of Directive 77/388/EEC are applicable and parts of that territory in which these provisions do not apply, or in the context of trade between the parts of that territory where these provisions do not apply. 02 	Free circulation of goods with a view to applying the inward processing procedure (drawback system). 07 	Free circulation with simultaneous placing of goods under a warehousing procedure other than a customs warehousing procedure. 10 	Permanent export. 11 	Export of compensating products obtained from equivalent goods under the inward processing procedure (suspension system) before entering import goods for the procedure. 21 	Temporary export under the outward processing procedure. 22 	Temporary export other than that referred to under code 21. 23 	Temporary export for return in the unaltered state. 31 	Re-export. 40 	Simultaneous release for free circulation and home use of goods which are not the subject of a VAT-exempt supply. 41 	Simultaneous release for free circulation and home use of goods placed under the inward processing procedure (drawback system). 42 	Simultaneous release for free circulation and home use of goods which are the subject of a VAT-exempt supply to another Member State. 43 	Simultaneous release for free circulation and home use of goods subject to specific measures connected with the collection of an amount during the transitional period following the accession of new Member States. 45 	Release of goods for free circulation and home use for either VAT or excise duties and their placing under the tax warehouse procedure. Explanation: VAT or excise exemption by placing the goods under a fiscal warehouse procedure. 48 	Entry for home use with simultaneous release for free circulation of replacement goods under the customs outward processing procedure prior to the export of the temporary export goods. 49 	Entry for home use of Community goods in the context of trade between parts of the customs territory of the Community in which the provisions of Directive 77/388/EEC are applicable and parts of that territory in which those provisions do not apply, or in the context of trade between the parts of that territory where these provisions do not apply. Entry for home use of goods in the context of trade between the Community and the countries with which it has formed a customs union. 51 	Inward processing procedure (suspension system). 53 	Import under temporary import procedure. 54 	Inward processing (suspension system) in another Member State (without their being released for free circulation in that Member State) 61 	Re-importation with simultaneous release for free circulation and home use of goods which are not the subject of a VAT-exempt supply. 63 	Re-importation with simultaneous release for free circulation and home use of goods which are the subject of a VAT-exempt supply to another Member State. 68 	Re-importation with partial entry for home use and simultaneous entry for free circulation and placing of goods under a warehousing procedure other than a customs warehousing procedure. 71 	Placing of goods under the customs warehousing procedure. 76 	Placing under the customs warehousing procedure or in a free zone with advance payment of export refunds of products or goods intended for export without further processing. 77 	Placing in an export warehouse, free zone or free warehouse with advance payment of export refunds of processed products or goods intended for export after processing. 78 	Entry of goods for a free zone subject to type II controls. 91 	Placing of goods under processing under customs control. 1993R2454— EN— 01.01.2008 — 011.002—572 92 	Processing under customs control in another Member State (without release for free circulation in that Member State).(a) Explanation: This code is used to record the operation for the purposes of statistics on intra-Community trade. Example: Goods from a third country are processed under customs control in Belgium (9100). After undergoing processing, they are dispatched to Germany for release for free circulation (4092) or further processing (9192).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ContactMechanismPurposeType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the purpose for which a contact mechanism is used. NOTE: eCF maintained code list 1: 'General'</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ContactMechanismType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of contact mechanism NOTE 1: UNTDID code list 3153 Communication medium type NOTE 2: the UNTDID code list 3153 does not contain a value indicating a physical contact address. For this we may need to define an eCF value e.g.: 'ZZ' NOTE 3:  UNTDID code list 3153 Values: AA    Circuit switching A process that, on demand, connects two or more data terminal equipments and permits the exclusive use of a data circuit between them until the connection is released (ISO). AB    SITA Communications number assigned by Societe Internationale de Telecommunications Aeronautiques (SITA). AC    ARINC Communications number assigned by Aeronautical Radio Inc. AD    Courier A communication channel identifying a courier. AE    Express post Express (e.g. overnight) postal service document delivery. CA    Cable address The cable is used as communication medium. EI    EDI transmission Number identifying the service and service user. EM    Electronic mail Exchange of mail by electronic means. EX    Extension Telephone extension. FT    File transfer access method According to ISO. FX    Telefax Device used for transmitting and reproducing fixed graphic material (as printing) by means of signals over telephone lines or other electronic transmission media. GM    GEIS (General Electric Information Service) mailbox GEIS mailbox system is used as communication medium. IE    IBM information exchange IBM IE is used as communication medium. IM    Internal mail Internal mail address/number. MA    Mail Postal service document delivery. PB    Postbox no. Postbox system is used as communication medium. PS    Packet switching The process of routing and transferring data by means of addressed packets so that a channel is occupied only during the transmission; upon completion of the transmission the channel is made available for the transfer of other packets (ISO). SW    S.W.I.F.T. Communications address assigned by Society for Worldwide Interbank Financial Telecommunications s.c. TE    Telephone Voice/data transmission by telephone. TG    Telegraph Text transmission via telegraph. TL    Telex Transmission of text/data via telex. TM    Telemail Transmission of text/data via telemail. TT    Teletext Transmission of text/data via teletext. TX    TWX Communication service involving Teletypewriter machines connected by wire or electronic transmission media. Teletypewriter machines are the devices used to send and receive signals and produce hardcopy from them. XF    X.400 CCITT Message handling system. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CurrencyType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a type of currency NOTE: currencies a coded using the 3 digit ISO 4217 standard currency name code list</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyRelationshipType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of a party relationship defined as a pair of 2 roles (the left and the rigth hand side role) played by the involved parties NOTE 1:	possible values (eCF defined/maintained) 0: no relationship 1: buyer- seller relationship in the sense of article 143 of Regulation EEC no 2454/93 2: company - subsidiary 3: parent company - daughter company 4: organization - contact person 5: customs agency - customs office 6: customs agency - covenant partner (covenant partnership) 7: supervising office - supervised office 8: economic operator - related VAT party</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CountryType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing information about a country represented by a country code NOTE: countries are code using the 2 digit ISO 3166-1 standard country name code list </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AddressType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of a physical address NOTE:	possible values defined and maintained by UNTDED 3131: 1 	Postal address - The address is representing a postal address. 2	Fiscal address - Identification of an address as required by fiscal administrations. 3 	Physical address - The address represents an actual physical location. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="PartyRoleType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of role a party plays in association with another object NOTE: use one of the following UN/Edifact data element 3035 Party function code list (UNTDID as code list responsible agent): TB    Submitter (not a specific SAD box, but the sender of the SAD) To specify that the party is a submitter. AG    Declarant's agent/representative (box 14) Party authorized to act on behalf of another party DT       Declarant (box 14) [3140] Party which makes a declaration to an official body or - where legally permitted - in whose name, or on whose behalf, a declaration to an official body is made. CZ    Consignor (box 2) [3336] Party which, by contract with a carrier, consigns or sends goods with the carrier, or has them conveyed by    him. CN    Consignee (box 8) [3132] Party to which goods are consigned. AF    Transit principal (box 50) Natural or legal person responsible for the satisfactory performance of a Customs transit operation. Source:    CCC. DEN    Agent/representative, direct representation (box 14): Party authorised to act in the name and on behalf of another person. DEO    Agent/representative, indirect representation (box 14): Party authorised to act in its own name but on behalf of another person. DFW   Additional actor (AEO mutual recognition party) SE      Seller (3346) Party selling merchandise to a buyer. BY      Buyer (3002) Party to which merchandise is sold IM    Importer (3020) Party who makes - or on whose behalf a Customs clearing agent or other authorized person makes - an import    declaration. This may include a person who has possession of the goods or to whom the goods are consigned.     LC:      Party declaring the VAT EX:    Exporter (3030) Party who makes - or on whose behalf a Customs clearing agent or other authorized person makes - an export declaration. This may include a       manufacturer, seller or other person. Within a Customs union, consignor may have the same meaning as exporter. PR:    Party responsible for making a payment SY:    Surety. Natural or legal person (generally a bank or insurance company) who accepts responsibility in due legal form for the financial consequences of non-fulfillment of another's obligations to the Customs (CCC). VF: Liability holder tbd:	contact person covenant partner customs office </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="LegalStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of legal status (of a economic operator) NOTE:		possible values maintained and defined by the client, e.g: - Regular - Suspension of payment (filed for bankruptcy) - Bankrupt</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="IsicCode">
+    <xsd:annotation>
+      <xsd:documentation>International Standard Industrial Classification (ISIC) code issued by the United Nations NOTE: The following codes apply: Agriculture, forestry and fishing * 01 - Crop and animal production, hunting and related service activities * 02 - Forestry and logging * 03 - Fishing and aquaculture B - Mining and quarrying * 05 - Mining of coal and lignite * 06 - Extraction of crude petroleum and natural gas * 07 - Mining of metal ores * 08 - Other mining and quarrying * 09 - Mining support service activities C - Manufacturing * 10 - Manufacture of food products * 11 - Manufacture of beverages * 12 - Manufacture of tobacco products * 13 - Manufacture of textiles * 14 - Manufacture of wearing apparel * 15 - Manufacture of leather and related products * 16 - Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials * 17 - Manufacture of paper and paper products * 18 - Printing and reproduction of recorded media * 19 - Manufacture of coke and refined petroleum products * 20 - Manufacture of chemicals and chemical products * 21 - Manufacture of basic pharmaceutical products and pharmaceutical preparations * 22 - Manufacture of rubber and plastics products * 23 - Manufacture of other non-metallic mineral products * 24 - Manufacture of basic metals * 25 - Manufacture of fabricated metal products, except machinery and equipment * 26 - Manufacture of computer, electronic and optical products * 27 - Manufacture of electrical equipment * 28 - Manufacture of machinery and equipment n.e.c. * 29 - Manufacture of motor vehicles, trailers and semi-trailers * 30 - Manufacture of other transport equipment * 31 - Manufacture of furniture * 32 - Other manufacturing * 33 - Repair and installation of machinery and equipment D - Electricity, gas, steam and air conditioning supply * 35 - Electricity, gas, steam and air conditioning supply E - Water supply; sewerage, waste management and remediation activities * 36 - Water collection, treatment and supply * 37 - Sewerage * 38 - Waste collection, treatment and disposal activities; materials recovery * 39 - Remediation activities and other waste management services F - Construction * 41 - Construction of buildings * 42 - Civil engineering * 43 - Specialized construction activities G - Wholesale and retail trade; repair of motor vehicles and motorcycles * 45 - Wholesale and retail trade and repair of motor vehicles and motorcycles * 46 - Wholesale trade, except of motor vehicles and motorcycles * 47 - Retail trade, except of motor vehicles and motorcycles H - Transportation and storage * 49 - Land transport and transport via pipelines * 50 - Water transport * 51 - Air transport * 52 - Warehousing and support activities for transportation * 53 - Postal and courier activities I - Accommodation and food service activities * 55 - Accommodation * 56 - Food and beverage service activities J - Information and communication * 58 - Publishing activities * 59 - Motion picture, video and television programme production, sound recording and music publishing activities * 60 - Programming and broadcasting activities * 61 - Telecommunications * 62 - Computer programming, consultancy and related activities * 63 - Information service activities K - Financial and insurance activities * 64 - Financial service activities, except insurance and pension funding * 65 - Insurance, reinsurance and pension funding, except compulsory social security * 66 - Activities auxiliary to financial service and insurance activities L - Real estate activities * 68 - Real estate activities M - Professional, scientific and technical activities * 69 - Legal and accounting activities * 70 - Activities of head offices; management consultancy activities * 71 - Architectural and engineering activities; technical testing and analysis * 72 - Scientific research and development * 73 - Advertising and market research * 74 - Other professional, scientific and technical activities * 75 - Veterinary activities N - Administrative and support service activities * 77 - Rental and leasing activities * 78 - Employment activities * 79 - Travel agency, tour operator, reservation service and related activities * 80 - Security and investigation activities * 81 - Services to buildings and landscape activities * 82 - Office administrative, office support and other business support activities O - Public administration and defence; compulsory social security * 84 - Public administration and defence; compulsory social security P - Education * 85 - Education Q - Human health and social work activities * 86 - Human health activities * 87 - Residential care activities * 88 - Social work activities without accommodation R - Arts, entertainment and recreation * 90 - Creative, arts and entertainment activities * 91 - Libraries, archives, museums and other cultural activities * 92 - Gambling and betting activities * 93 - Sports activities and amusement and recreation activities S - Other service activities * 94 - Activities of membership organizations * 95 - Repair of computers and personal and household goods * 96 - Other personal service activities T - Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use * 97 - Activities of households as employers of domestic personnel * 98 - Undifferentiated goods- and services-producing activities of private households for own use U - Activities of extraterritorial organizations and bodies * 99 - Activities of extraterritorial organizations and bodies</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AeoStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the authorization level of economic operator. NOTE: possible values defined and maintained by eCF 0: EU code - =	no AEO status 1: EU code 'AEOC'= Customs Simplifications (AEO status allowing customs simplifications) 2: EU code 'AEOS' = Security and Safety (AEO status with respect to security and safety) 3: EU code 'AEOF' = Customs Simplifications/Security and Safety</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="UnLocode">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a city as included in the UN/Locode code list NOTE 1:    UN/LOCODE, the United Nations Code for Trade and Transport Locations, is a geographic coding scheme developed and maintained by United Nations Economic Commission for Europe (UNECE), a unit of the United Nations. UN/LOCODE assigns codes to locations used in trade and transport with functions such as seaports, rail and road terminals, airports, post offices and border crossing points. The first issue in 1981 contained codes for 8,000 locations. The version from 2008 contained codes for about 60,000 locations. NOTE 2:     UN/LOCODEs have five characters. The first two characters are letters: the country code as per the table defined in ISO 3166-1 alpha.  Three remaining characters encode a location within that country. Letters are preferred, but if necessary digits 2 through 9 may be used (This avoids confusion between "O" and "0", and between "I" and "1".).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AuthorizationCountryRoleType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the role a country plays in the context of an authorization NOTE: Possible values defined/maintained by eCF 1: Country/Region of dispatch 2: Country/Region of export 3: Country/Region of origin 5: Country/Region of final destination</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CommodityClassificationType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of classification of a commodity NOTE: possible values from the UNTDED 7143  Item number type, code list:       ZZZ:    mutually defined (used to classify nomenclature groups       SRZ:    Harmonized tariff schedule (to define the maximum 18 digit commodity code) TSP:    EU Combined Nomenclature Code       GN:      National product group code (to define national additional commodity codes)        CV:      Customs article number (Code defined by Customs authorities to an article or a group of articles for Customs purposes.' -&gt; for CDIU 'post nummer' SSO:	Un list to classify dangerous goods</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExtensionType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a code, maintainable by the DMS client, which can be used to encode information in an extension object linked to an extendable object. NOTE: values are to be provided by clients of the eCF/DMS in their capacity of code list responsible agent NOTE 2: 	possible values for NL Customs: 1:	nl.riskassessment.InBehBij 2: 	nl.riskassessment.In_Beh_monent 3:	nl.riskassessment.VrijgPartij-SLO 4:	nl.riskassessment.Vrijg_moment 5: 	nl.riskassessment.Uitv_moment 6:	nl.riskassessment.Terugmeld_moment 7:	nl.riskassessment.GebrDrempWrde 8:	removed 9:	nl.riskassessment.GebrPlafWrde 10:	nl.riskassessment.VrijgPartij-SRD	 11:	nl.riskassessment.VrijgMoment 12:	nl.riskassessment.Volgnr-RGS 13:	nl.riskassessment.Status-VBW 14:	nl.riskassessment.VaststPartij 15:	nl.riskassessment.VastStMoment 16: nl.riskassessment.Sltl_Ref 17: nl.riskassessment.Beschr2 18: nl.riskassessment.RglKenm1 </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SignalType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a signal (like an error, warning or information) Note: defined and maintained by eCF</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SignalQualifier">
+    <xsd:annotation>
+      <xsd:documentation>Object representing signal qualifier NOTE: 	possible values defined and maintained by eCF 1:	Information 2: 	Warning 3: 	Error</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

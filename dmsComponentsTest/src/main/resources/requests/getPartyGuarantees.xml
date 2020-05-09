@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v2="http://revenue.core.ecf/GuaranteeManagementServiceSOAP/v2/" xmlns:ns="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/revenue/2017/02/02/" xmlns:ns1="http://revenue.core.ecf/messages/2017/02/02/" xmlns:ns2="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/revenue/2017/02/02/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <v2:getPartyGuarantees xmlns:_02="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/revenue/2017/02/02/" xmlns:_02_1="http://revenue.core.ecf/messages/2017/02/02/" xmlns:_02_2="http://cmm.core.ecf/BaseTypes/cmmPartyTypes/revenue/2017/02/02/">
+         <partyGuaranteesRequest>
+            <_02:status>25</_02:status>
+            <_02:id>51db83fe24b046aa932cd6fb197be368</_02:id>
+            <_02:sequenceNumber>1</_02:sequenceNumber>
+            <_02:timeStamp>2020-01-23T20:30:26.985Z</_02:timeStamp>
+            <_02_1:partyIdentification>
+               <_02_2:type>1</_02_2:type>
+               <_02_2:number>GB164538549000</_02_2:number>
+            </_02_1:partyIdentification>
+            <_02_1:referenceDate>2020-01-22T20:30:24.000Z</_02_1:referenceDate>
+            <_02_1:requestedProcedure>40</_02_1:requestedProcedure>
+         </partyGuaranteesRequest>
+      </v2:getPartyGuarantees>
+   </soapenv:Body>
+</soapenv:Envelope>

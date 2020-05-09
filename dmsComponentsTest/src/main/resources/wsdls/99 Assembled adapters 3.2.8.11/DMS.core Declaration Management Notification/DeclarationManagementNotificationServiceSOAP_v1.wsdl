@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="DeclarationManagementNotificationServiceSOAP" 
+                  targetNamespace="http://trade.core.ecf/DeclarationManagementNotificationServiceSOAP/v1/" 
+                  xmlns:tns="http://trade.core.ecf/DeclarationManagementNotificationServiceSOAP/v1/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://trade.core.ecf/DeclarationManagementNotificationServiceSOAP/v1/" xmlns:xsd_1="http://trade.core.ecf/messages/2017/03/31/">
+      <xsd:import namespace="http://trade.core.ecf/messages/2017/03/31/" schemaLocation="messages_20170331/messages.xsd"/>
+      <xsd:element name="notify">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="notification" type="xsd_1:DeclarationManagementNotification"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="notifyRequest">
+    <wsdl:part element="tns:notify" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="DeclarationManagementNotificationServiceSOAPJms">
+    <wsdl:operation name="notify">
+      <wsdl:input message="tns:notifyRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="DeclarationManagementNotificationBindingJms" type="tns:DeclarationManagementNotificationServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="notify">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="DeclarationManagementNotificationServiceSOAP">
+    <wsdl:port binding="tns:DeclarationManagementNotificationBindingJms" name="DeclarationManagementNotificationPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+</wsdl:definitions>

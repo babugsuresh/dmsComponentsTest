@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="RiskAssessmentServiceInboundSOAP" 
+                  targetNamespace="http://risk.core/RiskAssessmentServiceInboundSOAP/2016/12/30/" 
+                  xmlns:bons1="http://risk.core.ecf/messages/2011/11/30/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://risk.core/RiskAssessmentServiceInboundSOAP/2016/12/30/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.6</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://risk.core/RiskAssessmentServiceInboundSOAP/2016/12/30/">
+      <xsd:import namespace="http://risk.core.ecf/messages/2011/11/30/" schemaLocation="messages_20111130/messages_20111130.xsd"/>
+      <xsd:element name="receiveRiskAssessmentResults">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="riskAssessmentResponse" type="bons1:RiskAssessmentResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="receiveRiskAssessmentResultsRequest">
+    <wsdl:part element="tns:receiveRiskAssessmentResults" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="RiskAssessmentServiceInboundSOAP">
+    <wsdl:operation name="receiveRiskAssessmentResults">
+      <wsdl:input message="tns:receiveRiskAssessmentResultsRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RiskAssessmentServiceInboundSOAPSOAPJMS" type="tns:RiskAssessmentServiceInboundSOAP">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="receiveRiskAssessmentResults">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RiskAssessmentServiceInboundSOAP">
+    <wsdl:port binding="tns:RiskAssessmentServiceInboundSOAPSOAPJMS" name="RiskAssessmentServiceInboundSOAPSOAPJMS">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

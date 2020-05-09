@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="GuaranteeManagementServiceInboundSOAP" 
+                  targetNamespace="http://revenue.core.ecf/GuaranteeManagementServiceInboundSOAP/v2/" 
+                  xmlns:tns="http://revenue.core.ecf/GuaranteeManagementServiceInboundSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://revenue.core.ecf/GuaranteeManagementServiceInboundSOAP/v2/" xmlns:xsd_1="http://revenue.core.ecf/messages/2017/02/02/">
+      <xsd:import namespace="http://revenue.core.ecf/messages/2017/02/02/" schemaLocation="messages_20170202/messages.xsd"/>
+      <xsd:element name="notifyGuaranteeBalanceRaise">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="accountingEntryResponse" type="xsd_1:AccountingEntryResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="receiveReservationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationResponse" type="xsd_1:ReservationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="notifyGuaranteeBalanceRaiseRequest">
+    <wsdl:part element="tns:notifyGuaranteeBalanceRaise" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="receiveReservationResponseRequest">
+    <wsdl:part element="tns:receiveReservationResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="GuaranteeManagementServiceInboundSOAPJms">
+    <wsdl:documentation>This service informs DMS about the payup (raising of the balance) of a particular guarantee. It can also be used to return the reservation result asynchronously.
+
+This service must be provided by the consumer of the GuaranteeManagementService and it will be used by the GuaranteeManagementService. </wsdl:documentation>
+    <wsdl:operation name="notifyGuaranteeBalanceRaise">
+      <wsdl:documentation>A one-way operation informing DMS about the amount by which a balance of a particular guarantee was raised. This event must have been subscribed for with the GuaranteeManagementService.subscribeGuaranteePayup operation.
+
+This operation is invoked (as a notification mechanism) by the GuaranteeManagementService at the moment that the payup, which was subscribed for, has been performed. </wsdl:documentation>
+      <wsdl:input message="tns:notifyGuaranteeBalanceRaiseRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="receiveReservationResponse">
+      <wsdl:documentation>A one-way operation that can be used to return reservation result asynchronously. </wsdl:documentation>
+      <wsdl:input message="tns:receiveReservationResponseRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="GuaranteeManagementInboundBindingJms" type="tns:GuaranteeManagementServiceInboundSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="notifyGuaranteeBalanceRaise">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="receiveReservationResponse">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="GuaranteeManagementServiceInboundSOAP">
+    <wsdl:port binding="tns:GuaranteeManagementInboundBindingJms" name="GuaranteeManagementInboundPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>   
+  
+</wsdl:definitions>

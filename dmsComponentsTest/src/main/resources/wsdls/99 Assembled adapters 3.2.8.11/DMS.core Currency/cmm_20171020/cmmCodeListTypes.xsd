@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/referenceData/2017/10/20/" version="2.3" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmCodeListTypes/referenceData/2017/10/20/">
+  <xsd:complexType name="CodeListElementField">
+    <xsd:annotation>
+      <xsd:documentation>Element of a code list. Abstract object describing the common features of reference data elements.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:token">
+        <xsd:attribute form="qualified" name="responsibleAgent" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>An agency that maintains one or more code lists.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute form="qualified" name="type" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>The identification of a list of codes.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ServiceRequestStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Object capturing the type of status of a service request: NOTE: possible values defined by eCF: 22: Cancelled 23: Suspended 24: Pending 25: Responded</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExchangeRateType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the type of an exchange rate</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CurrencyType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a type of currency NOTE: currencies a coded using the 3 digit ISO 4217 standard currency name code list</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExtensionType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a code, maintainable by the DMS client, which can be used to encode information in an extension object linked to an extendable object. NOTE: values are to be provided by clients of the eCF/DMS in their capacity of code list responsible agent NOTE 2: 	possible values for NL Customs: 1:	nl.riskassessment.InBehBij 2: 	nl.riskassessment.In_Beh_monent 3:	nl.riskassessment.VrijgPartij-SLO 4:	nl.riskassessment.Vrijg_moment 5: 	nl.riskassessment.Uitv_moment 6:	nl.riskassessment.Terugmeld_moment 7:	nl.riskassessment.GebrDrempWrde 8:	removed 9:	nl.riskassessment.GebrPlafWrde 10:	nl.riskassessment.VrijgPartij-SRD	 11:	nl.riskassessment.VrijgMoment 12:	nl.riskassessment.Volgnr-RGS 13:	nl.riskassessment.Status-VBW 14:	nl.riskassessment.VaststPartij 15:	nl.riskassessment.VastStMoment 16: nl.riskassessment.Sltl_Ref 17: nl.riskassessment.Beschr2 18: nl.riskassessment.RglKenm1 </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SignalQualifier">
+    <xsd:annotation>
+      <xsd:documentation>Object representing signal qualifier NOTE: 	possible values defined and maintained by eCF 1:	Information 2: 	Warning 3: 	Error</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="SignalType">
+    <xsd:annotation>
+      <xsd:documentation>Object representing a signal (like an error, warning or information) Note: defined and maintained by eCF</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:CodeListElementField"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

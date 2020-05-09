@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/" version="2.0" xmlns:tns="http://cmm.core.ecf/BaseTypes/cmmValueTypes/party/2017/02/02/">
+  <xsd:complexType name="DateTime">
+    <xsd:annotation>
+      <xsd:documentation>Class of objects capturing a date and a time WCO ID:	 WCO DESC:	DateTime WCO NOTE: 	A particular point in the progression of time together with relevant supplementary information. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:dateTime">
+        <xsd:attribute form="qualified" name="formatCode" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="ReferenceNumber">
+    <xsd:annotation>
+      <xsd:documentation>A number by which an object can uniquely be referred to. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="Real">
+    <xsd:annotation>
+      <xsd:documentation>a real number</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:decimal"/>
+  </xsd:simpleType>
+  <xsd:complexType name="Measure">
+    <xsd:annotation>
+      <xsd:documentation>A value expressed in a particular unit type. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:Real">
+        <xsd:attribute form="qualified" name="unitType" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The unit type in which the measure value is expressed, as specified for codelist MeasureUnitType</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute form="qualified" name="qualifier" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>Indicator telling how a measure is to be used, interpreted or further qualified</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="MonetaryAmount">
+    <xsd:annotation>
+      <xsd:documentation>An amount of money in a particular currency NOTE: The 'unitType' attribute inherited from Measure is redefined/restricted to objects of 'CurrencyType'</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:Measure"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="Quantity">
+    <xsd:annotation>
+      <xsd:documentation>Object representing the result of a count of a discrete number of items expressed as a value in unit type 'piece'</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="tns:Measure"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="Text">
+    <xsd:annotation>
+      <xsd:documentation>A string of words conveying some information in a particular language.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute form="qualified" name="language" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="BankAccountNumber">
+    <xsd:annotation>
+      <xsd:documentation>Bank account number NOTE: structure (including control digit, IBAN number) still to be defined</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="tns:ReferenceNumber"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="AeoCertificateNumber">
+    <xsd:annotation>
+      <xsd:documentation>Number of the certificate that authorizes an Authorized Economic Operators. NOTE: 		the AEO certifucate number has a specific structure consisting of: -	countryCode 	(a2) -	certificateType 	(a4) -	nationalId 		(an..29) EXAMPLE:	(vbNLAEOC1234567890) </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="tns:ReferenceNumber"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="Pointer">
+    <xsd:annotation>
+      <xsd:documentation>Object indicating an element in a message which is being referred to. The referenced element is identified by an xpath-like expression pointing to that data element in the message, within a specified context (i.e. starting point). Syntax: - Unless specified differently, the top-level CMM domain message (e.g. TariffRequest) will be used as context: e.g. to refer to the declaration element within the TariffRequest, use  /declaration - Namespaces will not be used in pointers, only element names (corresponding to attribute names in BOM/CMM). - Use of implicit indexes is allowed, e.g. ...additionalDocuments[3]. However, this should only be used when a sequenceNumber is not available. - Use of conditions based on child elements is allowed, e.g. ...parties[type='TB']/identification or ...goodsItems[sequenceNumber=2] - Elements of type CodeListElement will be regarded as elementary (simple content) types - For elements representing a complex-type value object (simple content with attributes, like Measure), a pointer to the actual value of a value object should end in "/value()" and a pointer to e.g. a unitType attribute should end in "/@unitType". Examples: "/declaration/consignmentShipments[sequenceNumber=1]/goodsItems[sequenceNumber=2]" to refer to a specific goods item in the declaration which is included as element within a certain message "/declaration/parties[type='TB']/partyIdentification/number" to refer to the identification number of the submitter (party with type "TB") of a declaration "/declaration/totalGrossMass" to refer to the total gross mass measure as a whole "/declaration/totalGrossMass/value()" to refer to the actual value of the total gross mass measure "/declaration/totalGrossMass/@unitType" to refer to the unitType attribute of the total gross mass measure </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+</xsd:schema>

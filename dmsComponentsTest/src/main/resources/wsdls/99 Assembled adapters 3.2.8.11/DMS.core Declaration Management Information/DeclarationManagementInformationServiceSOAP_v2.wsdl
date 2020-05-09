@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="DeclarationManagementInformationServiceSOAP" 
+                  targetNamespace="http://trade.core.ecf/DeclarationManagementInformationServiceSOAP/v2/" 
+                  xmlns:tns="http://trade.core.ecf/DeclarationManagementInformationServiceSOAP/v2/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://trade.core.ecf/DeclarationManagementInformationServiceSOAP/v2/" xmlns:xsd_1="http://trade.core.ecf/messages/2017/03/31/">
+      <xsd:import namespace="http://trade.core.ecf/messages/2017/03/31/" schemaLocation="messages_20170331/messages.xsd"/>
+      <xsd:element name="retrieveDeclarationInformation">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="declarationManagementInformationRequest" type="xsd_1:DeclarationManagementInformationRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveDeclarationInformationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="declarationManagementInformationResponse" type="xsd_1:DeclarationManagementInformationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="declarationNotFoundFault" type="xsd_1:DeclarationNotFoundFault"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="retrieveDeclarationInformationRequest">
+    <wsdl:part element="tns:retrieveDeclarationInformation" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="retrieveDeclarationInformationResponse">
+    <wsdl:part element="tns:retrieveDeclarationInformationResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="declarationNotFoundFault">
+    <wsdl:part element="tns:declarationNotFoundFault" name="declarationNotFoundFault"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="DeclarationManagementInformationServiceSOAPHttp">
+    <wsdl:operation name="retrieveDeclarationInformation">
+      <wsdl:input message="tns:retrieveDeclarationInformationRequest"/>
+      <wsdl:output message="tns:retrieveDeclarationInformationResponse"/>
+      <wsdl:fault message="tns:declarationNotFoundFault" name="declarationNotFoundFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="DeclarationManagementInformationBindingHttp" type="tns:DeclarationManagementInformationServiceSOAPHttp">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="retrieveDeclarationInformation">
+      <soap:operation soapAction="http://trade.core.ecf/DeclarationManagementInformationServiceSOAP/v2/DeclarationManagementInformationServiceSOAPHttp/retrieveDeclarationInformationRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="declarationNotFoundFault">
+        <soap:fault name="declarationNotFoundFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>	
+  </wsdl:binding>
+
+  <wsdl:service name="DeclarationManagementInformationServiceSOAP">
+    <wsdl:port binding="tns:DeclarationManagementInformationBindingHttp" name="DeclarationManagementInformationServiceSOAPHttp">
+      <soap:address location="http://server:port"/>
+    </wsdl:port>
+  </wsdl:service>      
+
+    
+</wsdl:definitions>

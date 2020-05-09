@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  name="ArchiveServiceSOAP" 
+                  targetNamespace="http://trade.core.ecf/ArchiveServiceSOAP/v1/" 
+                  xmlns:tns="http://trade.core.ecf/ArchiveServiceSOAP/v1/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.0.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://trade.core.ecf/ArchiveServiceSOAP/v1/" xmlns:xsd_1="http://trade.core.ecf/messages/2017/03/31/">
+      <xsd:import namespace="http://trade.core.ecf/messages/2017/03/31/" schemaLocation="messages_20170331/messages.xsd"/>
+      <xsd:element name="submitDeclarationToArchive">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="archiveRequest" type="xsd_1:ArchiveRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="submitDeclarationToArchiveResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="archiveAcknowledgement" type="xsd_1:ArchiveAcknowledgment"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveDeclaration">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="archiveRetrievalRequest" type="xsd_1:ArchiveRetrievalRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveDeclarationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="archiveRetrievalResponse" type="xsd_1:ArchiveRetrievalResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="retrieveDeclarationdeclarationNotFoundFault" type="xsd_1:DeclarationNotFoundFault"/>
+      <xsd:element name="moveDeclarationToFinalArchive">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="archiveRequest" type="xsd_1:ArchiveRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="moveDeclarationToFinalArchiveResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="archiveAcknowledgement" type="xsd_1:ArchiveAcknowledgment"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="submitDeclarationToArchiveRequest">
+    <wsdl:part element="tns:submitDeclarationToArchive" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="submitDeclarationToArchiveResponse">
+    <wsdl:part element="tns:submitDeclarationToArchiveResponse" name="parameters" />
+  </wsdl:message>
+  <wsdl:message name="retrieveDeclarationRequest">
+    <wsdl:part element="tns:retrieveDeclaration" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="retrieveDeclarationResponse">
+    <wsdl:part element="tns:retrieveDeclarationResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="retrieveDeclarationDeclarationNotFoundFault">
+    <wsdl:part element="tns:retrieveDeclarationdeclarationNotFoundFault" name="declarationNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="moveDeclarationToFinalArchiveRequest">
+    <wsdl:part element="tns:moveDeclarationToFinalArchive" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="moveDeclarationToFinalArchiveResponse">
+    <wsdl:part element="tns:moveDeclarationToFinalArchiveResponse" name="parameters" />
+  </wsdl:message>
+
+  <wsdl:portType name="ArchiveServiceSOAPHttp">
+    <wsdl:operation name="retrieveDeclaration">
+      <wsdl:input message="tns:retrieveDeclarationRequest"/>
+      <wsdl:output message="tns:retrieveDeclarationResponse"/>
+      <wsdl:fault message="tns:retrieveDeclarationDeclarationNotFoundFault" name="declarationNotFoundFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ArchiveServiceSOAPJms">
+    <wsdl:operation name="submitDeclarationToArchive">
+      <wsdl:input message="tns:submitDeclarationToArchiveRequest"/>
+    </wsdl:operation>
+    <wsdl:operation name="moveDeclarationToFinalArchive">
+      <wsdl:input message="tns:moveDeclarationToFinalArchiveRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+
+  <wsdl:binding name="ArchiveBindingHttp" type="tns:ArchiveServiceSOAPHttp">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="retrieveDeclaration">
+      <soap:operation soapAction="http://trade.core.ecf/ArchiveServiceSOAP/v1/ArchiveServiceSOAPHttp/retrieveDeclarationRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="declarationNotFoundFault">
+        <soap:fault name="declarationNotFoundFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ArchiveBindingJms" type="tns:ArchiveServiceSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="submitDeclarationToArchive">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  
+  <wsdl:service name="ArchiveServiceSOAP">
+    <wsdl:port binding="tns:ArchiveBindingHttp" name="ArchivePortHttp">
+      <soap:address location="http://server:port/"/>
+    </wsdl:port>
+    <wsdl:port binding="tns:ArchiveBindingJms" name="ArchivePortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+</wsdl:definitions>

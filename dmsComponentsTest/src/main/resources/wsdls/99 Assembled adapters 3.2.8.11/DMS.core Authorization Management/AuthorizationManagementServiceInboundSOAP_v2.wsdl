@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                    name="AuthorizationManagementServiceInboundSOAP" 
+                    targetNamespace="http://party.core.ecf/AuthorizationManagementServiceInboundSOAP/v2/" xmlns:tns="http://party.core.ecf/AuthorizationManagementServiceInboundSOAP/v2/" 
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>2.0</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://party.core.ecf/AuthorizationManagementServiceInboundSOAP/v2/" xmlns:xsd_1="http://party.core.ecf/messages/2017/02/02/">
+      <xsd:import namespace="http://party.core.ecf/messages/2017/02/02/" schemaLocation="messages_20170202/messages.xsd"/>
+      <xsd:element name="receiveReservationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="reservationResponse" type="xsd_1:AuthorizationReservationResponse"/>
+            <xsd:element minOccurs="0" name="authorizationNotFoundFault" type="xsd_1:AuthorizationNotFoundFault"/>
+            <xsd:element minOccurs="0" name="reservationNotAllowedFault" type="xsd_1:ReservationNotAllowedFault"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="receiveReservationResponseRequest">
+    <wsdl:part element="tns:receiveReservationResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="AuthorizationManagementServiceInboundSOAPJms">
+    <wsdl:documentation>The Authorization Management Service provides common functions related to authorizations, for instance the retrieval of authorization details. This inbound service can by used to return response asynchronously. </wsdl:documentation>
+    <wsdl:operation name="receiveReservationResponse">
+      <wsdl:input message="tns:receiveReservationResponseRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="AuthorizationManagementInboundBindingJms" type="tns:AuthorizationManagementServiceInboundSOAPJms">
+    <soap:binding style="document" transport="http://www.w3.org/2010/soapjms/"/>
+    <wsdl:operation name="receiveReservationResponse">
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="AuthorizationManagementServiceInboundSOAP">
+    <wsdl:port binding="tns:AuthorizationManagementInboundBindingJms" name="AuthorizationManagementInboundPortJms">
+      <soap:address location="jms:jndi:destinationName"/>
+    </wsdl:port>
+  </wsdl:service>  
+</wsdl:definitions>

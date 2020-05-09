@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ReferenceDataServiceSOAP" 
+                  targetNamespace="http://referencedata.core/ReferenceDataService/2016/12/30/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://referencedata.core/ReferenceDataService/2016/12/30/"  
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.7.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://referencedata.core/ReferenceDataService/2016/12/30/"  
+                xmlns:xsd_1="http://referencedata.core.ecf/messages/2011/11/30/">
+      <xsd:import namespace="http://referencedata.core.ecf/messages/2011/11/30/" 
+                  schemaLocation="messages_20111130/messages_20111130.xsd"/>
+      <xsd:element name="verifyCode">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyCodeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="codeListVerificationResponse" type="xsd_1:CodeListVerificationResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyCodelistNotFoundFault" type="xsd_1:ListNotFoundFault"/>
+      <xsd:element name="getCodeListElement">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getCodeListElementResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="codeListRetrievalResponse" type="xsd_1:CodeListRetrievalResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getCodeListElementcodeNotFoundFault" type="xsd_1:CodeNotFoundFault"/>
+      <xsd:element name="getCodeListElementlistNotFoundFault" type="xsd_1:ListNotFoundFault"/>
+      <xsd:element name="getCodeListElements">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getCodeListElementsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="codeListRetrievalResponse" type="xsd_1:CodeListRetrievalResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getCodeListElementslistNotFoundFault" type="xsd_1:ListNotFoundFault"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="verifyCodeRequest">
+    <wsdl:part element="tns:verifyCode" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="verifyCodeResponse">
+    <wsdl:part element="tns:verifyCodeResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="verifyCodeFault">
+    <wsdl:part element="tns:verifyCodelistNotFoundFault" name="listNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="getCodeListElementRequest">
+    <wsdl:part element="tns:getCodeListElement" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getCodeListElementResponse">
+    <wsdl:part element="tns:getCodeListElementResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getCodeListElementFault">
+    <wsdl:part element="tns:getCodeListElementcodeNotFoundFault" name="codeNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="getCodeListElementFault1">
+    <wsdl:part element="tns:getCodeListElementlistNotFoundFault" name="listNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:message name="getCodeListElementsRequest">
+    <wsdl:part element="tns:getCodeListElements" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getCodeListElementsResponse">
+    <wsdl:part element="tns:getCodeListElementsResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getCodeListElementsFault">
+    <wsdl:part element="tns:getCodeListElementslistNotFoundFault" name="listNotFoundFault"/>
+  </wsdl:message>
+  <wsdl:portType name="ReferenceDataServiceSOAP">
+    <wsdl:operation name="verifyCode">
+      <wsdl:input message="tns:verifyCodeRequest"/>
+      <wsdl:output message="tns:verifyCodeResponse"/>
+      <wsdl:fault message="tns:verifyCodeFault" name="listNotFound"/>
+    </wsdl:operation>
+    <wsdl:operation name="getCodeListElement">
+      <wsdl:input message="tns:getCodeListElementRequest"/>
+      <wsdl:output message="tns:getCodeListElementResponse"/>
+      <wsdl:fault message="tns:getCodeListElementFault" name="codeNotFound"/>
+      <wsdl:fault message="tns:getCodeListElementFault1" name="listNotFound"/>
+    </wsdl:operation>
+    <wsdl:operation name="getCodeListElements">
+      <wsdl:input message="tns:getCodeListElementsRequest"/>
+      <wsdl:output message="tns:getCodeListElementsResponse"/>
+      <wsdl:fault message="tns:getCodeListElementsFault" name="listNotFound"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <!-- Binding (SOAP 1.1/HTTP binding) -->
+  <wsdl:binding name="referenceBinding" type="tns:ReferenceDataServiceSOAP">
+    <!-- document/literal/wrapped -->
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <!-- Operation -->
+    <wsdl:operation name="verifyCode">
+      <soap:operation soapAction="http://referencedata.core/ReferenceDataService/2016/12/30/ReferenceDataServiceSOAP/verifyCodeRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCodeListElement">
+      <soap:operation soapAction="http://referencedata.core/ReferenceDataService/2016/12/30/ReferenceDataServiceSOAP/getCodeListElementRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCodeListElements">
+      <soap:operation soapAction="http://referencedata.core/ReferenceDataService/2016/12/30/ReferenceDataServiceSOAP/getCodeListElementsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="ReferenceDataServiceSOAP">
+    <wsdl:port binding="tns:referenceBinding" name="ReferenceDataServiceSOAP">
+      <soap:address location="http://host:port/ReferenceDataServiceSOAP"/>
+    </wsdl:port>
+  </wsdl:service>   
+  
+</wsdl:definitions>

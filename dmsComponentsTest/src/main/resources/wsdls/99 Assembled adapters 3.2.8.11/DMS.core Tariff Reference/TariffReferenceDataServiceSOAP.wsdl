@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="TariffReferenceDataServiceSOAP" 
+                  targetNamespace="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/" 
+                  xmlns:bons0="http://tariff.core.ecf/TariffReferenceDataServiceSOAP/2011/11/30/" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:tns="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <version>1.5.1</version>
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/" xmlns:bons0="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/" xmlns:xsd_1="http://tariff.core.ecf/messages/2011/11/30/">
+      <xsd:import namespace="http://tariff.core.ecf/messages/2011/11/30/" schemaLocation="messages_20111130/messages_20111130.xsd"/>
+      <xsd:element name="getFootnoteDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="getFootnoteDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataResponse" type="xsd_1:ReferenceDataResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="getTaxCodeDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="getTaxCodeDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataResponse" type="xsd_1:ReferenceDataResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="getReliefCodeDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="getReliefCodeDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataResponse" type="xsd_1:ReferenceDataResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="getCommodityDetails">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="getCommodityDetailsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataResponse" type="xsd_1:ReferenceDataResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="retrieveGoodsNomenclatureGroups">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="referenceDataRequest" type="xsd_1:ReferenceDataRequest"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+	  
+      <xsd:element name="retrieveGoodsNomenclatureGroupsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="nomenclatureGroupsResponse" type="xsd_1:NomenclatureGroupsResponse"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="getFootnoteDetailsRequest">
+    <wsdl:part element="tns:getFootnoteDetails" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getFootnoteDetailsResponse">
+    <wsdl:part element="tns:getFootnoteDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getTaxCodeDetailsRequest">
+    <wsdl:part element="tns:getTaxCodeDetails" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getTaxCodeDetailsResponse">
+    <wsdl:part element="tns:getTaxCodeDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getReliefCodeDetailsRequest">
+    <wsdl:part element="tns:getReliefCodeDetails" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getReliefCodeDetailsResponse">
+    <wsdl:part element="tns:getReliefCodeDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getCommodityDetailsRequest">
+    <wsdl:part element="tns:getCommodityDetails" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="getCommodityDetailsResponse">
+    <wsdl:part element="tns:getCommodityDetailsResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="retrieveGoodsNomenclatureGroupsRequest">
+    <wsdl:part element="tns:retrieveGoodsNomenclatureGroups" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="retrieveGoodsNomenclatureGroupsResponse">
+    <wsdl:part element="tns:retrieveGoodsNomenclatureGroupsResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="TariffReferenceDataServiceSOAP">
+    <wsdl:operation name="getFootnoteDetails">
+      <wsdl:input message="tns:getFootnoteDetailsRequest"/>
+      <wsdl:output message="tns:getFootnoteDetailsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getTaxCodeDetails">
+      <wsdl:input message="tns:getTaxCodeDetailsRequest"/>
+      <wsdl:output message="tns:getTaxCodeDetailsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getReliefCodeDetails">
+      <wsdl:input message="tns:getReliefCodeDetailsRequest"/>
+      <wsdl:output message="tns:getReliefCodeDetailsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getCommodityDetails">
+      <wsdl:input message="tns:getCommodityDetailsRequest"/>
+      <wsdl:output message="tns:getCommodityDetailsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="retrieveGoodsNomenclatureGroups">
+      <wsdl:input message="tns:retrieveGoodsNomenclatureGroupsRequest"/>
+      <wsdl:output message="tns:retrieveGoodsNomenclatureGroupsResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  
+  
+   <!-- Binding (SOAP 1.2/HTTP binding) -->
+<wsdl:binding name="TariffReferenceDataServiceSOAP" type="tns:TariffReferenceDataServiceSOAP">
+  <!-- document/literal/wrapped -->
+  <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <!-- Operation -->
+    <wsdl:operation name="getFootnoteDetails">
+      <soap:operation soapAction="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/TariffReferenceDataServiceSOAP/getFootnoteDetailsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>	
+	<wsdl:operation name="getTaxCodeDetails">
+      <soap:operation soapAction="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/TariffReferenceDataServiceSOAP/getTaxCodeDetailsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+	<wsdl:operation name="getReliefCodeDetails">
+      <soap:operation soapAction="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/TariffReferenceDataServiceSOAP/getReliefCodeDetailsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+	<wsdl:operation name="getCommodityDetails">
+      <soap:operation soapAction="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/TariffReferenceDataServiceSOAP/getCommodityDetailsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+	<wsdl:operation name="retrieveGoodsNomenclatureGroups">
+      <soap:operation soapAction="http://tariff.core/TariffReferenceDataServiceSOAP/2016/12/30/TariffReferenceDataServiceSOAP/retrieveGoodsNomenclatureGroupsRequest"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+    
+  
+ <!-- Service -->
+  <wsdl:service name="TariffReferenceDataServiceSOAP">
+    <!-- Port -->
+    <wsdl:port binding="tns:TariffReferenceDataServiceSOAP" name="TariffReferenceDataServiceSOAP">
+      <soap:address location="http://host:port/TariffReferenceDataServiceSOAP"/>
+    </wsdl:port>
+  </wsdl:service>  
+  
+  
+  
+</wsdl:definitions>
