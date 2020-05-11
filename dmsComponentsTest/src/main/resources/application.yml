@@ -5,70 +5,88 @@ spring:
     main:
         banner-mode: off
 logging:
-    file: logs/Final_Report.log
+    file: logs/dmsApp.log
     pattern:
         console: '%d %-5level %logger : %msg%n'
-        file: '%msg%n'
+        file: '%d %-5level : %msg%n'
     level:
         hmrc.cds.dms: INFO
         root: WARN
 Environments:
-    - dit1
-    - dit2
-    - dit3
+    - DIT1
+    - DIT2
+    - DIT3
+    - DIT4
+    - FIT1
+    - FIT2
+    - FIT3
+    
 PDSURI: /DMSTraderService
 XRSURI: /ExchangeRateService
-TariffURI: /services/s038-ct-proxy
+TariffURI: /TariffManagementServiceSOAPHttp
 ILMSURI: /AuthorizationsService
 SPSURI: /bolt/securingpaymentservice
-RDSURI: /bolt/securingpaymentservice
+RDSURI: /ReferenceDataService
 PDSHosts:
     - 'http://bolt-pds-dms-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk:8000'
-    - dit4
-    - dit5
-    - dit6
+    - 'http://bolt-pds-dms-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk:8000'
+    - 'http://bolt-pds-dms-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8000'
+    - 'http://bolt-pds-dms-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8000'
+    - 'http://bolt-pds-dms-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8000'
+    
 XRSHosts:
     - 'http://bolt-xrs-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8100'
     - 'http://bolt-xrs-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk:8100'
     - 'http://bolt-xrs-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk:8100'
-    - dit4
-    - dit5
-    - dit6
+    - 'http://bolt-xrs-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk:8100'
+    - 'http://bolt-xrs-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8100'
+    - 'http://bolt-xrs-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8100'
+    - 'http://bolt-xrs-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8100'
+    
 TariffHosts:
     - 'http://tycho-tmm-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk'
     - 'http://tycho-tmm-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk'
     - 'http://tycho-tmm-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk'
-    - dit4
-    - dit5
-    - dit6
+    - 'http://tycho-tmm-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk'
+    - 'http://tycho-tmm-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk'
+    - 'http://tycho-tmm-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk'
+    - 'http://tycho-tmm-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk'
+    
 ILMSHosts:
     - 'http://bolt-auth-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8110'
     - 'http://bolt-auth-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk:8110'
     - 'http://bolt-auth-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk:8110'
-    - dit4
-    - dit5
-    - dit6
+    - 'http://bolt-auth-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk:8110'
+    - 'http://bolt-auth-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8110'
+    - 'http://bolt-auth-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8110'
+    - 'http://bolt-auth-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8110'
+    
 SPSHosts:
     - 'http://bolt-sps-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8030'
     - 'http://bolt-sps-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk:8030'
     - 'http://bolt-sps-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk:8030'
-    - dit4
-    - dit5
-    - dit6
+    - 'http://bolt-sps-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk:8030'
+    - 'http://bolt-sps-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8030'
+    - 'http://bolt-sps-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8030'
+    - 'http://bolt-sps-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8030'
+    - 'http://bolt-sps-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk:8030'
 RDSHosts:
     - 'http://bolt-rds-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8020'
     - 'http://bolt-rds-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk:8020'
     - 'http://bolt-rds-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk:8020'
-    - dit4
-    - dit5
-    - dit6
+    - 'http://bolt-rds-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk:8020'
+    - 'http://bolt-rds-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8020'
+    - 'http://bolt-rds-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8020'
+    - 'http://bolt-rds-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8020'
+    
 ReportDestination: frfrfrf
 SystemMapping:
-    -
-        PartyManagementServiceSOAP.wsdl: PDS
-    -
-        GuaranteeManagementServiceSOAP_v2.wsdl: SPS
-    -
-        AuthorizationManagementServiceSOAP_v2.wsdl: ILMS
+    - PartyManagementServiceSOAP.wsdl: PDS
+    - GuaranteeManagementServiceSOAP_v2.wsdl: SPS
+    - AuthorizationManagementServiceSOAP_v2.wsdl: ILMS
+    - ExchangeRateServiceSOAP.wsdl: XRS
+    - ReferenceDataServiceSOAP.wsdl: RDS
+    - TariffManagementServiceSOAP_v2.wsdl: Tariff
+        
