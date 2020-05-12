@@ -2,6 +2,7 @@ package hmrc.cds.dms;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -10,7 +11,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -61,17 +65,22 @@ public class DmsComponentsTestController {
 	@GetMapping("/verifydmscomponents")
 	public String verifydmscomponents(
 			@RequestParam(name = "name", required = false, defaultValue = "all") String envSelected, Model model)
-			throws IOException, UnsupportedOperationException, SOAPException {
+			throws IOException, UnsupportedOperationException, SOAPException, URISyntaxException {
 		System.out.println("\n----JESUS is my GOD----");
 
+		InputStream is = getClass().getResourceAsStream("/application.yml");
+
 		Yaml yaml = new Yaml();
-		Reader yamlFile = new FileReader("src/main/resources/application.yml");
+		// Reader yamlFile = new FileReader("src/main/resources/application.yml");
+		Reader yamlFile = new InputStreamReader(is);
 
 		@SuppressWarnings("unchecked")
 		Map<String, Object> yamlMaps = (Map<String, Object>) yaml.load(yamlFile);
 
 		@SuppressWarnings("unchecked")
 		List<String> envs = (List<String>) yamlMaps.get("Environments");
+		
+		System.out.println("\n----JESUS is my GOD----"+envs.toString());
 
 		@SuppressWarnings("unchecked")
 		final List<Map<String, Object>> systemMapping = (List<Map<String, Object>>) yamlMaps.get("SystemMapping");
@@ -88,135 +97,154 @@ public class DmsComponentsTestController {
 		boolean loopBack = false;
 		boolean oneenv = false;
 		int index = 0;
+		
+		//InputStream wsdlPath = getContextClassLoader().getResourceAsStream("/wsdls/99 Assembled adapters 3.2.8.11");
 
-		File directory = new File(BASEDIR, "src/main/resources/wsdls/99 Assembled adapters 3.2.8.11");
-		File wsdlDir = null;
-		File file;
+		//File fileD = ResourceUtils.getFile("classpath:/wsdls/99 Assembled adapters 3.2.8.11");
+		
+		//InputStream is = getClass().getResourceAsStream("/application.yml");
+		//InputStream filex = this.getClass().getResourceAsStream("/wsdls/99 Assembled adapters 3.2.8.11");
+		URL dirUrl = getClass().getResource("/wsdls/99 Assembled adapters 3.2.8.11");
+		//URL url = DmsComponentsTestController.class.getResource("resources/wsdls/99 Assembled adapters 3.2.8.11/");
+		if (dirUrl == null) {
+			log.info("No WSDL path provided");
+		} else {
+			// File dir = new File(url.toURI());
+			File directory = new File(dirUrl.toURI());
+			File wsdlDir = null;
+			File file;
 
-		// Setting only one env selected
-		if (envs.contains(envSelected)) {
-			log.info("Env Selected: " + envSelected + ", Index for Selected: " + envs.indexOf(envSelected));
-			oneenv = true;
-		}
-
-		exitloop: for (String env : envs) {
-
-			// Setting selected env and its index for rite end point call purpose
-			if (oneenv) {
-				index = envs.indexOf(envSelected);
-				env = envSelected;
+			// Setting only one env selected
+			if (envs.contains(envSelected)) {
+				log.info("Env Selected: " + envSelected + ", Index for Selected: " + envs.indexOf(envSelected));
+				oneenv = true;
 			}
 
-			ReportBean reportBean = new ReportBean();
+			exitloop: for (String env : envs) {
 
-			// when it comes back for new env clear this
-			if (!list.isEmpty()) {
-				list.removeAll(list);
-			}
+				// Setting selected env and its index for rite end point call purpose
+				if (oneenv) {
+					index = envs.indexOf(envSelected);
+					env = envSelected;
+				}
 
-			// iterate at nested dir level
-			Iterator<File> iter = FileUtils.iterateFiles(directory, new String[] { "wsdl" }, true);
-			while (iter.hasNext()) {
+				ReportBean reportBean = new ReportBean();
 
-				file = (File) iter.next();
-				wsdlDir = new File(BASEDIR, file.getParent());
+				// when it comes back for new env clear this
+				if (!list.isEmpty()) {
+					list.removeAll(list);
+				}
 
-				// iterate at wsdl dir level and look for wsdl only and no more traverse through
-				// wsdl dir
-				Iterator<File> itr = FileUtils.iterateFiles(wsdlDir, new String[] { "wsdl" }, false);
-				while (itr.hasNext()) {
-					file = (File) itr.next();
-					File wsdlFile = new File(wsdlDir, file.getPath());
-					if (!list.contains(wsdlFile.getName())) {
+				// iterate at nested dir level
+				Iterator<File> iter = FileUtils.iterateFiles(directory, new String[] { "wsdl" }, true);
+				while (iter.hasNext()) {
 
-						outerloop: for (Map<String, Object> featureService : systemMapping) {
-							for (Map.Entry<String, Object> entry : featureService.entrySet()) {
-								String key = entry.getKey();
-								if (wsdlFile.getName().equalsIgnoreCase(key)) {
-									String value = (String) entry.getValue();
-									systemtocall = value;
-									list.add(wsdlFile.getName());
-									loopBack = false;
-									break outerloop;
+					file = (File) iter.next();
+					wsdlDir = new File(BASEDIR, file.getParent());
 
-								} else {
-									loopBack = true;
+					// iterate at wsdl dir level and look for wsdl only and no more traverse through
+					// wsdl dir
+					Iterator<File> itr = FileUtils.iterateFiles(wsdlDir, new String[] { "wsdl" }, false);
+					while (itr.hasNext()) {
+						file = (File) itr.next();
+						File wsdlFile = new File(wsdlDir, file.getPath());
+						if (!list.contains(wsdlFile.getName())) {
+
+							outerloop: for (Map<String, Object> featureService : systemMapping) {
+								for (Map.Entry<String, Object> entry : featureService.entrySet()) {
+									String key = entry.getKey();
+									if (wsdlFile.getName().equalsIgnoreCase(key)) {
+										String value = (String) entry.getValue();
+										systemtocall = value;
+										list.add(wsdlFile.getName());
+										loopBack = false;
+										break outerloop;
+
+									} else {
+										loopBack = true;
+									}
 								}
 							}
-						}
 
-						if (!loopBack) {
-							log.info("Env Executing for: " + env + ", System to call for: " + wsdlFile.getName()
-									+ ", WSDL Service is: " + systemtocall + ", index of environment: "
-									+ envs.indexOf(env));
+							if (!loopBack) {
+								log.info("Env Executing for: " + env + ", System to call for: " + wsdlFile.getName()
+										+ ", WSDL Service is: " + systemtocall + ", index of environment: "
+										+ envs.indexOf(env));
 
-							// one env selected scenario
-							if (oneenv) {
-								endpoint = getEndPoint(env, index, systemtocall, yamlMaps);
+								// one env selected scenario
+								if (oneenv) {
+									endpoint = getEndPoint(env, index, systemtocall, yamlMaps);
+								} else {
+									endpoint = getEndPoint(env, envs.indexOf(env), systemtocall, yamlMaps);
+								}
+
+								ServiceName services = new ServiceName();
+								if (!(endpoint == null)) {
+									String systemHostURI = systemtocall + "URI";
+									endpoint = endpoint + yamlMaps.get(systemHostURI);
+									log.info("Endpoint URL to call for: " + systemtocall + " = " + endpoint);
+
+									List<Operation> operationList = getPortTypeOperations(file.getPath());
+
+									log.info("Total Number of operations in " + wsdlFile.getName() + " : "
+											+ operationList.size());
+
+									operationNames = getOperations(operationList, endpoint);
+
+								} else {
+									log.info("No External System End Points are Configured for: " + systemtocall);
+								}
+
+								services = new ServiceName();
+								services.setSystemName(systemtocall);
+								services.setServiceName(wsdlFile.getName());
+								services.setOperationNames(operationNames);
+								serviceNames.add(services);
+
 							} else {
-								endpoint = getEndPoint(env, envs.indexOf(env), systemtocall, yamlMaps);
+								log.info("No External System is configured for WSDL: " + wsdlFile.getName());
 							}
 
-							ServiceName services = new ServiceName();
-							if (!(endpoint == null)) {
-								String systemHostURI = systemtocall + "URI";
-								endpoint = endpoint + yamlMaps.get(systemHostURI);
-								log.info("Endpoint URL to call for: " + systemtocall + " = " + endpoint);
-
-								List<Operation> operationList = getPortTypeOperations(file.getPath());
-
-								log.info("Total Number of operations in " + wsdlFile.getName() + " : "
-										+ operationList.size());
-
-								operationNames = getOperations(operationList, endpoint);
-
-							} else {
-								log.info("No External System End Points are Configured for: " + systemtocall);
-							}
-
-							services = new ServiceName();
-							services.setSystemName(systemtocall);
-							services.setServiceName(wsdlFile.getName());
-							services.setOperationNames(operationNames);
-							serviceNames.add(services);
-
-						} else {
-							log.info("No External System is configured for WSDL: " + wsdlFile.getName());
 						}
 
 					}
 
 				}
 
+				// Just to avoid duplicate adding
+				List<ServiceName> tempServiceList = new ArrayList<ServiceName>();
+				tempServiceList.addAll(serviceNames);
+
+				reportBean = new ReportBean();
+				reportBean.setEnvName(env);
+				reportBean.setServiceNames(tempServiceList);
+
+				// exit main env level loop if one env only selected
+				if (envSelected.equalsIgnoreCase("all")) {
+					rb.add(reportBean);
+				} else {
+					rb.add(reportBean);
+					break exitloop;
+				}
+
+				serviceNames.removeAll(serviceNames);
+
 			}
+			log.info("Final ReportBean: " + rb);
 
-			// Just to avoid duplicate adding
-			List<ServiceName> tempServiceList = new ArrayList<ServiceName>();
-			tempServiceList.addAll(serviceNames);
+			// Now form a HTML data based on final ReportBean
+			String body = generateHTMLfile(rb);
 
-			reportBean = new ReportBean();
-			reportBean.setEnvName(env);
-			reportBean.setServiceNames(tempServiceList);
-
-			// exit main env level loop if one env only selected
-			if (envSelected.equalsIgnoreCase("all")) {
-				rb.add(reportBean);
-			} else {
-				rb.add(reportBean);
-				break exitloop;
-			}
-
-			serviceNames.removeAll(serviceNames);
+			// Pass this HTML data to Thymeleaf html page
+			model.addAttribute("body", body);
 
 		}
-		log.info("Final ReportBean: " + rb);
-
-		// Now form a HTML data based on final ReportBean
-		String body = generateHTMLfile(rb);
-
-		// Pass this HTML data to Thymeleaf html page
-		model.addAttribute("body", body);
 		return "report";
+
+	}
+
+	private ClassLoader getContextClassLoader() {
+		return Thread.currentThread().getContextClassLoader();
 	}
 
 	private String generateHTMLfile(List<ReportBean> rb) throws IOException {
@@ -316,19 +344,28 @@ public class DmsComponentsTestController {
 
 	}
 
-	private String getRequestEnvelopeToString(String operation) {
-
-		File requestsDir = new File(BASEDIR, "src/main/resources/requests");
-
-		String[] requestsnames;
-		requestsnames = requestsDir.list();
+	private String getRequestEnvelopeToString(String operation) throws URISyntaxException {
 		String requestenvelope = "empty";
 
-		for (String requestsname : requestsnames) {
+		//InputStream requestsPath = getContextClassLoader().getResourceAsStream("/requests");
+		URL reqUrl = getClass().getResource("/requests");
+		//URL url = this.getClass().getResource("resources/requests");
+		if (reqUrl == null) {
+			log.info("No requests xmls path provided");
+		} else {
+			// File dir = new File(url.toURI());
+			//File directory = new File(url.toURI());
+			File requestsDir = new File(reqUrl.toURI());
 
-			if (requestsname.equalsIgnoreCase(operation + ".xml")) {
-				File requestFile = new File(requestsDir, requestsname);
-				requestenvelope = readLineByLine(requestFile.toString());
+			String[] requestsnames;
+			requestsnames = requestsDir.list();
+
+			for (String requestsname : requestsnames) {
+
+				if (requestsname.equalsIgnoreCase(operation + ".xml")) {
+					File requestFile = new File(requestsDir, requestsname);
+					requestenvelope = readLineByLine(requestFile.toString());
+				}
 			}
 		}
 
@@ -370,7 +407,7 @@ public class DmsComponentsTestController {
 	}
 
 	public List<OperationName> getOperations(List<Operation> operationList, String endpoint)
-			throws UnsupportedOperationException, SOAPException, IOException {
+			throws UnsupportedOperationException, SOAPException, IOException, URISyntaxException {
 		String soapenvelope = null;
 
 		SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -410,7 +447,7 @@ public class DmsComponentsTestController {
 					log.info("\n");
 					StreamResult result = new StreamResult(System.out);
 					transformer.transform(sourceContent, result);
-					log.debug("::"+sourceContent);
+					log.debug("::" + sourceContent);
 
 				} catch (TransformerException e) {
 					throw new RuntimeException(e);
