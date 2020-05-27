@@ -49,6 +49,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.ibm.wsdl.PortTypeImpl;
 
+
 @Controller
 public class DmsComponentsTestController {
 
@@ -62,11 +63,108 @@ public class DmsComponentsTestController {
 		return "verifydmscomponents";
 	}
 
-	@GetMapping("/verifydmscomponents")
-	public String verifydmscomponents(
-			@RequestParam(name = "name", required = false, defaultValue = "all") String envSelected, Model model)
-			throws IOException, UnsupportedOperationException, SOAPException, URISyntaxException {
+	public void publishConfluenceData() {
+
+		List<ReportBean> rbs = getReportBeanData("all");
+
+		// System.out.println("Printing from publishConfluenceData: "+rb);
+
+		String h1 = "<table>\r\n" + "   <tr>\r\n" + "      <th>SYSTEM NAME</th>\r\n" + "      <th>SERVICE NAME</th>\r\n"
+				+ "      <th>OPERATION NAME</th>";
+
+		String h2 = "</tr>\r\n" + "</table>";
+
+		String x = null;
+		String y = "";
+		StringBuilder headerBuilder = new StringBuilder();
+		StringBuilder builder1 = new StringBuilder();
+
+		List<String> ls = new ArrayList<String>();
+		List<String> ls1 = new ArrayList<String>();
+
+		for (ReportBean rb : rbs) {
+
+			StringBuilder localBuilder = new StringBuilder();
+			String envs = "<th>" + rb.getEnvName() + "</th>";
+			System.out.println ("ENv Names: "+rb.getEnvName());
+			for (ServiceName sn : rb.getServiceNames()) {
+				//System.out.println("ServiceName inside: "+sn.getServiceName()+", env name: "+rb.getEnvName());
+				
+				/*
+				 * if(sn.getOperationNames().isEmpty()) { String status =
+				 * "<ac:emoticon ac:name=\"cross\" />"; y = "\n<td>" + status + "</td>"; for
+				 * (String s : ls) { String k = s + y; ls1.add(k); ls.remove(s); break; } }
+				 */
+				
+				
+				for (OperationName on : sn.getOperationNames() ) {
+					System.out.println("OperationName inside: "+on.getOperationName()+", env name: "+rb.getEnvName());
+
+					if (!rb.getEnvName().equalsIgnoreCase("DIT1")) {
+						String status = null;
+						if (on.getStatus().equalsIgnoreCase("Running")) {
+							status = "<ac:emoticon ac:name=\"tick\" />";
+						} else {
+							status = "<ac:emoticon ac:name=\"cross\" />";
+						}
+						y = "\n<td>" + status + "</td>";
+						for (String s : ls) {
+							String k = s + y;
+							ls1.add(k);
+							ls.remove(s);
+							break;
+						}
+					} else {
+						System.out.println("Indise DIT1");
+						String status = null;
+						if (on.getStatus().equalsIgnoreCase("Running")) {
+							status = "<ac:emoticon ac:name=\"tick\" />";
+						} else {
+							status = "<ac:emoticon ac:name=\"cross\" />";
+						}
+
+						x = "\n</tr>\r\n" + "   <tr>\r\n" + "      <td>" + sn.getSystemName() + "</td>\r\n"
+								+ "      <td>" + sn.getServiceName().substring(0, sn.getServiceName().lastIndexOf("."))
+								.replaceAll("\\SOAP.*?\\b", "") + "</td>\r\n" + "      <td>"
+								+ on.getOperationName() + "</td>\r\n" + "	  <td>" + status + "</td>";
+
+						ls.add(x);
+					}
+
+					localBuilder.append(x);
+				}
+
+			}
+			
+			System.out.println("Listof elements: "+ls1);
+			ls.addAll(ls1);
+			ls1.removeAll(ls1);
+			builder1.append(envs);
+
+		}
+		headerBuilder.append(builder1.toString());
+
+		StringBuilder rowsBuilder = new StringBuilder();
+		String xx = "";
+		StringBuilder localBuilder = new StringBuilder();
+		
+		for (String ss : ls) {
+			xx = ss;
+			localBuilder.append(xx);
+		}
+		xx = localBuilder.toString();
+		rowsBuilder.append(xx);
+		
+		String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + h2;
+
+		System.out.println(finalHTML);
+
+	}
+
+	private List<ReportBean> getReportBeanData(String envSel) {
+
 		System.out.println("\n----JESUS is my GOD----");
+		String envSelected = envSel;
 
 		InputStream is = getClass().getResourceAsStream("/application.yml");
 
@@ -79,8 +177,8 @@ public class DmsComponentsTestController {
 
 		@SuppressWarnings("unchecked")
 		List<String> envs = (List<String>) yamlMaps.get("Environments");
-		
-		System.out.println("\n----JESUS is my GOD----"+envs.toString());
+
+		System.out.println("\n----JESUS is my GOD----" + envs.toString());
 
 		@SuppressWarnings("unchecked")
 		final List<Map<String, Object>> systemMapping = (List<Map<String, Object>>) yamlMaps.get("SystemMapping");
@@ -97,20 +195,30 @@ public class DmsComponentsTestController {
 		boolean loopBack = false;
 		boolean oneenv = false;
 		int index = 0;
-		
-		//InputStream wsdlPath = getContextClassLoader().getResourceAsStream("/wsdls/99 Assembled adapters 3.2.8.11");
 
-		//File fileD = ResourceUtils.getFile("classpath:/wsdls/99 Assembled adapters 3.2.8.11");
-		
-		//InputStream is = getClass().getResourceAsStream("/application.yml");
-		//InputStream filex = this.getClass().getResourceAsStream("/wsdls/99 Assembled adapters 3.2.8.11");
+		// InputStream wsdlPath = getContextClassLoader().getResourceAsStream("/wsdls/99
+		// Assembled adapters 3.2.8.11");
+
+		// File fileD = ResourceUtils.getFile("classpath:/wsdls/99 Assembled adapters
+		// 3.2.8.11");
+
+		// InputStream is = getClass().getResourceAsStream("/application.yml");
+		// InputStream filex = this.getClass().getResourceAsStream("/wsdls/99 Assembled
+		// adapters 3.2.8.11");
 		URL dirUrl = getClass().getResource("/wsdls/99 Assembled adapters 3.2.8.11");
-		//URL url = DmsComponentsTestController.class.getResource("resources/wsdls/99 Assembled adapters 3.2.8.11/");
+		// URL url = DmsComponentsTestController.class.getResource("resources/wsdls/99
+		// Assembled adapters 3.2.8.11/");
 		if (dirUrl == null) {
 			log.info("No WSDL path provided");
 		} else {
 			// File dir = new File(url.toURI());
-			File directory = new File(dirUrl.toURI());
+			File directory = null;
+			try {
+				directory = new File(dirUrl.toURI());
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			File wsdlDir = null;
 			File file;
 
@@ -189,7 +297,13 @@ public class DmsComponentsTestController {
 									log.info("Total Number of operations in " + wsdlFile.getName() + " : "
 											+ operationList.size());
 
-									operationNames = getOperations(operationList, endpoint);
+									try {
+										operationNames = getOperations(operationList, endpoint);
+									} catch (UnsupportedOperationException | SOAPException | IOException
+											| URISyntaxException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 
 								} else {
 									log.info("No External System End Points are Configured for: " + systemtocall);
@@ -230,21 +344,28 @@ public class DmsComponentsTestController {
 				serviceNames.removeAll(serviceNames);
 
 			}
-			log.info("Final ReportBean: " + rb);
-
-			// Now form a HTML data based on final ReportBean
-			String body = generateHTMLfile(rb);
-
-			// Pass this HTML data to Thymeleaf html page
-			model.addAttribute("body", body);
 
 		}
-		return "report";
+		log.info("Final ReportBean: " + rb);
+
+		return rb;
 
 	}
 
-	private ClassLoader getContextClassLoader() {
-		return Thread.currentThread().getContextClassLoader();
+	@GetMapping("/verifydmscomponents")
+	public String verifydmscomponents(
+			@RequestParam(name = "name", required = false, defaultValue = "all") String envSelected, Model model)
+			throws IOException, UnsupportedOperationException, SOAPException, URISyntaxException {
+
+		List<ReportBean> rb = getReportBeanData(envSelected);
+		// Now form a HTML data based on final ReportBean
+		String body = generateHTMLfile(rb);
+
+		// Pass this HTML data to Thymeleaf html page
+		model.addAttribute("body", body);
+		//publishConfluenceData();
+		return "report";
+
 	}
 
 	private String generateHTMLfile(List<ReportBean> rb) throws IOException {
@@ -347,14 +468,15 @@ public class DmsComponentsTestController {
 	private String getRequestEnvelopeToString(String operation) throws URISyntaxException {
 		String requestenvelope = "empty";
 
-		//InputStream requestsPath = getContextClassLoader().getResourceAsStream("/requests");
+		// InputStream requestsPath =
+		// getContextClassLoader().getResourceAsStream("/requests");
 		URL reqUrl = getClass().getResource("/requests");
-		//URL url = this.getClass().getResource("resources/requests");
+		// URL url = this.getClass().getResource("resources/requests");
 		if (reqUrl == null) {
 			log.info("No requests xmls path provided");
 		} else {
 			// File dir = new File(url.toURI());
-			//File directory = new File(url.toURI());
+			// File directory = new File(url.toURI());
 			File requestsDir = new File(reqUrl.toURI());
 
 			String[] requestsnames;
@@ -436,39 +558,44 @@ public class DmsComponentsTestController {
 				headers.setHeader("Content-Type", "application/xml");
 				request.saveChanges();
 
-				SOAPMessage soapResponse = soapConnection.call(request, endpoint);
-
 				try {
+					// log.info("\nInside TRY block");
+					SOAPMessage soapResponse = soapConnection.call(request, endpoint);
 					TransformerFactory transformerFactory = TransformerFactory.newInstance();
 					Transformer transformer = transformerFactory.newTransformer();
 					Source sourceContent = soapResponse.getSOAPPart().getContent();
 
 					log.info("\nResponse SOAP Message = ");
-					log.info("\n");
+					// log.info("\n");
 					StreamResult result = new StreamResult(System.out);
 					transformer.transform(sourceContent, result);
 					log.debug("::" + sourceContent);
 
-				} catch (TransformerException e) {
-					throw new RuntimeException(e);
-				}
+					operationName = new OperationName();
+					operationName.setOperationName(opname.getName());
 
-				operationName = new OperationName();
-				operationName.setOperationName(opname.getName());
+					if (!soapResponse.getSOAPBody().hasFault()) {
+						operationName.setStatus("Running");
+					}
+					// Handle Connection timeout / Conn refused
+					else if (soapResponse.getSOAPBody() == null) {
+						operationName.setStatus("  Down ");
+						// Handle SOAPFault Exception
+					} else {
+						operationName.setStatus("Down");
+					}
+					// operationName.setResponse(sw.toString());
+					operationName.setResponse("TODO" + i++);
+					operationNames.add(operationName);
 
-				if (!soapResponse.getSOAPBody().hasFault()) {
-					operationName.setStatus("Running");
+				} catch (Exception e) {
+					//Covering all down scenario
+					operationName = new OperationName();
+					operationName.setOperationName(opname.getName());
+					operationName.setStatus("Down");
+					operationNames.add(operationName);					
+					log.error("Exception in calling end point: " + e);
 				}
-				// Handle Connection timeout / Conn refused
-				else if (soapResponse.getSOAPBody() == null) {
-					operationName.setStatus("  Down ");
-					// Handle SOAPFault Exception
-				} else {
-					operationName.setStatus("Fault");
-				}
-				// operationName.setResponse(sw.toString());
-				operationName.setResponse("TEST" + i++);
-				operationNames.add(operationName);
 
 			} else {
 				log.info("No Request XML is provided for: " + opname.getName());

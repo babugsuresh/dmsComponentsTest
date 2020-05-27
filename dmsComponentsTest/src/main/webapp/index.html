@@ -1,5 +1,6 @@
 <html>
 <head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
 <style type="text/css">
 .intro {
 	width: 100%;
@@ -420,6 +421,20 @@ footer a {
 	color: #34495e;
 }
 
+img {
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif) no-repeat top;
+}
+body {
+  height: 100%;
+  margin: 0;
+}
 </style>
 
 </head>
@@ -448,17 +463,30 @@ footer a {
 		</div>
 		<div class="button-6">
 			<div class="eff-6"></div>
-			<a href="/dmsApp/verifydmscomponents?name=FIT1"> FIT2 </a>
+			<a href="/dmsApp/verifydmscomponents?name=FIT2"> FIT2 </a>
 		</div>
 		<div class="button-7">
 			<div class="eff-7"></div>
-			<a href="/dmsApp/verifydmscomponents?name=FIT1"> FIT3 </a>
+			<a href="/dmsApp/verifydmscomponents?name=FIT3"> FIT3 </a>
+		</div>
+		<div class="button-7">
+			<div class="eff-7"></div>
+			<a href="/dmsApp/verifydmscomponents?name=FIT4"> FIT4 </a>
+		</div>
+		<div class="button-1">
+			<div class="eff-1"></div>
+			<a href="/dmsApp/verifydmscomponents?name=Stress2"> Stress2 </a>
 		</div>
 		<div class="button-8">
 			<div class="eff-8"></div>
 			<a href="/dmsApp/verifydmscomponents?name=all"> All </a>
 		</div>
 	</div>
-
+<script type="text/javascript">
+		$('a').click(
+				function() {
+					$("body").replaceWith("<body><img></body>");
+				});
+	</script>
 </body>
 </html>
