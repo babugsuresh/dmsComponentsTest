@@ -4,14 +4,20 @@ server:
 spring:
     main:
         banner-mode: off
+        
+logging.file: /dms/logs/dmsComponentsTestApp/dmsComponentsTestApp.log
+logging.file.max-size: 5MB
+logging.file.max-history: 2
+
 logging:
-    file: logs/dmsApp.log
-    pattern:
+     pattern:
         console: '%d %-5level %logger : %msg%n'
         file: '%d %-5level : %msg%n'
-    level:
+     level:
         hmrc.cds.dms: INFO
         root: WARN
+
+
 Environments:
     - DIT1
     - DIT2

@@ -3,13 +3,11 @@ package hmrc.cds.dms;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,7 +39,6 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
@@ -95,11 +92,11 @@ public class DmsComponentsTestController {
 	}
 
 	@SuppressWarnings("deprecation")
-	@Scheduled(fixedRate = 3600000)
+	@Scheduled(cron = "0 0 8-19 * * MON-FRI") //on the hour 8AM-to-7PM weekdays
 	@GetMapping("/publishConfluenceData")
 	public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException {
 
-		final long pageId = 48961827;
+		final long pageId = 50430757;
 
 		@SuppressWarnings("deprecation")
 		HttpClient client = new DefaultHttpClient();
@@ -309,9 +306,7 @@ public class DmsComponentsTestController {
 				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
 				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
 				"   </tr>\r\n" + 
-				"</table><p>**This page updates on Hourly basis, if you are looking for a realtime data please "
-				+ "launch <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> "
-				+ "from D4D.</p><table>\r\n" + 
+				"</table><H2>Appendix A: </H2><table>\r\n" + 
 				"  <tr>\r\n" + 
 				"    <th>Acronym</th>\r\n" + 
 				"    <th>What is Stands For</th>\r\n" + 
@@ -377,7 +372,9 @@ public class DmsComponentsTestController {
 				"    <td>Declaration Information Service	</td>\r\n" + 
 				"    <td></td>\r\n" + 
 				"  </tr>\r\n" + 
-				"</table>";
+				"</table><p>**This page updates on <b>Hourly (from 8AM-to-7PM weekdays)</b> basis, if you are looking for a realtime data please launch "
+				+ "<a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p>"
+				+ "<p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
 
 		String x = null;
 		String y = "";
@@ -391,7 +388,7 @@ public class DmsComponentsTestController {
 
 			StringBuilder localBuilder = new StringBuilder();
 			String envs = "<th>" + rb.getEnvName() + "</th>";
-			System.out.println("ENv Names: " + rb.getEnvName());
+			//System.out.println("ENv Names: " + rb.getEnvName());
 			for (ServiceName sn : rb.getServiceNames()) {
 				// System.out.println("ServiceName inside: "+sn.getServiceName()+", env name:
 				// "+rb.getEnvName());
@@ -423,7 +420,7 @@ public class DmsComponentsTestController {
 							break;
 						}
 					} else {
-						System.out.println("Indise DIT1");
+						//System.out.println("Indise DIT1");
 						String status = null;
 						if (on.getStatus().equalsIgnoreCase("Running")) {
 							status = "<ac:emoticon ac:name=\"tick\" />";
@@ -491,7 +488,7 @@ public class DmsComponentsTestController {
 			// System.out.println("Put Page Request returned : \n" +
 			// page.getJSONObject("body").getJSONObject("storage").getString("value"));
 			// System.out.println("");
-			System.out.println(IOUtils.toString(putPageEntity.getContent()));
+			//System.out.println(IOUtils.toString(putPageEntity.getContent()));
 		} finally {
 			EntityUtils.consume(putPageEntity);
 		}
@@ -500,8 +497,6 @@ public class DmsComponentsTestController {
 	}
 
 	private List<ReportBean> getReportBeanData(String envSel) {
-
-		System.out.println("\n----JESUS is my GOD----");
 		String envSelected = envSel;
 
 		InputStream is = getClass().getResourceAsStream("/application.yml");
@@ -644,7 +639,7 @@ public class DmsComponentsTestController {
 									}
 
 								} else {
-									log.info("No External System End Points are Configured for: " + systemtocall);
+									//log.info("No External System End Points are Configured for: " + systemtocall);
 								}
 
 								services = new ServiceName();
@@ -659,7 +654,7 @@ public class DmsComponentsTestController {
 								serviceNames.add(services);
 
 							} else {
-								log.info("No External System is configured for WSDL: " + wsdlFile.getName());
+								//log.info("No External System is configured for WSDL: " + wsdlFile.getName());
 							}
 
 						}
@@ -689,7 +684,7 @@ public class DmsComponentsTestController {
 			}
 
 		}
-		log.info("Final ReportBean: " + rb);
+		//log.info("Final ReportBean: " + rb);
 
 		return rb;
 
@@ -844,10 +839,14 @@ public class DmsComponentsTestController {
 		try {
 			WSDLFactory factory = WSDLFactory.newInstance();
 			WSDLReader reader = factory.newWSDLReader();
+			
+			//To avoid writing log while reading
+			reader.setFeature("javax.wsdl.verbose", false);
+			reader.setFeature("javax.wsdl.importDocuments", false);
 
-			// pass the location/url to the reader for parsing and get list of operations
+			// pass the location/url to the reader for parsing and get list of operations	
 			Definition wsdlInstance = reader.readWSDL(wsdlUrl);
-
+			
 			Map<String, PortTypeImpl> defMap = wsdlInstance.getAllPortTypes();
 			Collection<PortTypeImpl> collection = defMap.values();
 			for (PortTypeImpl portType : collection) {
@@ -931,17 +930,18 @@ public class DmsComponentsTestController {
 					operationName.setResponse("TODO" + i++);
 					operationNames.add(operationName);
 
-				} catch (Exception e) {
+				} catch (Exception e) {					
 					// Covering all down scenario
 					operationName = new OperationName();
 					operationName.setOperationName(opname.getName());
 					operationName.setStatus("Down");
 					operationNames.add(operationName);
-					log.error("Exception in calling end point: " + e);
+					log.error("Exception in calling Operation: " + opname.getName());
+					//e.printStackTrace();
 				}
 
 			} else {
-				log.info("No Request XML is provided for: " + opname.getName());
+				//log.info("No Request XML is provided for: " + opname.getName());
 			}
 
 		}
