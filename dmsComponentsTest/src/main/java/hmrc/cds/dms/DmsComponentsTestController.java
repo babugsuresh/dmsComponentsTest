@@ -21,6 +21,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +65,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
+import java.text.SimpleDateFormat;
+import java.util.Hashtable;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import com.ibm.mq.MQException;
+import com.ibm.mq.MQQueueManager;
+import com.ibm.mq.constants.CMQC;
+import com.ibm.mq.constants.CMQCFC;
+import com.ibm.mq.headers.MQDataException;
+import com.ibm.mq.headers.pcf.PCFMessage;
+import com.ibm.mq.headers.pcf.PCFMessageAgent;
 import com.ibm.wsdl.PortTypeImpl;
+import org.apache.commons.*;
 
 @Controller
 public class DmsComponentsTestController {
@@ -74,6 +89,42 @@ public class DmsComponentsTestController {
 	private static final String USERNAME = "7898083";
 	private static final String PASSWORD = "Syamala@2432";
 	private static final String ENCODING = "utf-8";
+
+	InputStream is = getClass().getResourceAsStream("/application.yml");
+
+	Yaml yaml = new Yaml();
+	// Reader yamlFile = new FileReader("src/main/resources/application.yml");
+	Reader yamlFile = new InputStreamReader(is);
+
+	@SuppressWarnings("unchecked")
+	Map<String, Object> yamlMaps = (Map<String, Object>) yaml.load(yamlFile);
+	static List<QueuesDataBean> qdb;
+
+	List<FinalQueuesStatusReport> frb = new ArrayList<FinalQueuesStatusReport>();
+
+	static {
+
+		qdb = new ArrayList<QueuesDataBean>();
+
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN", "TMM(Tariff)", "Inbound", "Q"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN_BO", "TMM(Tariff)", "", "BO"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT", "TMM(Tariff)", "Outbound", "Q"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT_BO", "TMM(Tariff)", "", "BO"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV", "IPS-ETMP", "Inbound", "Q"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV_BO", "IPS-ETMP", "", "BO"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION", "IPS-ETMP", "Outbound", "Q"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_BO", "IPS-ETMP", "", "BO"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT", "Tariff(Quota)", "Inbound", "Q"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_BO", "Tariff(Quota)", "", "BO"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT", "Tariff(Quota)", "Outbound", "Q"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT_BO", "Tariff(Quota)", "", "BO"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT", "IPS*", "Inbound", "Q"));
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT_BO", "IPS*", "", "BO"));
+
+	}
 
 	private static String getContentRestUrl(final Long contentId, final String[] expansions)
 			throws UnsupportedEncodingException {
@@ -91,8 +142,276 @@ public class DmsComponentsTestController {
 		return "verifydmscomponents";
 	}
 
+	public String generateJMSHTMLData() {
+
+		System.out.println("Started Executing generateJMSHTMLData");
+
+		@SuppressWarnings("unchecked")
+		final List<Map<String, Object>> JMSEnvironments = (List<Map<String, Object>>) yamlMaps.get("JMSEnvironments");
+
+		List<FinalQueuesStatusReport> frb = new ArrayList<FinalQueuesStatusReport>();
+		String key = null;
+		Object value = null;
+		for (Map<String, Object> entry : JMSEnvironments) {
+			for (Map.Entry<String, Object> innerentry : entry.entrySet()) {
+				key = innerentry.getKey();
+				value = innerentry.getValue();
+
+				int x = 0;
+				FinalQueuesStatusReport fqsr = doPCF(key, value);
+				frb.add(fqsr);
+			}
+
+			System.out.println("key: " + key + ", value: " + value);
+		}
+
+		System.out.println("List of FinalQueuesStatusReport: " + frb);
+
+		String h1 = "<table style=\"width:100%\">\r\n" + "  <tr>\r\n" + "    <th>Environment</th>";
+
+		String h2 = "</tr>\r\n" + "  <tr>\r\n" + "    <td></td>";
+
+		String x = "";
+		String y = "";
+		String z = "";
+		String a = "";
+		String b = "";
+		StringBuilder builder = new StringBuilder();
+		String data = "";
+
+		for (FinalQueuesStatusReport rp : frb) {
+
+			if (!(rp.getQheader() == null)) {
+
+				// Removing duplicates
+				Set<String> s = new LinkedHashSet<String>(rp.getQheader().getSystemNames());
+
+				for (String systemNames : s) {
+
+					if (systemNames.endsWith("*")) {
+						x = x + "<th colspan=\"2\" style=\"text-align:center\">"
+								+ systemNames.substring(0, systemNames.length() - 1) + "</th>";
+					} else {
+						x = x + "<th colspan=\"4\" style=\"text-align:center\">" + systemNames + "</th>";
+					}
+
+				}
+
+				for (String typeOfQueue : rp.getQheader().getTypeOfQueue()) {
+					if (!typeOfQueue.isEmpty()) {
+
+						y = y + "<th colspan=\"2\" style=\"text-align:center\">" + typeOfQueue
+								+ "</th>";
+
+					}
+
+				}
+
+				for (String types : rp.getQheader().getType()) {
+
+					z = z + "<th>" + types + "</th>";
+				}
+			}
+			if (!(rp.getqDepthStatus() == null)) {
+				for (QueuesDepthStatus s : rp.getqDepthStatus()) {
+					
+					boolean down = false;
+
+					for (Integer i : s.getDepths()) {
+
+						String ss = String.valueOf(i);
+
+						if (ss == String.valueOf(i)) {
+
+							b = b + "<td></td>";
+							down = true;
+
+						} else {
+
+							if (i > 0) {
+								b = b + "<td class=\"highlight-red\" data-highlight-colour=\"red\"><b>" + i
+										+ "</b></td>";
+							} else {
+								b = b + "<td>" + i + "</td>";
+							}
+
+						}
+
+					}
+					
+					if(down) {
+						String c = "<ac:emoticon ac:name=\"cross\" />";
+						a = "<td><b>" + s.envName + "</b>&nbsp;"+c+"</td>" + b + "</tr>\r\n" + "   <tr>";
+					}else {
+						String c = "<ac:emoticon ac:name=\"tick\" />";
+						a = "<td><b>" + s.envName + "</b>&nbsp;"+c+"</td>" + b + "</tr>\r\n" + "   <tr>";
+					}
+
+					
+
+					builder.append(a);
+					b = "";
+
+				}
+			}
+
+		}
+
+		data = builder.toString();
+
+		String h3 = "</tr>  \r\n" + "   <tr>\r\n";
+
+		String finalHML = h1 + x + h2 + y + h2 + z + h3 + data + "</tr>";
+		// System.out.println(finalHML);
+
+		return finalHML;
+
+	}
+
+	/**
+	 * Handle connecting to the queue manager, issuing PCF command then looping
+	 * through PCF response messages and disconnecting from the queue manager.
+	 */
+	private FinalQueuesStatusReport doPCF(String key, Object obj) {
+		
+		MQQueueManager qMgr = null;
+
+		PCFMessageAgent agent = null;
+		PCFMessage request = null;
+		PCFMessage[] responses = null;
+		Map<String, Integer> queueNameDepth = new HashMap<String, Integer>();
+
+		Hashtable<String, Object> mqht = new Hashtable<String, Object>();
+
+		mqht.put(CMQC.CHANNEL_PROPERTY, "DMSQM.SVRCONN");
+		mqht.put(CMQC.HOST_NAME_PROPERTY, obj);
+		mqht.put(CMQC.PORT_PROPERTY, 1414);
+
+		String qMgrName = "DMSQM";
+
+		FinalQueuesStatusReport fqsr = new FinalQueuesStatusReport();
+		frb.add(fqsr);
+
+		QueuesDepthStatus qds = new QueuesDepthStatus();
+		List<QueuesDepthStatus> qDepthStatus = new ArrayList<QueuesDepthStatus>();
+		List<Integer> depths = new ArrayList<Integer>();
+		try {
+
+			qMgr = new MQQueueManager(qMgrName, mqht);
+			log.debug("successfully connected to " + qMgrName);
+
+			agent = new PCFMessageAgent(qMgr);
+			log.debug("successfully created agent");
+
+			// https://www.ibm.com/support/knowledgecenter/en/SSFKSJ_9.1.0/com.ibm.mq.ref.adm.doc/q087800_.htm
+			request = new PCFMessage(CMQCFC.MQCMD_INQUIRE_Q);
+
+			/**
+			 * You can explicitly set a queue name like "TEST.Q1" or use a wild card like
+			 * "TEST.*"
+			 */
+			request.addParameter(CMQC.MQCA_Q_NAME, "DMS.*");
+
+			// Add parameter to request only local queues
+			request.addParameter(CMQC.MQIA_Q_TYPE, CMQC.MQQT_LOCAL);
+
+			// Add parameter to request only queue name and current depth
+			request.addParameter(CMQCFC.MQIACF_Q_ATTRS, new int[] { CMQC.MQCA_Q_NAME, CMQC.MQIA_CURRENT_Q_DEPTH });
+
+			responses = agent.send(request);
+
+			for (int i = 0; i < responses.length; i++) {
+				if (((responses[i]).getCompCode() == CMQC.MQCC_OK)
+						&& ((responses[i]).getParameterValue(CMQC.MQCA_Q_NAME) != null)) {
+					String name = responses[i].getStringParameterValue(CMQC.MQCA_Q_NAME);
+					if (name != null)
+						name = name.trim();
+
+					int depth = responses[i].getIntParameterValue(CMQC.MQIA_CURRENT_Q_DEPTH);
+					queueNameDepth.put(name, depth);
+
+				}
+			}
+
+			QueuesHeader qheader = new QueuesHeader();
+
+			List<String> systemNames = new ArrayList<String>();
+			List<String> typeOfQueue = new ArrayList<String>();
+			List<String> type = new ArrayList<String>();
+
+			for (QueuesDataBean qd : qdb) {
+				for (Map.Entry<String, Integer> entry : queueNameDepth.entrySet()) {
+
+					if (entry.getKey().equalsIgnoreCase(qd.getQueueName())) {
+
+						if (key.equalsIgnoreCase("DIT1")) {
+							systemNames.add(qd.getSystemName());
+							typeOfQueue.add(qd.getType());
+
+							type.add(qd.qType);
+							qheader.setType(type);
+
+							qheader.setSystemNames(systemNames);
+							qheader.setTypeOfQueue(typeOfQueue);
+
+							fqsr.setQheader(qheader);
+						}
+
+						depths.add(entry.getValue());
+
+					}
+
+				}
+			}
+			qds.setDepths(depths);
+			qDepthStatus.add(qds);
+			qds.setEnvName(key);
+			fqsr.setqDepthStatus(qDepthStatus);
+
+		} catch (MQException e) {
+			log.error("CC=" + e.completionCode + " : RC=" + e.reasonCode);
+
+			//Handle null depths scenario and JMS server down scenario
+			Integer x = null;
+			if (qdb.size() > 0) {
+				for (int i = 0; i < qdb.size(); i++) {
+					depths.add(x);
+				}
+
+			}
+			qds.setDepths(depths);
+			qDepthStatus.add(qds);
+			qds.setEnvName(key);
+			fqsr.setqDepthStatus(qDepthStatus);
+
+		} catch (IOException e) {
+			log.error("IOException:" + e.getLocalizedMessage());
+		} catch (MQDataException e) {
+			log.error("MQDataException:" + e.getLocalizedMessage());
+		} finally {
+			try {
+				if (agent != null) {
+					agent.disconnect();
+					log.debug("disconnected from agent");
+				}
+			} catch (MQDataException e) {
+				log.error("CC=" + e.completionCode + " : RC=" + e.reasonCode);
+			}
+
+			try {
+				if (qMgr != null) {
+					qMgr.disconnect();
+					log.debug("disconnected from " + qMgrName);
+				}
+			} catch (MQException e) {
+				log.error("CC=" + e.completionCode + " : RC=" + e.reasonCode);
+			}
+		}
+		return fqsr;
+	}
+
 	@SuppressWarnings("deprecation")
-	@Scheduled(cron = "0 0 8-19 * * MON-FRI") //on the hour 8AM-to-7PM weekdays
+	@Scheduled(cron = "0 0 8-19 * * MON-FRI") // on the hour 8AM-to-7PM weekdays
 	@GetMapping("/publishConfluenceData")
 	public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException {
 
@@ -136,245 +455,18 @@ public class DmsComponentsTestController {
 
 		// System.out.println("Printing from publishConfluenceData: "+rb);
 
+		String jmsHTML = generateJMSHTMLData();
+
 		String h1 = "<table>\r\n" + "<tr>\r\n" + "<th>Emotion</th>\r\n" + "<th>Details</th>\r\n" + "</tr>\r\n"
-				+ "<tr>\r\n" + "<td><ac:emoticon ac:name=\"tick\" /></td>\r\n"
-				+ "<td>System is Up and Running</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
-				+ "<td><ac:emoticon ac:name=\"cross\" /></td>\r\n" + "<td>System is Down</td>\r\n" + "</tr>\r\n"
-				+ "<tr>\r\n" + "<td><ac:emoticon ac:name=\"information\" /></td>\r\n"
-				+ "<td>Fault Response Received try with different data,<p>For More Details use <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp\">DMS Components App</a> from D4D.</p></td>\r\n" + "</tr>\r\n"
+				+ "<tr>\r\n" + "<td><ac:emoticon ac:name=\"tick\" /></td>\r\n" + "<td>System is Up and Running</td>\r\n"
+				+ "</tr>\r\n" + "<tr>\r\n" + "<td><ac:emoticon ac:name=\"cross\" /></td>\r\n"
+				+ "<td>Application or Queue Server is Down</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
+				+ "<td><ac:emoticon ac:name=\"information\" /></td>\r\n"
+				+ "<td>Fault Response Received try with different data,<p>For More Details use <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp\">DMS Components App</a> from D4D.</p></td>\r\n"
+				+ "</tr>\r\n"
 				+ "</table><H1 style=\"text-align: center;\"><b>HTTP/s Integrated End Points Availability</b></H1><table>\r\n"
 				+ "   <tr>\r\n" + "      <th>SYSTEM NAME</th>\r\n" + "      <th>SERVICE NAME</th>\r\n"
 				+ "      <th>OPERATION NAME</th>";
-
-		String h2 = "</tr>\r\n"
-				+ "</table><H1 style=\"text-align: center;\"><b>JMS Queues Status, Depth and Avalability</b> (<i>Coming Soon..</i>)"
-				+ "</H1><table style=\"width:100%\">\r\n" + 
-				"  <tr>\r\n" + 
-				"    <th style=\"text-align:center\">Environment</th>\r\n" + 
-				"    <th colspan=\"4\" style=\"text-align:center\">Risk</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">CDCM</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">Tariff</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">ILE</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">ILMS</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">SPS</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">IPS</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">ETMP</th>\r\n" + 
-				"	<th colspan=\"4\" style=\"text-align:center\">ExitMGMT</th>\r\n" + 
-				"    <th colspan=\"2\" style=\"text-align:center\">NotifyDIS</th>\r\n" + 
-				"    <th colspan=\"2\" style=\"text-align:center\">NotifyILE</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">NotifyDEC53</th>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td></td>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Inbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"	<th colspan=\"2\" style=\"text-align:center\">Outbound</th>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td></td>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>	\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>	\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>	\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>	\r\n" + 
-				"	<th>Q</th>\r\n" + 
-				"	<th>BO</th>	\r\n" + 
-				"  </tr>\r\n" + 
-				"  \r\n" + 
-				"   <tr>\r\n" + 
-				"   <td><b>DIT1</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"   <td><b>DIT2</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"   <tr>\r\n" + 
-				"   <td><b>DIT3</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"   <tr>\r\n" + 
-				"   <td><b>DIT4</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"   <tr>\r\n" + 
-				"   <td><b>FIT1</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"   <td><b>FIT2</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"   <tr>\r\n" + 
-				"   <td><b>FIT3</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"   <tr>\r\n" + 
-				"   <td><b>FIT4</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"   <tr>\r\n" + 
-				"   <td><b>Stress2</b></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   <td></td><td></td><td></td><td></td><td></td><td></td>\r\n" + 
-				"   </tr>\r\n" + 
-				"</table><H2>Appendix A: </H2><table>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <th>Acronym</th>\r\n" + 
-				"    <th>What is Stands For</th>\r\n" + 
-				"    <th>Other Relevant Info</th>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>XRS</td>\r\n" + 
-				"    <td>Exchange Rate Service</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>ILMS</td>\r\n" + 
-				"    <td>Internal License Management System	</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>CDCM</td>\r\n" + 
-				"    <td>Customs Declaration Case Management	</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>ILE</td>\r\n" + 
-				"    <td>Inventory Linking Environment/Exports</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>SPS</td>\r\n" + 
-				"    <td>Securing Payment Services</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>IPS</td>\r\n" + 
-				"    <td>Immediate Payment Service</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>PDS</td>\r\n" + 
-				"    <td>Party Data Service	</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>RDS</td>\r\n" + 
-				"    <td>Reference Data Service	</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>Q</td>\r\n" + 
-				"    <td>Regular Queue</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>BO</td>\r\n" + 
-				"    <td>Backout Queue</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>ETMP</td>\r\n" + 
-				"    <td>Enterprise Tax Management Platform</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"  <tr>\r\n" + 
-				"    <td>DIS</td>\r\n" + 
-				"    <td>Declaration Information Service	</td>\r\n" + 
-				"    <td></td>\r\n" + 
-				"  </tr>\r\n" + 
-				"</table><p>**This page updates on <b>Hourly (from 8AM-to-7PM weekdays)</b> basis, if you are looking for a realtime data please launch "
-				+ "<a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p>"
-				+ "<p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
 
 		String x = null;
 		String y = "";
@@ -388,7 +480,7 @@ public class DmsComponentsTestController {
 
 			StringBuilder localBuilder = new StringBuilder();
 			String envs = "<th>" + rb.getEnvName() + "</th>";
-			//System.out.println("ENv Names: " + rb.getEnvName());
+			// System.out.println("ENv Names: " + rb.getEnvName());
 			for (ServiceName sn : rb.getServiceNames()) {
 				// System.out.println("ServiceName inside: "+sn.getServiceName()+", env name:
 				// "+rb.getEnvName());
@@ -420,7 +512,7 @@ public class DmsComponentsTestController {
 							break;
 						}
 					} else {
-						//System.out.println("Indise DIT1");
+						// System.out.println("Indise DIT1");
 						String status = null;
 						if (on.getStatus().equalsIgnoreCase("Running")) {
 							status = "<ac:emoticon ac:name=\"tick\" />";
@@ -464,7 +556,33 @@ public class DmsComponentsTestController {
 		xx = localBuilder.toString();
 		rowsBuilder.append(xx);
 
-		String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + h2;
+		String s1 = "</tr></table><H1 style=\"text-align: center;\"><b>JMS Queues Status, Depth and Availability</b> (<i>Coming Soon..</i>)</H1>";
+
+		String s3 = "<H1>Appendix A: </H1><table style=\"width:500px\">\r\n" + "  <tr>\r\n" + "    <th>Acronym</th>\r\n"
+				+ "    <th>What is Stands For</th>\r\n" + "    <th>Other Relevant Info</th>\r\n" + "  </tr>\r\n"
+				+ "  <tr>\r\n" + "    <td>XRS</td>\r\n" + "    <td>Exchange Rate Service</td>\r\n" + "    <td></td>\r\n"
+				+ "  </tr>\r\n" + "  <tr>\r\n" + "    <td>ILMS</td>\r\n"
+				+ "    <td>Internal License Management System	</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
+				+ "  <tr>\r\n" + "    <td>CDCM</td>\r\n" + "    <td>Customs Declaration Case Management	</td>\r\n"
+				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>ILE</td>\r\n"
+				+ "    <td>Inventory Linking Environment/Exports</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
+				+ "  <tr>\r\n" + "    <td>SPS</td>\r\n" + "    <td>Securing Payment Services</td>\r\n"
+				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>IPS</td>\r\n"
+				+ "    <td>Immediate Payment Service</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n"
+				+ "    <td>PDS</td>\r\n" + "    <td>Party Data Service	</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
+				+ "  <tr>\r\n" + "    <td>RDS</td>\r\n" + "    <td>Reference Data Service	</td>\r\n"
+				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>Q</td>\r\n"
+				+ "    <td>Regular Queue</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n"
+				+ "    <td>BO</td>\r\n" + "    <td>Backout Queue</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
+				+ "  <tr>\r\n" + "    <td>ETMP</td>\r\n" + "    <td>Enterprise Tax Management Platform</td>\r\n"
+				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>DIS</td>\r\n"
+				+ "    <td>Declaration Information Service	</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
+				+ "</table>";
+
+		String s2 = "</table>" + s3
+				+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please launch<a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
+
+		String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + s1 + jmsHTML + s2;
 
 		System.out.println(finalHTML);
 
@@ -488,7 +606,7 @@ public class DmsComponentsTestController {
 			// System.out.println("Put Page Request returned : \n" +
 			// page.getJSONObject("body").getJSONObject("storage").getString("value"));
 			// System.out.println("");
-			//System.out.println(IOUtils.toString(putPageEntity.getContent()));
+			System.out.println(IOUtils.toString(putPageEntity.getContent()));
 		} finally {
 			EntityUtils.consume(putPageEntity);
 		}
@@ -499,14 +617,12 @@ public class DmsComponentsTestController {
 	private List<ReportBean> getReportBeanData(String envSel) {
 		String envSelected = envSel;
 
-		InputStream is = getClass().getResourceAsStream("/application.yml");
-
-		Yaml yaml = new Yaml();
+		// Yaml yaml = new Yaml();
 		// Reader yamlFile = new FileReader("src/main/resources/application.yml");
-		Reader yamlFile = new InputStreamReader(is);
+		// Reader yamlFile = new InputStreamReader(is);
 
-		@SuppressWarnings("unchecked")
-		Map<String, Object> yamlMaps = (Map<String, Object>) yaml.load(yamlFile);
+		// @SuppressWarnings("unchecked")
+		// Map<String, Object> yamlMaps = (Map<String, Object>) yaml.load(yamlFile);
 
 		@SuppressWarnings("unchecked")
 		List<String> envs = (List<String>) yamlMaps.get("Environments");
@@ -639,22 +755,23 @@ public class DmsComponentsTestController {
 									}
 
 								} else {
-									//log.info("No External System End Points are Configured for: " + systemtocall);
+									// log.info("No External System End Points are Configured for: " +
+									// systemtocall);
 								}
 
 								services = new ServiceName();
-								if(systemtocall.equalsIgnoreCase("ILMS")) {
+								if (systemtocall.equalsIgnoreCase("ILMS")) {
 									services.setSystemName("AuthService");
-								}else {
+								} else {
 									services.setSystemName(systemtocall);
 								}
-								
+
 								services.setServiceName(wsdlFile.getName());
 								services.setOperationNames(operationNames);
 								serviceNames.add(services);
 
 							} else {
-								//log.info("No External System is configured for WSDL: " + wsdlFile.getName());
+								// log.info("No External System is configured for WSDL: " + wsdlFile.getName());
 							}
 
 						}
@@ -684,7 +801,7 @@ public class DmsComponentsTestController {
 			}
 
 		}
-		//log.info("Final ReportBean: " + rb);
+		// log.info("Final ReportBean: " + rb);
 
 		return rb;
 
@@ -839,14 +956,14 @@ public class DmsComponentsTestController {
 		try {
 			WSDLFactory factory = WSDLFactory.newInstance();
 			WSDLReader reader = factory.newWSDLReader();
-			
-			//To avoid writing log while reading
+
+			// To avoid writing log while reading
 			reader.setFeature("javax.wsdl.verbose", false);
 			reader.setFeature("javax.wsdl.importDocuments", false);
 
-			// pass the location/url to the reader for parsing and get list of operations	
+			// pass the location/url to the reader for parsing and get list of operations
 			Definition wsdlInstance = reader.readWSDL(wsdlUrl);
-			
+
 			Map<String, PortTypeImpl> defMap = wsdlInstance.getAllPortTypes();
 			Collection<PortTypeImpl> collection = defMap.values();
 			for (PortTypeImpl portType : collection) {
@@ -907,7 +1024,7 @@ public class DmsComponentsTestController {
 					Transformer transformer = transformerFactory.newTransformer();
 					Source sourceContent = soapResponse.getSOAPPart().getContent();
 
-					log.info("\nResponse SOAP Message = ");
+					log.info("Response SOAP Message = ");
 					// log.info("\n");
 					StreamResult result = new StreamResult(System.out);
 					transformer.transform(sourceContent, result);
@@ -930,18 +1047,18 @@ public class DmsComponentsTestController {
 					operationName.setResponse("TODO" + i++);
 					operationNames.add(operationName);
 
-				} catch (Exception e) {					
+				} catch (Exception e) {
 					// Covering all down scenario
 					operationName = new OperationName();
 					operationName.setOperationName(opname.getName());
 					operationName.setStatus("Down");
 					operationNames.add(operationName);
 					log.error("Exception in calling Operation: " + opname.getName());
-					//e.printStackTrace();
+					// e.printStackTrace();
 				}
 
 			} else {
-				//log.info("No Request XML is provided for: " + opname.getName());
+				// log.info("No Request XML is provided for: " + opname.getName());
 			}
 
 		}

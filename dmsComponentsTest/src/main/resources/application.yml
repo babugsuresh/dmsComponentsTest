@@ -14,7 +14,7 @@ logging:
         console: '%d %-5level %logger : %msg%n'
         file: '%d %-5level : %msg%n'
      level:
-        hmrc.cds.dms: INFO
+        hmrc.cds.dms: DEBUG
         root: WARN
 
 
@@ -43,7 +43,7 @@ PDSHosts:
     - 'http://bolt-pds-dms-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8000'
-    - 'http://bolt-pds-dms-lb-1.core-env-nip-r4.d.cit.corp.hmrc.gov.uk:8000'
+    - 'http://bolt-pds-dms-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:8000'
     
 XRSHosts:
@@ -54,7 +54,7 @@ XRSHosts:
     - 'http://bolt-xrs-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8100'
     - 'http://bolt-xrs-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8100'
     - 'http://bolt-xrs-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8100'
-    - 'http://bolt-xrs-lb-1.core-env-nip-r4.d.cit.corp.hmrc.gov.uk:8100'
+    - 'http://bolt-xrs-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:8100'
     - 'http://bolt-xrs-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:8100'
     
 TariffHosts:
@@ -65,7 +65,7 @@ TariffHosts:
     - 'http://tycho-tmm-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk'
     - 'http://tycho-tmm-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk'
     - 'http://tycho-tmm-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk'
-    - 'http://tycho-tmm-lb-1.core-env-nip-r4.d.cit.corp.hmrc.gov.uk'
+    - 'http://tycho-tmm-lb-1.core-env-cds-r4.n.cit.corp.hmrc.gov.uk'
     - 'http://tycho-tmm-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk'
     
 ILMSHosts:
@@ -76,7 +76,7 @@ ILMSHosts:
     - 'http://bolt-auth-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8110'
     - 'http://bolt-auth-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8110'
     - 'http://bolt-auth-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8110'
-    - 'http://bolt-auth-lb-1.core-env-nip-r4.d.cit.corp.hmrc.gov.uk:8110'
+    - 'http://bolt-auth-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:8110'
     - 'http://bolt-auth-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:8110'
     
 SPSHosts:
@@ -87,7 +87,7 @@ SPSHosts:
     - 'http://bolt-sps-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8030'
     - 'http://bolt-sps-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8030'
     - 'http://bolt-sps-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8030'
-    - 'http://bolt-sps-lb-1.core-env-nip-r4.d.cit.corp.hmrc.gov.uk:8030'
+    - 'http://bolt-sps-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:8030'
     - 'http://bolt-sps-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:8030'
 RDSHosts:
     - 'http://bolt-rds-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8020'
@@ -97,7 +97,7 @@ RDSHosts:
     - 'http://bolt-rds-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:8020'
     - 'http://bolt-rds-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:8020'
     - 'http://bolt-rds-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8020'
-    - 'http://bolt-rds-lb-1.core-env-nip-r4.d.cit.corp.hmrc.gov.uk:8020'
+    - 'http://bolt-rds-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:8020'
     - 'http://bolt-rds-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:8020'
     
 ReportDestination: frfrfrf
@@ -108,4 +108,15 @@ SystemMapping:
     - ExchangeRateServiceSOAP.wsdl: XRS
     - ReferenceDataServiceSOAP.wsdl: RDS
     - TariffManagementServiceSOAP_v2.wsdl: Tariff
-        
+
+
+JMSEnvironments:
+    - DIT1: 'dms-queue-manager-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk'
+    - DIT2: 'dms-queue-manager-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk'
+    - DIT3: 'dms-queue-manager-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk'
+    - DIT4: 'dms-queue-manager-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk'
+    - FIT1: 'dms-queue-manager-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk'
+    - FIT2: 'dms-queue-manager-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk'
+    - FIT3: 'dms-queue-manager-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk'
+    - FIT4: 'dms-queue-manager-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk'
+    - Stress2: 'dms-queue-manager-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk'

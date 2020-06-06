@@ -1,0 +1,17 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Body>
+      <_30:verifyCode xmlns:_30="http://referencedata.core/ReferenceDataService/2016/12/30/" xmlns:_30_1="http://serviceobjects.cmm.core.ecf/2011/11/30/" xmlns:_30_2="http://referencedata.core.ecf/messages/2011/11/30/">
+         <referenceDataRequest>
+            <_30_1:isOverdue>false</_30_1:isOverdue>
+            <_30_1:id>ab14d919256c4800a2da5d7dab8e1fe4</_30_1:id>
+            <_30_1:sequenceNumber>1</_30_1:sequenceNumber>
+            <_30_1:timeStamp>2020-02-17T15:20:09.099Z</_30_1:timeStamp>
+            <_30_2:code>C501</_30_2:code>
+            <_30_2:listName>ReasonDocuments</_30_2:listName>
+            <_30_2:referenceDate>2020-02-17T14:20:08.000Z</_30_2:referenceDate>
+            <_30_2:languageCode>en</_30_2:languageCode>
+            <_30_2:systemId>DMS</_30_2:systemId>
+         </referenceDataRequest>
+      </_30:verifyCode>
+   </soapenv:Body>
+</soapenv:Envelope>

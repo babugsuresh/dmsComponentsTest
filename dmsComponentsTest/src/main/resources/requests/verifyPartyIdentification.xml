@@ -1,0 +1,23 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://party.core/PartyManagementServiceSOAP/2016/12/30/" xmlns:ns1="http://serviceobjects.cmm.core.ecf/2012/04/30/" xmlns:ns3="http://codelistelements.cmm.core.ecf/2012/04/30/" xmlns:ns2="http://party.core.ecf/messages/2012/04/30/" xmlns:ns4="http://partyobjects.cmm.core.ecf/2012/04/30/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:verifyPartyIdentification>
+         <partyRequest>
+            <!--Optional:-->
+            <ns1:status ns3:type="?" ns3:responsibleAgent="?">?</ns1:status>
+            <ns1:id>216d5c0a-6f49-4bd8-bdd4-273e1181e808</ns1:id>
+            <!--Optional:-->
+            <ns1:sequenceNumber>1</ns1:sequenceNumber>
+            <!--Optional:-->
+           <!-- <ns1:timeStamp>?</ns1:timeStamp> -->
+            <!--Optional:-->
+           <!--  <ns1:externalId>?</ns1:externalId> -->
+            <ns2:partyIdentification>
+               <ns4:type>1</ns4:type>
+               <ns4:number>GB025115165432</ns4:number>
+            </ns2:partyIdentification>
+            <ns2:referenceDate>2018-05-01T00:00:00.000Z</ns2:referenceDate>
+         </partyRequest>
+      </ns:verifyPartyIdentification>
+   </soapenv:Body>
+</soapenv:Envelope>

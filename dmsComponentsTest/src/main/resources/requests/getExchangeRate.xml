@@ -1,0 +1,14 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://currency.core/ExchangeRateService/2017/10/26/" xmlns:ns1="http://cmm.core.ecf/BaseTypes/cmmServiceTypes/referenceData/2017/10/20/" xmlns:ns2="http://referencedata.core.ecf/messages/2017/10/20/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:getExchangeRate>
+         <getExchangeRateRequest>
+            <ns1:id>8b6f1765-107c-4c2b-8f4a-fec3593089d3</ns1:id>
+            <ns2:baseCurrency>GBP</ns2:baseCurrency>
+            <ns2:currency>USD</ns2:currency>
+            <ns2:rateType>2</ns2:rateType>
+            <ns2:referenceDate>2020-05-11T10:06:57.000Z</ns2:referenceDate>
+         </getExchangeRateRequest>
+      </ns:getExchangeRate>
+   </soapenv:Body>
+</soapenv:Envelope>
