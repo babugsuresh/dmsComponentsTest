@@ -106,23 +106,28 @@ public class DmsComponentsTestController {
 
 		qdb = new ArrayList<QueuesDataBean>();
 
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN", "TMM(Tariff)", "Inbound", "Q"));
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN_BO", "TMM(Tariff)", "", "BO"));
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT", "TMM(Tariff)", "Outbound", "Q"));
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT_BO", "TMM(Tariff)", "", "BO"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN", "TMM(Tariff)", "Inbound", "Q",
+				"EXT_PARTY_VALIDATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN_BO", "TMM(Tariff)", "", "BO",
+				"EXT_PARTY_VALIDATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT", "TMM(Tariff)", "Outbound", "Q",
+				"EXT_PARTY_VALIDATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT_BO", "TMM(Tariff)", "", "BO",
+				"EXT_PARTY_VALIDATION"));
 
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV", "IPS-ETMP", "Inbound", "Q"));
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV_BO", "IPS-ETMP", "", "BO"));
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION", "IPS-ETMP", "Outbound", "Q"));
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_BO", "IPS-ETMP", "", "BO"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV", "IPS-ETMP", "Inbound", "Q",
+				"ADMIN_FIN_OBLIGATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV_BO", "IPS-ETMP", "", "BO", "ADMIN_FIN_OBLIGATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION", "IPS-ETMP", "Outbound", "Q", "ADMIN_FIN_OBLIGATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_BO", "IPS-ETMP", "", "BO", "ADMIN_FIN_OBLIGATION"));
 
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT", "Tariff(Quota)", "Inbound", "Q"));
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_BO", "Tariff(Quota)", "", "BO"));
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT", "Tariff(Quota)", "Outbound", "Q"));
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT_BO", "Tariff(Quota)", "", "BO"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT", "Tariff(Quota)", "Inbound", "Q", "QUOTA_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_BO", "Tariff(Quota)", "", "BO", "QUOTA_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT", "Tariff(Quota)", "Outbound", "Q", "QUOTA_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT_BO", "Tariff(Quota)", "", "BO", "QUOTA_MGMT"));
 
-		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT", "IPS*", "Inbound", "Q"));
-		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT_BO", "IPS*", "", "BO"));
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT", "IPS", "Inbound", "Q", "NOTIF_CASH_DEPOSIT*"));
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT_BO", "IPS", "", "BO", "NOTIF_CASH_DEPOSIT*"));
 
 	}
 
@@ -188,11 +193,14 @@ public class DmsComponentsTestController {
 
 				for (String systemNames : s) {
 
+					String[] tokens = systemNames.split(" ");
+
 					if (systemNames.endsWith("*")) {
-						x = x + "<th colspan=\"2\" style=\"text-align:center\">"
-								+ systemNames.substring(0, systemNames.length() - 1) + "</th>";
+						x = x + "<th colspan=\"2\" style=\"text-align:center\">" + tokens[0] + "<br><i>("
+								+ tokens[1].substring(0, tokens[1].length() - 1) + ")</i></br></th>";
 					} else {
-						x = x + "<th colspan=\"4\" style=\"text-align:center\">" + systemNames + "</th>";
+						x = x + "<th colspan=\"4\" style=\"text-align:center\">" + tokens[0] + "<br><i>(" + tokens[1]
+								+ ")</i></br></th>";
 					}
 
 				}
@@ -200,8 +208,7 @@ public class DmsComponentsTestController {
 				for (String typeOfQueue : rp.getQheader().getTypeOfQueue()) {
 					if (!typeOfQueue.isEmpty()) {
 
-						y = y + "<th colspan=\"2\" style=\"text-align:center\">" + typeOfQueue
-								+ "</th>";
+						y = y + "<th colspan=\"2\" style=\"text-align:center\">" + typeOfQueue + "</th>";
 
 					}
 
@@ -214,7 +221,7 @@ public class DmsComponentsTestController {
 			}
 			if (!(rp.getqDepthStatus() == null)) {
 				for (QueuesDepthStatus s : rp.getqDepthStatus()) {
-					
+
 					boolean down = false;
 
 					for (Integer i : s.getDepths()) {
@@ -238,16 +245,14 @@ public class DmsComponentsTestController {
 						}
 
 					}
-					
-					if(down) {
-						String c = "<ac:emoticon ac:name=\"cross\" />";
-						a = "<td><b>" + s.envName + "</b>&nbsp;"+c+"</td>" + b + "</tr>\r\n" + "   <tr>";
-					}else {
-						String c = "<ac:emoticon ac:name=\"tick\" />";
-						a = "<td><b>" + s.envName + "</b>&nbsp;"+c+"</td>" + b + "</tr>\r\n" + "   <tr>";
-					}
 
-					
+					if (down) {
+						String c = "<ac:emoticon ac:name=\"cross\" />";
+						a = "<td><b>" + s.envName + "</b>&nbsp;" + c + "</td>" + b + "</tr>\r\n" + "   <tr>";
+					} else {
+						String c = "<ac:emoticon ac:name=\"tick\" />";
+						a = "<td><b>" + s.envName + "</b>&nbsp;" + c + "</td>" + b + "</tr>\r\n" + "   <tr>";
+					}
 
 					builder.append(a);
 					b = "";
@@ -273,7 +278,7 @@ public class DmsComponentsTestController {
 	 * through PCF response messages and disconnecting from the queue manager.
 	 */
 	private FinalQueuesStatusReport doPCF(String key, Object obj) {
-		
+
 		MQQueueManager qMgr = null;
 
 		PCFMessageAgent agent = null;
@@ -345,7 +350,7 @@ public class DmsComponentsTestController {
 					if (entry.getKey().equalsIgnoreCase(qd.getQueueName())) {
 
 						if (key.equalsIgnoreCase("DIT1")) {
-							systemNames.add(qd.getSystemName());
+							systemNames.add(qd.getSystemName() + " " + qd.getQueueNameToDisplay());
 							typeOfQueue.add(qd.getType());
 
 							type.add(qd.qType);
@@ -371,7 +376,7 @@ public class DmsComponentsTestController {
 		} catch (MQException e) {
 			log.error("CC=" + e.completionCode + " : RC=" + e.reasonCode);
 
-			//Handle null depths scenario and JMS server down scenario
+			// Handle null depths scenario and JMS server down scenario
 			Integer x = null;
 			if (qdb.size() > 0) {
 				for (int i = 0; i < qdb.size(); i++) {
@@ -460,7 +465,7 @@ public class DmsComponentsTestController {
 		String h1 = "<table>\r\n" + "<tr>\r\n" + "<th>Emotion</th>\r\n" + "<th>Details</th>\r\n" + "</tr>\r\n"
 				+ "<tr>\r\n" + "<td><ac:emoticon ac:name=\"tick\" /></td>\r\n" + "<td>System is Up and Running</td>\r\n"
 				+ "</tr>\r\n" + "<tr>\r\n" + "<td><ac:emoticon ac:name=\"cross\" /></td>\r\n"
-				+ "<td>Application or Queue Server is Down</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
+				+ "<td>Application or JMS Queue Server is Down</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
 				+ "<td><ac:emoticon ac:name=\"information\" /></td>\r\n"
 				+ "<td>Fault Response Received try with different data,<p>For More Details use <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp\">DMS Components App</a> from D4D.</p></td>\r\n"
 				+ "</tr>\r\n"
@@ -556,7 +561,7 @@ public class DmsComponentsTestController {
 		xx = localBuilder.toString();
 		rowsBuilder.append(xx);
 
-		String s1 = "</tr></table><H1 style=\"text-align: center;\"><b>JMS Queues Status, Depth and Availability</b> (<i>Coming Soon..</i>)</H1>";
+		String s1 = "</tr></table><H1 style=\"text-align: center;\"><b>JMS Queues Status, Depth and Availability</b></H1>";
 
 		String s3 = "<H1>Appendix A: </H1><table style=\"width:500px\">\r\n" + "  <tr>\r\n" + "    <th>Acronym</th>\r\n"
 				+ "    <th>What is Stands For</th>\r\n" + "    <th>Other Relevant Info</th>\r\n" + "  </tr>\r\n"
@@ -580,7 +585,7 @@ public class DmsComponentsTestController {
 				+ "</table>";
 
 		String s2 = "</table>" + s3
-				+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please launch<a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
+				+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please launch <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
 
 		String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + s1 + jmsHTML + s2;
 
