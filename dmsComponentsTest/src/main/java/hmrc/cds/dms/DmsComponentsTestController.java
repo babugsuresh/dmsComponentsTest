@@ -21,7 +21,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -65,7 +64,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
-import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -78,16 +76,13 @@ import com.ibm.mq.headers.MQDataException;
 import com.ibm.mq.headers.pcf.PCFMessage;
 import com.ibm.mq.headers.pcf.PCFMessageAgent;
 import com.ibm.wsdl.PortTypeImpl;
-import org.apache.commons.*;
 
 @Controller
 public class DmsComponentsTestController {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private static final String BASEDIR = null;
-	private static final String BASE_URL = "http://10.102.81.254:5558";
-	private static final String USERNAME = "7898083";
-	private static final String PASSWORD = "Syamala@2432";
+	
 	private static final String ENCODING = "utf-8";
 
 	InputStream is = getClass().getResourceAsStream("/application.yml");
@@ -95,9 +90,15 @@ public class DmsComponentsTestController {
 	Yaml yaml = new Yaml();
 	// Reader yamlFile = new FileReader("src/main/resources/application.yml");
 	Reader yamlFile = new InputStreamReader(is);
-
+	
 	@SuppressWarnings("unchecked")
 	Map<String, Object> yamlMaps = (Map<String, Object>) yaml.load(yamlFile);
+	
+	private final String BASE_URL = (String) yamlMaps.get("ConfluenceURL");
+	private final String USERNAME = (String) yamlMaps.get("ConfluenceUserName");
+	private final String PASSWORD = (String) yamlMaps.get("ConfluencePwd");
+
+	
 	static List<QueuesDataBean> qdb;
 
 	List<FinalQueuesStatusReport> frb = new ArrayList<FinalQueuesStatusReport>();
@@ -106,32 +107,369 @@ public class DmsComponentsTestController {
 
 		qdb = new ArrayList<QueuesDataBean>();
 
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN", "TMM(Tariff)", "Inbound", "Q",
-				"EXT_PARTY_VALIDATION"));
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN_BO", "TMM(Tariff)", "", "BO",
-				"EXT_PARTY_VALIDATION"));
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT", "TMM(Tariff)", "Outbound", "Q",
-				"EXT_PARTY_VALIDATION"));
-		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT_BO", "TMM(Tariff)", "", "BO",
-				"EXT_PARTY_VALIDATION"));
+		/*
+		 * Use below order for confluence table column display order.
+		 * Make sure * symbol is used at the end off single Inbound or Outbound Types queues.
+		 * Make sure Queue Names are Available and naming convention is matched.
+		 * "" is added for Type element for filtering duplicates purpose.
+		 */		
+		qdb.add(new QueuesDataBean("DMS.QA.RECV_DECL", "DecSubQ(DMS)", "Inbound", "Q", "RECV_DECL*"));
+		qdb.add(new QueuesDataBean("DMS.QA.RECV_DECL_BO", "DecSubQ(DMS)", "", "BO", "RECV_DECL*"));
 
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV", "IPS-ETMP", "Inbound", "Q",
-				"ADMIN_FIN_OBLIGATION"));
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV_BO", "IPS-ETMP", "", "BO", "ADMIN_FIN_OBLIGATION"));
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION", "IPS-ETMP", "Outbound", "Q", "ADMIN_FIN_OBLIGATION"));
-		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_BO", "IPS-ETMP", "", "BO", "ADMIN_FIN_OBLIGATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.TRAD_NOTIF", "NotifyTrdr(EIS)", "Outbound", "Q", "TRAD_NOTIF*"));
+		qdb.add(new QueuesDataBean("DMS.QA.TRAD_NOTIF_BO", "NotifyTrdr(EIS)", "", "BO", "TRAD_NOTIF*"));
 
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT", "Tariff(Quota)", "Inbound", "Q", "QUOTA_MGMT"));
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_BO", "Tariff(Quota)", "", "BO", "QUOTA_MGMT"));
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT", "Tariff(Quota)", "Outbound", "Q", "QUOTA_MGMT"));
-		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT_BO", "Tariff(Quota)", "", "BO", "QUOTA_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN", "Tariff(TMM)", "Inbound", "Q", "EXT_PARTY_VALIDATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_IN_BO", "Tariff(TMM)", "", "BO", "EXT_PARTY_VALIDATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT", "Tariff(TMM)", "Outbound", "Q", "EXT_PARTY_VALIDATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXT_PARTY_VALIDATION_OUT_BO", "Tariff(TMM)", "", "BO", "EXT_PARTY_VALIDATION"));
 
-		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT", "IPS", "Inbound", "Q", "NOTIF_CASH_DEPOSIT*"));
-		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT_BO", "IPS", "", "BO", "NOTIF_CASH_DEPOSIT*"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT", "Tariff(EIS)", "Inbound", "Q", "QUOTA_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_BO", "Tariff(EIS)", "", "BO", "QUOTA_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT", "Tariff(EIS)", "Outbound", "Q", "QUOTA_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.QUOTA_MGMT_OUT_BO", "Tariff(EIS)", "", "BO", "QUOTA_MGMT"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.RISK_MGR_RESPONSE", "Risk(EIS)", "Inbound", "Q", "RISK_MGR"));
+		qdb.add(new QueuesDataBean("DMS.QA.RISK_MGR_RESPONSE_BO", "Risk(EIS)", "", "BO", "RISK_MGR"));
+		qdb.add(new QueuesDataBean("DMS.QA.RISK_MGR_REQUEST", "Risk(EIS)", "Outbound", "Q", "RISK_MGR"));
+		qdb.add(new QueuesDataBean("DMS.QA.RISK_MGR_REQUEST_BO", "Risk(EIS)", "", "BO", "RISK_MGR"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.GMGMT_EXPORT", "SPS(EIS)", "Inbound", "Q", "GMGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.GMGMT_EXPORT_BO", "SPS(EIS)", "", "BO", "GMGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.GMGMT_IMPORT_OUT", "SPS(EIS)", "Outbound", "Q", "GMGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.GMGMT_IMPORT_OUT_BO", "SPS(EIS)", "", "BO", "GMGMT"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.CTRL_MGMT_IMPORT", "CDCM(EIS)", "Inbound", "Q", "CTRL_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.CTRL_MGMT_IMPORT_BO", "CDCM(EIS)", "", "BO", "CTRL_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.CTRL_MGMT_EXPORT", "CDCM(EIS)", "Outbound", "Q", "CTRL_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.CTRL_MGMT_EXPORT_BO", "CDCM(EIS)", "", "BO", "CTRL_MGMT"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.AUTH_MGMT_EXPORT", "ILMS(EIS)", "Inbound", "Q", "AUTH_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.AUTH_MGMT_EXPORT_BO", "ILMS(EIS)", "", "BO", "AUTH_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.AUTH_MGMT_IMPORT", "ILMS(EIS)", "Outbound", "Q", "AUTH_MGMT"));
+		qdb.add(new QueuesDataBean("DMS.QA.AUTH_MGMT_IMPORT_BO", "ILMS(EIS)", "", "BO", "AUTH_MGMT"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.ENTRY_MGR_RESPONSE", "ILI(EIS)", "Inbound", "Q", "ENTRY_MGR"));
+		qdb.add(new QueuesDataBean("DMS.QA.ENTRY_MGR_RESPONSE_BO", "ILI(EIS)", "", "BO", "ENTRY_MGR"));
+		qdb.add(new QueuesDataBean("DMS.QA.ENTRY_MGR_REQUEST", "ILI(EIS)", "Outbound", "Q", "ENTRY_MGR"));
+		qdb.add(new QueuesDataBean("DMS.QA.ENTRY_MGR_REQUEST_BO", "ILI(EIS)", "", "BO", "ENTRY_MGR"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.EXIT_MGR_ECS_RESPONSE", "ILE(EIS)", "Inbound", "Q", "EXIT_MGR_ECS"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXIT_MGR_ECS_RESPONSE_BO", "ILE(EIS)", "", "BO", "EXIT_MGR_ECS"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXIT_MGR_ECS_REQUEST", "ILE(EIS)", "Outbound", "Q", "EXIT_MGR_ECS"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXIT_MGR_ECS_REQUEST_BO", "ILE(EIS)", "", "BO", "EXIT_MGR_ECS"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV", "IPS-ETMP(EIS)", "Inbound", "Q", "ADMIN_FIN_OBLIGATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_RCV_BO", "IPS-ETMP(EIS)", "", "BO", "ADMIN_FIN_OBLIGATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION", "IPS-ETMP(EIS)", "Outbound", "Q", "ADMIN_FIN_OBLIGATION"));
+		qdb.add(new QueuesDataBean("DMS.QA.ADMIN_FIN_OBLIGATION_BO", "IPS-ETMP(EIS)", "", "BO", "ADMIN_FIN_OBLIGATION"));
+
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT", "IPS(EIS)", "Inbound", "Q", "NOTIF_CASH_DEPOSIT*"));
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_CASH_DEPOSIT_BO", "IPS(EIS)", "", "BO", "NOTIF_CASH_DEPOSIT*"));
+		 
+		//Below Queue s are available in documentation but Queues are not available in Server.
+		//qdb.add(new QueuesDataBean("DMS.QA.SRV_RPRT_IN", "ReportToTariff(EIS)", "Inbound", "Q", "SRV_RPRT"));
+		//qdb.add(new QueuesDataBean("DMS.QA.SRV_RPRT_IN_BO", "ReportToTariff(EIS)", "", "BO", "SRV_RPRT"));
+		qdb.add(new QueuesDataBean("DMS.QA.SRV_RPRT", "ReportToTariff(EIS)", "Outbound", "Q", "SRV_RPRT*"));
+		qdb.add(new QueuesDataBean("DMS.QA.SRV_RPRT_BO", "ReportToTariff(EIS)", "", "BO", "SRV_RPRT*"));
+		
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_DECLMNG_ILE", "NotifyILE(ILE)", "Outbound", "Q",	"NOTIF_DECLMNG_ILE*"));
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_DECLMNG_ILE_BO", "NotifyILE(ILE)", "", "BO",	"NOTIF_DECLMNG_ILE*"));
+		
+		qdb.add(new QueuesDataBean("CDS.PROGRESS_NOTE_FOR_DIS", "NotifyDIS(DIS)", "Outbound", "Q",	"PROGRESS_NOTE_FOR_DIS*"));
+		qdb.add(new QueuesDataBean("CDS.PROGRESS_NOTE_FOR_DIS.BO", "NotifyDIS(DIS)", "", "BO",	"PROGRESS_NOTE_FOR_DIS*"));
+		
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_DECLMNG_CSP", "NotifyCSP(EIS)", "Outbound", "Q",	"NOTIF_DECLMNG_CSP*"));
+		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_DECLMNG_CSP_BO", "NotifyCSP(EIS)", "", "BO",	"NOTIF_DECLMNG_CSP*"));
+		
+		qdb.add(new QueuesDataBean("DMS.QA.EXTERNAL_NOTIF", "ALVS(EIS)", "Outbound", "Q",	"EXTERNAL_NOTIF*"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXTERNAL_NOTIF_BO", "ALVS(EIS)", "", "BO",	"EXTERNAL_NOTIF*"));
+
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Scheduled(cron = "0 0 8-19 * * MON-FRI") // on the hour 8AM-to-7PM weekdays
+	@GetMapping("/publishConfluenceData")
+	public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException {
+
+		final long pageId = (Integer) yamlMaps.get("ConfluencePageID");
+
+		@SuppressWarnings("deprecation")
+		HttpClient client = new DefaultHttpClient();
+
+		// Get current page version
+		String pageObj = null;
+		HttpEntity pageEntity = null;
+		try {
+
+			String temp = getContentRestUrl(pageId, new String[] { "body.storage", "version", "ancestors" });
+			//System.out.println("Final URL: " + temp);
+
+			HttpGet getPageRequest = new HttpGet(
+					getContentRestUrl(pageId, new String[] { "body.storage", "version", "ancestors" }));
+
+			getPageRequest.addHeader(
+					BasicScheme.authenticate(new UsernamePasswordCredentials("user", "password"), "UTF-8", false));
+
+			HttpResponse getPageResponse = client.execute(getPageRequest);
+			pageEntity = getPageResponse.getEntity();
+			pageObj = IOUtils.toString(pageEntity.getContent());
+
+			// System.out.println("Get Page Request returned " +
+			// getPageResponse.getStatusLine().toString());
+			// System.out.println("");
+			// System.out.println(pageObj);
+		} finally {
+			if (pageEntity != null) {
+				EntityUtils.consume(pageEntity);
+			}
+		}
+
+		// Parse response into JSON
+		JSONObject page = new JSONObject(pageObj);
+
+		List<ReportBean> rbs = getReportBeanData("all");
+
+		// System.out.println("Printing from publishConfluenceData: "+rb);
+
+		String jmsHTML = generateJMSHTMLData();
+
+		String h1 = "<table>\r\n" + "<tr>\r\n" + "<th>Emotion</th>\r\n" + "<th>Details</th>\r\n" + "</tr>\r\n"
+				+ "<tr>\r\n" + "<td><ac:emoticon ac:name=\"tick\" /></td>\r\n" + "<td>System is Up and Running</td>\r\n"
+				+ "</tr>\r\n" + "<tr>\r\n" + "<td><ac:emoticon ac:name=\"cross\" /></td>\r\n"
+				+ "<td>Application or JMS Queue Server is Down</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
+				+ "<td><ac:emoticon ac:name=\"information\" /></td>\r\n"
+				+ "<td>Fault Response Received try with different data,<p>For More Details use <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp\">DMS Components App</a> from D4D.</p></td>\r\n"
+				+ "</tr>\r\n"
+				+ "</table><H1 style=\"text-align: center;\"><b>HTTP/s Integrated End Points Availability</b></H1><table>\r\n"
+				+ "   <tr>\r\n" + "      <th>SYSTEM NAME</th>\r\n" + "      <th>SERVICE NAME</th>\r\n"
+				+ "      <th>OPERATION NAME</th>";
+
+		String x = null;
+		String y = "";
+		StringBuilder headerBuilder = new StringBuilder();
+		StringBuilder builder1 = new StringBuilder();
+
+		List<String> ls = new ArrayList<String>();
+		List<String> ls1 = new ArrayList<String>();
+
+		for (ReportBean rb : rbs) {
+
+			StringBuilder localBuilder = new StringBuilder();
+			String envs = "<th>" + rb.getEnvName() + "</th>";
+			// System.out.println("ENv Names: " + rb.getEnvName());
+			for (ServiceName sn : rb.getServiceNames()) {
+				// System.out.println("ServiceName inside: "+sn.getServiceName()+", env name:
+				// "+rb.getEnvName());
+
+				/*
+				 * if(sn.getOperationNames().isEmpty()) { String status =
+				 * "<ac:emoticon ac:name=\"cross\" />"; y = "\n<td>" + status + "</td>"; for
+				 * (String s : ls) { String k = s + y; ls1.add(k); ls.remove(s); break; } }
+				 */
+
+				for (OperationName on : sn.getOperationNames()) {
+					// System.out.println("OperationName inside: "+on.getOperationName()+", env
+					// name: "+rb.getEnvName());
+
+					if (!rb.getEnvName().equalsIgnoreCase("DIT1")) {
+						String status = null;
+						if (on.getStatus().equalsIgnoreCase("Running")) {
+							status = "<ac:emoticon ac:name=\"tick\" />";
+						} else if (on.getStatus().equalsIgnoreCase("Fault")) {
+							status = "<ac:emoticon ac:name=\"information\" />";
+						} else {
+							status = "<ac:emoticon ac:name=\"cross\" />";
+						}
+						y = "\n<td>" + status + "</td>";
+						for (String s : ls) {
+							String k = s + y;
+							ls1.add(k);
+							ls.remove(s);
+							break;
+						}
+					} else {
+						// System.out.println("Indise DIT1");
+						String status = null;
+						if (on.getStatus().equalsIgnoreCase("Running")) {
+							status = "<ac:emoticon ac:name=\"tick\" />";
+						} else if (on.getStatus().equalsIgnoreCase("Fault")) {
+							status = "<ac:emoticon ac:name=\"information\" />";
+						} else {
+							status = "<ac:emoticon ac:name=\"cross\" />";
+						}
+
+						x = "\n</tr>\r\n" + "   <tr>\r\n" + "      <td><b>" + sn.getSystemName() + "</b></td>\r\n"
+								+ "      <td>"
+								+ sn.getServiceName().substring(0, sn.getServiceName().lastIndexOf("."))
+										.replaceAll("\\SOAP.*?\\b", "")
+								+ "</td>\r\n" + "      <td>" + on.getOperationName() + "</td>\r\n" + "	  <td>" + status
+								+ "</td>";
+
+						ls.add(x);
+					}
+
+					localBuilder.append(x);
+				}
+
+			}
+
+			// System.out.println("Listof elements: "+ls1);
+			ls.addAll(ls1);
+			ls1.removeAll(ls1);
+			builder1.append(envs);
+
+		}
+		headerBuilder.append(builder1.toString());
+
+		StringBuilder rowsBuilder = new StringBuilder();
+		String xx = "";
+		StringBuilder localBuilder = new StringBuilder();
+
+		for (String ss : ls) {
+			xx = ss;
+			localBuilder.append(xx);
+		}
+		xx = localBuilder.toString();
+		rowsBuilder.append(xx);
+
+		String s1 = "</tr></table><H1 style=\"text-align: center;\"><b>JMS Queues Status, Depth and Availability</b></H1>";
+
+		String s3 = "<H1>Appendix A: </H1>\r\n" + 
+				"<table style=\"width:700px\">\r\n" + 
+				"  <tr>\r\n" + 
+				"    <th>Acronym</th>\r\n" + 
+				"    <th>What is Stands For</th>\r\n" + 
+				"    <th>Other Relevant Info</th>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>DecSubQ</td>\r\n" + 
+				"    <td>Declaration Submission Queue</td>\r\n" + 
+				"    <td>Digital->EIS->DMS Journey.</td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>NotifyTrdr</td>\r\n" + 
+				"    <td>Notify Trader</td>\r\n" + 
+				"    <td>Trader Notification Messages from DMS to Digital.</td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>TMM</td>\r\n" + 
+				"    <td>Tariff Management Module</td>\r\n" + 
+				"    <td>Service layer between DMS and Tariff system.</td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>EIS</td>\r\n" + 
+				"    <td>Enterprise Integration Services</td>\r\n" + 
+				"    <td>Service layer between DMS to target systems.</td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>XRS</td>\r\n" + 
+				"    <td>Exchange Rate Service</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>ILMS</td>\r\n" + 
+				"    <td>Internal License Management System	</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>CDCM</td>\r\n" + 
+				"    <td>Customs Declaration Case Management	</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>ILI</td>\r\n" + 
+				"    <td>Inventory Linking Imports</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>ILE</td>\r\n" + 
+				"    <td>Inventory Linking Environment/Exports</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>SPS</td>\r\n" + 
+				"    <td>Securing Payment Services</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>IPS</td>\r\n" + 
+				"    <td>Immediate Payment Service</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>PDS</td>\r\n" + 
+				"    <td>Party Data Service	</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>RDS</td>\r\n" + 
+				"    <td>Reference Data Service	</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>ALVS</td>\r\n" + 
+				"    <td>Automatic License Verification Sytem</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>Q</td>\r\n" + 
+				"    <td>Regular Queue</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>BO</td>\r\n" + 
+				"    <td>Backout Queue</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>ETMP</td>\r\n" + 
+				"    <td>Enterprise Tax Management Platform</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"  <tr>\r\n" + 
+				"    <td>DIS</td>\r\n" + 
+				"    <td>Declaration Information Service	</td>\r\n" + 
+				"    <td></td>\r\n" + 
+				"  </tr>\r\n" + 
+				"</table>";
+
+		String s2 = "</table>" + s3
+				+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please launch <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
+
+		String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + s1 + jmsHTML + s2;
+
+		System.out.println(finalHTML);
+
+		page.getJSONObject("body").getJSONObject("storage").put("value", finalHTML);
+
+		int currentVersion = page.getJSONObject("version").getInt("number");
+		page.getJSONObject("version").put("number", currentVersion + 1);
+
+		// Send update request
+		HttpEntity putPageEntity = null;
+
+		try {
+			HttpPut putPageRequest = new HttpPut(getContentRestUrl(pageId, new String[] {}));
+
+			StringEntity entity = new StringEntity(page.toString(), ContentType.APPLICATION_JSON);
+			putPageRequest.setEntity(entity);
+
+			HttpResponse putPageResponse = client.execute(putPageRequest);
+			putPageEntity = putPageResponse.getEntity();
+
+			// System.out.println("Put Page Request returned : \n" +
+			// page.getJSONObject("body").getJSONObject("storage").getString("value"));
+			// System.out.println("");
+			System.out.println(IOUtils.toString(putPageEntity.getContent()));
+		} finally {
+			EntityUtils.consume(putPageEntity);
+		}
+		return "success";
 
 	}
 
-	private static String getContentRestUrl(final Long contentId, final String[] expansions)
+	private String getContentRestUrl(final Long contentId, final String[] expansions)
 			throws UnsupportedEncodingException {
 		final String expand = URLEncoder.encode(StringUtils.join(expansions, ","), ENCODING);
 
@@ -288,9 +626,9 @@ public class DmsComponentsTestController {
 
 		Hashtable<String, Object> mqht = new Hashtable<String, Object>();
 
-		mqht.put(CMQC.CHANNEL_PROPERTY, "DMSQM.SVRCONN");
+		mqht.put(CMQC.CHANNEL_PROPERTY, yamlMaps.get("JMSQChannelName"));
 		mqht.put(CMQC.HOST_NAME_PROPERTY, obj);
-		mqht.put(CMQC.PORT_PROPERTY, 1414);
+		mqht.put(CMQC.PORT_PROPERTY, yamlMaps.get("JMSQPORT"));
 
 		String qMgrName = "DMSQM";
 
@@ -315,7 +653,7 @@ public class DmsComponentsTestController {
 			 * You can explicitly set a queue name like "TEST.Q1" or use a wild card like
 			 * "TEST.*"
 			 */
-			request.addParameter(CMQC.MQCA_Q_NAME, "DMS.*");
+			request.addParameter(CMQC.MQCA_Q_NAME, "*");
 
 			// Add parameter to request only local queues
 			request.addParameter(CMQC.MQIA_Q_TYPE, CMQC.MQQT_LOCAL);
@@ -374,7 +712,37 @@ public class DmsComponentsTestController {
 			fqsr.setqDepthStatus(qDepthStatus);
 
 		} catch (MQException e) {
-			log.error("CC=" + e.completionCode + " : RC=" + e.reasonCode);
+			log.error("CC=" + e.completionCode + " : RC=" + e.reasonCode);			
+			
+			QueuesHeader qheader = new QueuesHeader();
+			List<String> systemNames = new ArrayList<String>();
+			List<String> typeOfQueue = new ArrayList<String>();
+			List<String> type = new ArrayList<String>();
+
+			for (QueuesDataBean qd : qdb) {
+				//for (Map.Entry<String, Integer> entry : queueNameDepth.entrySet()) {
+
+					//if (entry.getKey().equalsIgnoreCase(qd.getQueueName())) {
+
+						if (key.equalsIgnoreCase("DIT1")) {
+							systemNames.add(qd.getSystemName() + " " + qd.getQueueNameToDisplay());
+							typeOfQueue.add(qd.getType());
+
+							type.add(qd.qType);
+							qheader.setType(type);
+
+							qheader.setSystemNames(systemNames);
+							qheader.setTypeOfQueue(typeOfQueue);
+
+							fqsr.setQheader(qheader);
+						}
+
+						//depths.add(entry.getValue());
+
+					//}
+
+				//}
+			}
 
 			// Handle null depths scenario and JMS server down scenario
 			Integer x = null;
@@ -413,221 +781,10 @@ public class DmsComponentsTestController {
 			}
 		}
 		return fqsr;
-	}
-
-	@SuppressWarnings("deprecation")
-	@Scheduled(cron = "0 0 8-19 * * MON-FRI") // on the hour 8AM-to-7PM weekdays
-	@GetMapping("/publishConfluenceData")
-	public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException {
-
-		final long pageId = 50430757;
-
-		@SuppressWarnings("deprecation")
-		HttpClient client = new DefaultHttpClient();
-
-		// Get current page version
-		String pageObj = null;
-		HttpEntity pageEntity = null;
-		try {
-
-			String temp = getContentRestUrl(pageId, new String[] { "body.storage", "version", "ancestors" });
-			System.out.println("Final URL: " + temp);
-
-			HttpGet getPageRequest = new HttpGet(
-					getContentRestUrl(pageId, new String[] { "body.storage", "version", "ancestors" }));
-
-			getPageRequest.addHeader(
-					BasicScheme.authenticate(new UsernamePasswordCredentials("user", "password"), "UTF-8", false));
-
-			HttpResponse getPageResponse = client.execute(getPageRequest);
-			pageEntity = getPageResponse.getEntity();
-			pageObj = IOUtils.toString(pageEntity.getContent());
-
-			// System.out.println("Get Page Request returned " +
-			// getPageResponse.getStatusLine().toString());
-			// System.out.println("");
-			// System.out.println(pageObj);
-		} finally {
-			if (pageEntity != null) {
-				EntityUtils.consume(pageEntity);
-			}
-		}
-
-		// Parse response into JSON
-		JSONObject page = new JSONObject(pageObj);
-
-		List<ReportBean> rbs = getReportBeanData("all");
-
-		// System.out.println("Printing from publishConfluenceData: "+rb);
-
-		String jmsHTML = generateJMSHTMLData();
-
-		String h1 = "<table>\r\n" + "<tr>\r\n" + "<th>Emotion</th>\r\n" + "<th>Details</th>\r\n" + "</tr>\r\n"
-				+ "<tr>\r\n" + "<td><ac:emoticon ac:name=\"tick\" /></td>\r\n" + "<td>System is Up and Running</td>\r\n"
-				+ "</tr>\r\n" + "<tr>\r\n" + "<td><ac:emoticon ac:name=\"cross\" /></td>\r\n"
-				+ "<td>Application or JMS Queue Server is Down</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
-				+ "<td><ac:emoticon ac:name=\"information\" /></td>\r\n"
-				+ "<td>Fault Response Received try with different data,<p>For More Details use <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp\">DMS Components App</a> from D4D.</p></td>\r\n"
-				+ "</tr>\r\n"
-				+ "</table><H1 style=\"text-align: center;\"><b>HTTP/s Integrated End Points Availability</b></H1><table>\r\n"
-				+ "   <tr>\r\n" + "      <th>SYSTEM NAME</th>\r\n" + "      <th>SERVICE NAME</th>\r\n"
-				+ "      <th>OPERATION NAME</th>";
-
-		String x = null;
-		String y = "";
-		StringBuilder headerBuilder = new StringBuilder();
-		StringBuilder builder1 = new StringBuilder();
-
-		List<String> ls = new ArrayList<String>();
-		List<String> ls1 = new ArrayList<String>();
-
-		for (ReportBean rb : rbs) {
-
-			StringBuilder localBuilder = new StringBuilder();
-			String envs = "<th>" + rb.getEnvName() + "</th>";
-			// System.out.println("ENv Names: " + rb.getEnvName());
-			for (ServiceName sn : rb.getServiceNames()) {
-				// System.out.println("ServiceName inside: "+sn.getServiceName()+", env name:
-				// "+rb.getEnvName());
-
-				/*
-				 * if(sn.getOperationNames().isEmpty()) { String status =
-				 * "<ac:emoticon ac:name=\"cross\" />"; y = "\n<td>" + status + "</td>"; for
-				 * (String s : ls) { String k = s + y; ls1.add(k); ls.remove(s); break; } }
-				 */
-
-				for (OperationName on : sn.getOperationNames()) {
-					// System.out.println("OperationName inside: "+on.getOperationName()+", env
-					// name: "+rb.getEnvName());
-
-					if (!rb.getEnvName().equalsIgnoreCase("DIT1")) {
-						String status = null;
-						if (on.getStatus().equalsIgnoreCase("Running")) {
-							status = "<ac:emoticon ac:name=\"tick\" />";
-						} else if (on.getStatus().equalsIgnoreCase("Fault")) {
-							status = "<ac:emoticon ac:name=\"information\" />";
-						} else {
-							status = "<ac:emoticon ac:name=\"cross\" />";
-						}
-						y = "\n<td>" + status + "</td>";
-						for (String s : ls) {
-							String k = s + y;
-							ls1.add(k);
-							ls.remove(s);
-							break;
-						}
-					} else {
-						// System.out.println("Indise DIT1");
-						String status = null;
-						if (on.getStatus().equalsIgnoreCase("Running")) {
-							status = "<ac:emoticon ac:name=\"tick\" />";
-						} else if (on.getStatus().equalsIgnoreCase("Fault")) {
-							status = "<ac:emoticon ac:name=\"information\" />";
-						} else {
-							status = "<ac:emoticon ac:name=\"cross\" />";
-						}
-
-						x = "\n</tr>\r\n" + "   <tr>\r\n" + "      <td><b>" + sn.getSystemName() + "</b></td>\r\n"
-								+ "      <td>"
-								+ sn.getServiceName().substring(0, sn.getServiceName().lastIndexOf("."))
-										.replaceAll("\\SOAP.*?\\b", "")
-								+ "</td>\r\n" + "      <td>" + on.getOperationName() + "</td>\r\n" + "	  <td>" + status
-								+ "</td>";
-
-						ls.add(x);
-					}
-
-					localBuilder.append(x);
-				}
-
-			}
-
-			// System.out.println("Listof elements: "+ls1);
-			ls.addAll(ls1);
-			ls1.removeAll(ls1);
-			builder1.append(envs);
-
-		}
-		headerBuilder.append(builder1.toString());
-
-		StringBuilder rowsBuilder = new StringBuilder();
-		String xx = "";
-		StringBuilder localBuilder = new StringBuilder();
-
-		for (String ss : ls) {
-			xx = ss;
-			localBuilder.append(xx);
-		}
-		xx = localBuilder.toString();
-		rowsBuilder.append(xx);
-
-		String s1 = "</tr></table><H1 style=\"text-align: center;\"><b>JMS Queues Status, Depth and Availability</b></H1>";
-
-		String s3 = "<H1>Appendix A: </H1><table style=\"width:500px\">\r\n" + "  <tr>\r\n" + "    <th>Acronym</th>\r\n"
-				+ "    <th>What is Stands For</th>\r\n" + "    <th>Other Relevant Info</th>\r\n" + "  </tr>\r\n"
-				+ "  <tr>\r\n" + "    <td>XRS</td>\r\n" + "    <td>Exchange Rate Service</td>\r\n" + "    <td></td>\r\n"
-				+ "  </tr>\r\n" + "  <tr>\r\n" + "    <td>ILMS</td>\r\n"
-				+ "    <td>Internal License Management System	</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
-				+ "  <tr>\r\n" + "    <td>CDCM</td>\r\n" + "    <td>Customs Declaration Case Management	</td>\r\n"
-				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>ILE</td>\r\n"
-				+ "    <td>Inventory Linking Environment/Exports</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
-				+ "  <tr>\r\n" + "    <td>SPS</td>\r\n" + "    <td>Securing Payment Services</td>\r\n"
-				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>IPS</td>\r\n"
-				+ "    <td>Immediate Payment Service</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n"
-				+ "    <td>PDS</td>\r\n" + "    <td>Party Data Service	</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
-				+ "  <tr>\r\n" + "    <td>RDS</td>\r\n" + "    <td>Reference Data Service	</td>\r\n"
-				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>Q</td>\r\n"
-				+ "    <td>Regular Queue</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n"
-				+ "    <td>BO</td>\r\n" + "    <td>Backout Queue</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
-				+ "  <tr>\r\n" + "    <td>ETMP</td>\r\n" + "    <td>Enterprise Tax Management Platform</td>\r\n"
-				+ "    <td></td>\r\n" + "  </tr>\r\n" + "  <tr>\r\n" + "    <td>DIS</td>\r\n"
-				+ "    <td>Declaration Information Service	</td>\r\n" + "    <td></td>\r\n" + "  </tr>\r\n"
-				+ "</table>";
-
-		String s2 = "</table>" + s3
-				+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please launch <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
-
-		String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + s1 + jmsHTML + s2;
-
-		System.out.println(finalHTML);
-
-		page.getJSONObject("body").getJSONObject("storage").put("value", finalHTML);
-
-		int currentVersion = page.getJSONObject("version").getInt("number");
-		page.getJSONObject("version").put("number", currentVersion + 1);
-
-		// Send update request
-		HttpEntity putPageEntity = null;
-
-		try {
-			HttpPut putPageRequest = new HttpPut(getContentRestUrl(pageId, new String[] {}));
-
-			StringEntity entity = new StringEntity(page.toString(), ContentType.APPLICATION_JSON);
-			putPageRequest.setEntity(entity);
-
-			HttpResponse putPageResponse = client.execute(putPageRequest);
-			putPageEntity = putPageResponse.getEntity();
-
-			// System.out.println("Put Page Request returned : \n" +
-			// page.getJSONObject("body").getJSONObject("storage").getString("value"));
-			// System.out.println("");
-			System.out.println(IOUtils.toString(putPageEntity.getContent()));
-		} finally {
-			EntityUtils.consume(putPageEntity);
-		}
-		return "success";
-
-	}
+	}	
 
 	private List<ReportBean> getReportBeanData(String envSel) {
 		String envSelected = envSel;
-
-		// Yaml yaml = new Yaml();
-		// Reader yamlFile = new FileReader("src/main/resources/application.yml");
-		// Reader yamlFile = new InputStreamReader(is);
-
-		// @SuppressWarnings("unchecked")
-		// Map<String, Object> yamlMaps = (Map<String, Object>) yaml.load(yamlFile);
 
 		@SuppressWarnings("unchecked")
 		List<String> envs = (List<String>) yamlMaps.get("Environments");
@@ -650,18 +807,9 @@ public class DmsComponentsTestController {
 		boolean oneenv = false;
 		int index = 0;
 
-		// InputStream wsdlPath = getContextClassLoader().getResourceAsStream("/wsdls/99
-		// Assembled adapters 3.2.8.11");
-
-		// File fileD = ResourceUtils.getFile("classpath:/wsdls/99 Assembled adapters
-		// 3.2.8.11");
-
-		// InputStream is = getClass().getResourceAsStream("/application.yml");
-		// InputStream filex = this.getClass().getResourceAsStream("/wsdls/99 Assembled
-		// adapters 3.2.8.11");
+		
 		URL dirUrl = getClass().getResource("/wsdls/99 Assembled adapters 3.2.8.11");
-		// URL url = DmsComponentsTestController.class.getResource("resources/wsdls/99
-		// Assembled adapters 3.2.8.11/");
+		
 		if (dirUrl == null) {
 			log.info("No WSDL path provided");
 		} else {
@@ -812,7 +960,7 @@ public class DmsComponentsTestController {
 
 	}
 
-	@GetMapping("/verifydmscomponents")
+	/*@GetMapping("/verifydmscomponents")
 	public String verifydmscomponents(
 			@RequestParam(name = "name", required = false, defaultValue = "all") String envSelected, Model model)
 			throws IOException, UnsupportedOperationException, SOAPException, URISyntaxException {
@@ -826,9 +974,9 @@ public class DmsComponentsTestController {
 		// publishConfluenceData();
 		return "report";
 
-	}
+	}*/
 
-	private String generateHTMLfile(List<ReportBean> rb) throws IOException {
+	/*private String generateHTMLfile(List<ReportBean> rb) throws IOException {
 
 		String body = "";
 
@@ -897,7 +1045,7 @@ public class DmsComponentsTestController {
 
 		return body;
 
-	}
+	}*/
 
 	private String getEndPoint(String env, int index, String system, Map<String, Object> yamlMaps) {
 		String endpoint = null;

@@ -1,11 +1,12 @@
 server:
     servlet:
         context-path: /dmsApp
+    port: 8090
 spring:
     main:
         banner-mode: off
         
-logging.file: /dms/logs/dmsComponentsTestApp/dmsComponentsTestApp.log
+logging.file: /var/dmsComponentsTestApp/dmsComponentsTestApp.log
 logging.file.max-size: 5MB
 logging.file.max-history: 2
 
@@ -120,3 +121,11 @@ JMSEnvironments:
     - FIT3: 'dms-queue-manager-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk'
     - FIT4: 'dms-queue-manager-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk'
     - Stress2: 'dms-queue-manager-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk'
+JMSQPORT : 1414
+JMSQChannelName : 'DMSQM.SVRCONN'
+    
+ConfluenceURL: 'http://10.102.81.254:5558'    
+ConfluenceUserName: '7898083'
+ConfluencePwd: 'Syamala@2432'
+ConfluencePageID: 50430757
+
