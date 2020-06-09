@@ -1,5 +1,7 @@
 package hmrc.cds.dms;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -190,7 +192,7 @@ public class DmsComponentsTestController {
 	@SuppressWarnings("deprecation")
 	@Scheduled(cron = "0 0 8-19 * * MON-FRI") // on the hour 8AM-to-7PM weekdays
 	@GetMapping("/publishConfluenceData")
-	public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException {
+	public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException, URISyntaxException {
 
 		final long pageId = (Integer) yamlMaps.get("ConfluencePageID");
 
@@ -783,7 +785,7 @@ public class DmsComponentsTestController {
 		return fqsr;
 	}	
 
-	private List<ReportBean> getReportBeanData(String envSel) {
+	private List<ReportBean> getReportBeanData(String envSel) throws IOException, URISyntaxException {
 		String envSelected = envSel;
 
 		@SuppressWarnings("unchecked")
@@ -807,8 +809,23 @@ public class DmsComponentsTestController {
 		boolean oneenv = false;
 		int index = 0;
 
+		//final String path = "sample/folder";
+		//final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+		//URL dirUrl = getClass().getResource("/wsdls/99 Assembled adapters 3.2.8.11");
 		
-		URL dirUrl = getClass().getResource("/wsdls/99 Assembled adapters 3.2.8.11");
+		//File dir = new File(DmsComponentsTestApplication.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+		
+		
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		Resource[] resources = resolver.getResources("classpath:wsdls/99 Assembled adapters 3.2.8.11/*.*");
+
+		URL dirUrl = null;
+		for (Resource resource : resources) {
+			dirUrl = resource.getURL();
+		}
+		
+		
+		
 		
 		if (dirUrl == null) {
 			log.info("No WSDL path provided");
