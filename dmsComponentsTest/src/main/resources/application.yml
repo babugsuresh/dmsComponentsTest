@@ -1,13 +1,12 @@
 server:
     servlet:
         context-path: /dmsApp
-    port: 8090
+#     port: 8090
 spring:
     main:
         banner-mode: off
         
-logging.file: /var/dmsComponentsTestApp/dmsComponentsTestApp.log
-logging.file.max-size: 5MB
+logging.file: /dms/dmscustomapp/dmscustomapp.log
 logging.file.max-history: 2
 
 logging:
@@ -127,5 +126,5 @@ JMSQChannelName : 'DMSQM.SVRCONN'
 ConfluenceURL: 'http://10.102.81.254:5558'    
 ConfluenceUserName: '7898083'
 ConfluencePwd: 'Syamala@2432'
-ConfluencePageID: 50430757
+ConfluencePageID: 51123822
 
