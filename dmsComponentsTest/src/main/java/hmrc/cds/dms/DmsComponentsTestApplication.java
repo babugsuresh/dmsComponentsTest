@@ -64,10 +64,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.yaml.snakeyaml.Yaml;
 
 import com.ibm.mq.MQException;
@@ -85,7 +85,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @EnableScheduling
 public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private final Logger log = LoggerFactory.getLogger(DmsComponentsTestApplication.class);
 	private static final String BASEDIR = null;
 
 	private static final String ENCODING = "utf-8";
@@ -215,13 +215,15 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 		SpringApplication.run(DmsComponentsTestApplication.class, args);
 	}
 
-	@RestController
+	//This will ensure ThymeLeaf templates are picked up properly
+	@Controller
 	public class DmsComponentsTestController {
 
 		@SuppressWarnings("deprecation")
 		@Scheduled(cron = "0 0 8-19 * * MON-FRI") // on the hour 8AM-to-7PM weekdays
 		@RequestMapping("/publishConfluenceData")
 		public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException {
+			
 			log.info("Started Executing publishConfluenceData");
 
 			final long pageId = (Integer) yamlMaps.get("ConfluencePageID");
@@ -268,11 +270,11 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 
 			String h1 = "<table>\r\n" + "<tr>\r\n" + "<th>Emotion</th>\r\n" + "<th>Details</th>\r\n" + "</tr>\r\n"
 					+ "<tr>\r\n" + "<td><ac:emoticon ac:name=\"tick\" /></td>\r\n"
-					+ "<td>System is Up and Running</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
+					+ "<td>System is Up and Running.</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
 					+ "<td><ac:emoticon ac:name=\"cross\" /></td>\r\n"
-					+ "<td>Application or JMS Queue Server is Down</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
+					+ "<td>Application or JMS Queue Server is Down.</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
 					+ "<td><ac:emoticon ac:name=\"information\" /></td>\r\n"
-					+ "<td>Fault Response Received try with different data,<p>For More Details use <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp\">DMS Components App</a> from D4D.</p></td>\r\n"
+					+ "<td>Fault Response Received try with different SOAP Request.</td>\r\n"
 					+ "</tr>\r\n"
 					+ "</table><H1 style=\"text-align: center;\"><b>HTTP/s Integrated End Points Availability</b></H1><table>\r\n"
 					+ "   <tr>\r\n" + "      <th>SYSTEM NAME</th>\r\n" + "      <th>SERVICE NAME</th>\r\n"
@@ -402,7 +404,7 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 					+ "  </tr>\n" + "</table>";
 
 			String s2 = "</table>" + s3
-					+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please launch <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
+					+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
 
 			String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + s1 + jmsHTML + s2;
 
@@ -432,7 +434,12 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 			} finally {
 				EntityUtils.consume(putPageEntity);
 			}
+			//HttpServletResponse response = null;
 			return "success";
+			//response.sendRedirect("http://10.102.81.254:8090/display/~7898083/DMS+Integrated+Components+Availability");
+			
+			//return "redirect:" + "http://10.102.81.254:8090/display/~7898083/TestSuresh";
+			//return "test";
 
 		}
 
