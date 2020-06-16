@@ -13,6 +13,10 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,6 +28,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.wsdl.Definition;
 import javax.wsdl.Operation;
 import javax.wsdl.WSDLException;
@@ -201,8 +211,8 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 				"NOTIF_DECLMNG_CSP*"));
 		qdb.add(new QueuesDataBean("DMS.QA.NOTIF_DECLMNG_CSP_BO", "NotifyCSP(EIS)", "", "BO", "NOTIF_DECLMNG_CSP*"));
 
-		qdb.add(new QueuesDataBean("DMS.QA.EXTERNAL_NOTIF", "ALVS(EIS)", "Outbound", "Q", "EXTERNAL_NOTIF*"));
-		qdb.add(new QueuesDataBean("DMS.QA.EXTERNAL_NOTIF_BO", "ALVS(EIS)", "", "BO", "EXTERNAL_NOTIF*"));
+		/*qdb.add(new QueuesDataBean("DMS.QA.EXTERNAL_NOTIF", "ALVS(EIS)", "Outbound", "Q", "EXTERNAL_NOTIF*"));
+		qdb.add(new QueuesDataBean("DMS.QA.EXTERNAL_NOTIF_BO", "ALVS(EIS)", "", "BO", "EXTERNAL_NOTIF*"));*/
 
 	}
 
@@ -215,7 +225,7 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 		SpringApplication.run(DmsComponentsTestApplication.class, args);
 	}
 
-	//This will ensure ThymeLeaf templates are picked up properly
+	// This will ensure ThymeLeaf templates are picked up properly
 	@Controller
 	public class DmsComponentsTestController {
 
@@ -223,7 +233,7 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 		@Scheduled(cron = "0 0 8-19 * * MON-FRI") // on the hour 8AM-to-7PM weekdays
 		@RequestMapping("/publishConfluenceData")
 		public String publishConfluenceData() throws ClientProtocolException, IOException, JSONException {
-			
+
 			log.info("Started Executing publishConfluenceData");
 
 			final long pageId = (Integer) yamlMaps.get("ConfluencePageID");
@@ -274,9 +284,8 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 					+ "<td><ac:emoticon ac:name=\"cross\" /></td>\r\n"
 					+ "<td>Application or JMS Queue Server is Down.</td>\r\n" + "</tr>\r\n" + "<tr>\r\n"
 					+ "<td><ac:emoticon ac:name=\"information\" /></td>\r\n"
-					+ "<td>Fault Response Received try with different SOAP Request.</td>\r\n"
-					+ "</tr>\r\n"
-					+ "</table><H1 style=\"text-align: center;\"><b>HTTP/s Integrated End Points Availability</b></H1><table>\r\n"
+					+ "<td>Fault Response Received try with different SOAP Request.</td>\r\n" + "</tr>\r\n"
+					+ "</table><H1 style=\"text-align: center;\"><b>HTTP/s Integrated End Points Availability (<i>SOAP based</i>)</b></H1><table>\r\n"
 					+ "   <tr>\r\n" + "      <th>SYSTEM NAME</th>\r\n" + "      <th>SERVICE NAME</th>\r\n"
 					+ "      <th>OPERATION NAME</th>";
 
@@ -313,6 +322,8 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 								status = "<ac:emoticon ac:name=\"tick\" />";
 							} else if (on.getStatus().equalsIgnoreCase("Down")) {
 								status = "<ac:emoticon ac:name=\"cross\" />";
+							} else if (on.getStatus().equalsIgnoreCase("NE")) {
+								status = "NE";
 							} else {
 								status = "<ac:emoticon ac:name=\"cross\" />";
 							}
@@ -404,7 +415,7 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 					+ "  </tr>\n" + "</table>";
 
 			String s2 = "</table>" + s3
-					+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
+					+ "<p>**This page updates on <b>Hourly</b> basis (from 8AM-to-7PM weekdays), if you are looking for a realtime data please launch <a href=\"https://dmgr.dmsplat3.n.cit.corp.hmrc.gov.uk:9444/dmsApp/publishConfluenceData\" >Publish Confluence Data</a> from D4D.</p><p>**For more details about DMS MQ Queues - <a href=\"http://10.102.81.254:8090/display/CDOS/DMS+MQ+Queue+Definitions\" >DMS MQ Queue Definitions</a></p>";
 
 			String finalHTML = h1 + headerBuilder.toString() + rowsBuilder.toString() + s1 + jmsHTML + s2;
 
@@ -434,12 +445,12 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 			} finally {
 				EntityUtils.consume(putPageEntity);
 			}
-			//HttpServletResponse response = null;
+			// HttpServletResponse response = null;
 			return "success";
-			//response.sendRedirect("http://10.102.81.254:8090/display/~7898083/DMS+Integrated+Components+Availability");
-			
-			//return "redirect:" + "http://10.102.81.254:8090/display/~7898083/TestSuresh";
-			//return "test";
+			// response.sendRedirect("http://10.102.81.254:8090/display/~7898083/DMS+Integrated+Components+Availability");
+
+			// return "redirect:" + "http://10.102.81.254:8090/display/~7898083/TestSuresh";
+			// return "test";
 
 		}
 
@@ -881,21 +892,47 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 											e.printStackTrace();
 										}
 
+										services = new ServiceName();
+										if (systemtocall.equalsIgnoreCase("ILMS")) {
+											services.setSystemName("AuthService");
+										} else {
+											services.setSystemName(systemtocall);
+										}
+
+										services.setServiceName(wsdlFile.getName());
+										services.setOperationNames(operationNames);
+										serviceNames.add(services);
+										System.out.println("tempservices: " + services);
+
 									} else {
 										// log.info("No External System End Points are Configured for: " +
 										// systemtocall);
-									}
+										// Handle no endpoint scenario, display as Not Available/Applicable
+										List<Operation> operationList = getPortTypeOperations(file.getPath());
+										List<OperationName> operationNamesNew = new ArrayList<OperationName>();
 
-									services = new ServiceName();
-									if (systemtocall.equalsIgnoreCase("ILMS")) {
-										services.setSystemName("AuthService");
-									} else {
-										services.setSystemName(systemtocall);
-									}
+										for (Operation opname : operationList) {
+											OperationName operationNameNew = new OperationName();
+											operationNameNew = new OperationName();
+											operationNameNew.setOperationName(opname.getName());
+											operationNameNew.setStatus("NE");
+											// operationNames.clear();
+											operationNamesNew.add(operationNameNew);
+											System.out.println("tempoperationName: " + operationNameNew);
+										}
+										services = new ServiceName();
+										if (systemtocall.equalsIgnoreCase("ILMS")) {
+											services.setSystemName("AuthService");
+										} else {
+											services.setSystemName(systemtocall);
+										}
 
-									services.setServiceName(wsdlFile.getName());
-									services.setOperationNames(operationNames);
-									serviceNames.add(services);
+										services.setServiceName(wsdlFile.getName());
+										services.setOperationNames(operationNamesNew);
+										serviceNames.add(services);
+										System.out.println("tempservices: " + services);
+
+									}
 
 								} else {
 									// log.info("No External System is configured for WSDL: " + wsdlFile.getName());
@@ -1127,7 +1164,7 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 
 					log.info("Request XML available for Operation: " + opname.getName());
 					System.setProperty("java.net.useSystemProxies", "true");
-					// log.info("SOAP Request Payload: " + soapenvelope);
+					log.info("SOAP Request Payload: " + soapenvelope);
 
 					log.info("SOAP endpoint to Call: " + endpoint);
 
@@ -1139,6 +1176,7 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 					request.saveChanges();
 
 					try {
+						doTrustToCertificates();
 						// log.info("\nInside TRY block");
 						SOAPMessage soapResponse = soapConnection.call(request, endpoint + "?WSDL");
 						TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -1173,7 +1211,7 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 						operationName.setStatus("Down");
 						operationNames.add(operationName);
 						log.error("Exception in calling Operation: " + opname.getName());
-						// e.printStackTrace();
+						e.printStackTrace();
 					}
 
 				} else {
@@ -1186,5 +1224,39 @@ public class DmsComponentsTestApplication extends SpringBootServletInitializer {
 		}
 
 	}
+	
+	// Handlig HTTPS connections, trusting all certificate, sets HostnameVerifier for HttpsURLConnection which returns true for all cases meaning we are trusting the trustStore
+	 @SuppressWarnings("restriction")
+	public void doTrustToCertificates() throws Exception {
+	        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+	        TrustManager[] trustAllCerts = new TrustManager[]{
+	                new X509TrustManager() {
+	                    public X509Certificate[] getAcceptedIssuers() {
+	                        return null;
+	                    }
+
+	                    public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+	                        return;
+	                    }
+
+	                    public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+	                        return;
+	                    }
+	                }
+	        };
+
+	        SSLContext sc = SSLContext.getInstance("SSL");
+	        sc.init(null, trustAllCerts, new SecureRandom());
+	        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+	        HostnameVerifier hv = new HostnameVerifier() {
+	            public boolean verify(String urlHostName, SSLSession session) {
+	                if (!urlHostName.equalsIgnoreCase(session.getPeerHost())) {
+	                    System.out.println("Warning: URL host '" + urlHostName + "' is different to SSLSession host '" + session.getPeerHost() + "'.");
+	                }
+	                return true;
+	            }
+	        };
+	        HttpsURLConnection.setDefaultHostnameVerifier(hv);
+	    }
 
 }

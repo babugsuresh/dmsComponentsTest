@@ -35,6 +35,7 @@ TariffURI: /TariffManagementServiceSOAPHttp
 ILMSURI: /AuthorizationsService
 SPSURI: /bolt/securingpaymentservice
 RDSURI: /ReferenceDataService
+DMSURI: /DmsCoreDeclarationManagementInformationMediationModuleWeb/sca/DeclarationManagementInformationServiceSOAPExport
 PDSHosts:
     - 'http://bolt-pds-dms-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk:8000'
@@ -45,6 +46,7 @@ PDSHosts:
     - 'http://bolt-pds-dms-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:8000'
     - 'http://bolt-pds-dms-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:8000'
+    - 'https://dms-app-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:443'
     
 XRSHosts:
     - 'http://bolt-xrs-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:8100'
@@ -99,7 +101,18 @@ RDSHosts:
     - 'http://bolt-rds-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:8020'
     - 'http://bolt-rds-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:8020'
     - 'http://bolt-rds-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:8020'
-    
+
+DMSHosts:
+    - 'https://dms-app-lb-1.delivery-team-cds-r1.n.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.delivery-team-cds-r2.n.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.delivery-team-cds-r3.n.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.delivery-team-nip-r4.d.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.core-env-cds-r1.n.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.core-env-cds-r2.n.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.core-env-cds-r3.n.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.core-env-cds-fin.n.cit.corp.hmrc.gov.uk:443'
+    - 'https://dms-app-lb-1.delivery-team-dms-stress2.d.cit.corp.hmrc.gov.uk:443'
+      
 ReportDestination: frfrfrf
 SystemMapping:
     - PartyManagementServiceSOAP.wsdl: PDS
@@ -108,6 +121,7 @@ SystemMapping:
     - ExchangeRateServiceSOAP.wsdl: XRS
     - ReferenceDataServiceSOAP.wsdl: RDS
     - TariffManagementServiceSOAP_v2.wsdl: Tariff
+    #- DeclarationManagementInformationServiceSOAP_v2.wsdl: DMS
 
 
 JMSEnvironments:
@@ -127,4 +141,5 @@ ConfluenceURL: 'http://10.102.81.254:5558'
 ConfluenceUserName: '7898083'
 ConfluencePwd: 'Syamala@2432'
 ConfluencePageID: 51123443
+#ConfluencePageID: 51123822
 
